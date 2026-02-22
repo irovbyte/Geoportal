@@ -1,3 +1,5 @@
 <Solution>
   <Project Path="Geoportal.Api/Geoportal.Api.csproj" />
+  <Project Path="Geoportal.Data/Geoportal.Data.csproj" />
+  <Project Path="Geoportal.Web/Geoportal.Web.csproj" />
 </Solution>
