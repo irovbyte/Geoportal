@@ -1,0 +1,99 @@
+# Настройки Flutter и Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+
+# Символические ссылки на плагины (создаются Flutter)
+.plugin_symlinks/
+
+# Android специфичные файлы
+.gradle/
+local.properties
+**/Android/sdk.dir
+**/Android/local.properties
+*.keystore
+*.jks
+*.properties
+!**/android/key.properties # Если используешь этот файл для подписи, убедись, что пароли не там
+
+# iOS / macOS специфичные файлы
+**/doc/api/
+**/ios/Flutter/.last_build_id
+**/ios/Pods/
+**/DerivedData/
+*.moved-aside
+*.xcuserstate
+*.xcworkspace
+!**/ios/Runner.xcworkspace # Включаем структуру проекта, но не данные пользователя
+
+# Веб-файлы
+lib/generated_plugin_registrant.dart
+
+# Логи и временные файлы IDE (VS Code, IntelliJ)
+.history/
+*.log
+*.pyc
+.idea/
+*.iml
+.vscode/
+!.vscode/launch.json # Оставляем конфиг запуска, если работаешь в команде
+
+# Переменные окружения (ВАЖНО для безопасности)
+.env*
+
+
+## [ .NET / C# ] ##
+# Артефакты сборки
+bin/
+obj/
+out/
+
+# Кэш NuGet и пакеты
+.nuget/
+**/packages/*
+!**/packages/build/
+project.lock.json
+project.fragment.lock.json
+
+# Локальные настройки пользователя
+*.user
+*.userosscache
+*.sln.docstates
+
+# Локальные секреты (ВАЖНО для ASP.NET Core)
+**/appsettings.Development.json
+**/appsettings.Local.json
+secrets.json
+
+# Логи и временные файлы
+*.log
+*.tmp
+.visustudio/
+.vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# Entity Framework Migrations (по желанию)
+# Иногда *.db исключают, если используют SQLite для тестов
+*.db
+*.db-shm
+*.db-wal
+
+# Специфично для Docker (если будешь деплоить в контейнере)
+.dockerignore
