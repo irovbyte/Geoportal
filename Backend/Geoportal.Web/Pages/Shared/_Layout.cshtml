@@ -6,7 +6,7 @@
 }
 
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="system">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,108 +18,426 @@
 
     <style>
         :root{
-            --gp-border:#e5e7eb;
+            /* Palette */
+            --gp-blue-950:#063A98;
+            --gp-blue-900:#0A56C4;
+            --gp-blue-700:#1D76E3;
+            --gp-blue-600:#3AB0C2;
+            --gp-green-500:#3FE543;
+
+            --gp-bg:#F0F4FB;
+            --gp-card:#FFFFFF;
+            --gp-border:#E5E7EB;
+
             --gp-text:#111827;
-            --gp-muted:#6b7280;
-            --gp-bg:#ffffff;
-            --gp-chip:#f3f4f6;
-            --gp-soft:#f8fafc;
-            --gp-card:#ffffff;
+            --gp-muted:#6B7280;
+
+            --gp-number:#0A56C4;
+
+            --gp-danger:#E00312;
+            --gp-success:#10B981;
+
+            /* Gradients */
+            --gp-header-grad: linear-gradient(90deg,#0A56C4 0%,#3AB0C2 55%,#3FE543 100%);
+            --gp-panel-grad: linear-gradient(135deg, rgba(10,86,196,.32) 0%, rgba(58,176,194,.22) 45%, rgba(63,229,67,.22) 100%);
+            --gp-card-grad:  linear-gradient(135deg, rgba(10,86,196,.22) 0%, rgba(58,176,194,.16) 45%, rgba(63,229,67,.16) 100%);
+
+            /* Buttons */
+            --gp-btn-primary-bg: #0A56C4;
+            --gp-btn-primary-bg-hover: #0747A6;
+            --gp-btn-primary-text: #FFFFFF;
+
+            /* Header small pills (Тема/Язык) */
+            --gp-header-pill-bg: rgba(255,255,255,.26);
+            --gp-header-pill-bg-hover: rgba(255,255,255,.34);
+            --gp-header-pill-border: rgba(255,255,255,.35);
+            --gp-header-pill-text: rgba(255,255,255,.96);
+
+            /* Bootstrap bridge (light) */
+            --bs-body-bg: var(--gp-bg);
+            --bs-body-color: var(--gp-text);
+            --bs-secondary-color: var(--gp-muted);
+            --bs-border-color: var(--gp-border);
+            --bs-link-color: var(--gp-blue-900);
+            --bs-link-hover-color: #0747A6;
         }
 
-        body { background: var(--gp-soft); color: var(--gp-text); }
-        .gp-topbar { border-bottom:1px solid var(--gp-border); background: var(--gp-bg); }
-        .gp-brand { font-weight:800; letter-spacing:.2px; }
-        .gp-shell { max-width: 1220px; margin: 0 auto; padding: 1.25rem; }
+        html[data-theme="dark"]{
+            color-scheme: dark;
 
-        .gp-tabs a{
+            --gp-bg:#0B1220;
+            --gp-card: rgba(255,255,255,.06);
+            --gp-border: rgba(255,255,255,.12);
+            --gp-text:#E8EEF9;
+            --gp-muted: rgba(232,238,249,.72);
+
+            --gp-panel-grad: linear-gradient(135deg, rgba(10,86,196,.22) 0%, rgba(58,176,194,.16) 45%, rgba(63,229,67,.16) 100%);
+            --gp-card-grad:  linear-gradient(135deg, rgba(10,86,196,.16) 0%, rgba(58,176,194,.12) 45%, rgba(63,229,67,.12) 100%);
+
+            --gp-btn-primary-bg: #2B78FF;
+            --gp-btn-primary-bg-hover: #3B86FF;
+            --gp-btn-primary-text: #FFFFFF;
+
+            --gp-header-pill-bg: rgba(255,255,255,.12);
+            --gp-header-pill-bg-hover: rgba(255,255,255,.18);
+            --gp-header-pill-border: rgba(255,255,255,.22);
+            --gp-header-pill-text: rgba(255,255,255,.96);
+
+            --bs-body-bg: var(--gp-bg);
+            --bs-body-color: var(--gp-text);
+            --bs-secondary-color: var(--gp-muted);
+            --bs-border-color: var(--gp-border);
+            --bs-link-color: #7DB2FF;
+            --bs-link-hover-color: #A6C9FF;
+        }
+
+        /* SYSTEM mode follows OS (ВАЖНО: @@media в cshtml!) */
+        @@media (prefers-color-scheme: dark){
+            html[data-theme="system"]{
+                color-scheme: dark;
+
+                --gp-bg:#0B1220;
+                --gp-card: rgba(255,255,255,.06);
+                --gp-border: rgba(255,255,255,.12);
+                --gp-text:#E8EEF9;
+                --gp-muted: rgba(232,238,249,.72);
+
+                --gp-panel-grad: linear-gradient(135deg, rgba(10,86,196,.22) 0%, rgba(58,176,194,.16) 45%, rgba(63,229,67,.16) 100%);
+                --gp-card-grad:  linear-gradient(135deg, rgba(10,86,196,.16) 0%, rgba(58,176,194,.12) 45%, rgba(63,229,67,.12) 100%);
+
+                --gp-btn-primary-bg: #2B78FF;
+                --gp-btn-primary-bg-hover: #3B86FF;
+                --gp-btn-primary-text: #FFFFFF;
+
+                --gp-header-pill-bg: rgba(255,255,255,.12);
+                --gp-header-pill-bg-hover: rgba(255,255,255,.18);
+                --gp-header-pill-border: rgba(255,255,255,.22);
+                --gp-header-pill-text: rgba(255,255,255,.96);
+
+                --bs-body-bg: var(--gp-bg);
+                --bs-body-color: var(--gp-text);
+                --bs-secondary-color: var(--gp-muted);
+                --bs-border-color: var(--gp-border);
+                --bs-link-color: #7DB2FF;
+                --bs-link-hover-color: #A6C9FF;
+            }
+        }
+
+        /* Base */
+        html, body { height: 100%; }
+        body{
+            background: var(--gp-bg);
+            color: var(--gp-text);
+            margin: 0;
+            padding-top: var(--gp-header-h, 120px);
+        }
+
+        /* Header */
+        .gp-topbar{
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1030;
+            border-bottom: 1px solid rgba(255,255,255,.25);
+            background: var(--gp-header-grad);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .gp-toprow{ padding: .9rem 1.25rem .65rem 1.25rem; }
+
+        .gp-tabs{
+            padding: .35rem 1.25rem .95rem 1.25rem;
+            display:flex;
+            flex-wrap:wrap;
+            gap:.35rem .5rem;
+        }
+
+        /* Brand */
+        .gp-brand{
+            font-weight: 800;
+            letter-spacing: .2px;
+            color: #fff !important;
+            text-decoration: none;
             display:inline-flex;
             align-items:center;
-            gap:.45rem;
-            color: var(--gp-muted);
-            text-decoration:none;
-            padding: .55rem .8rem;
-            border-radius: .75rem;
-            border:1px solid transparent;
-        }
-        .gp-tabs a:hover{
-            background: var(--gp-chip);
-            color: var(--gp-text);
-        }
-        .gp-tabs a.active{
-            background: var(--gp-text);
-            color:#fff;
+            gap:.6rem;
         }
 
-        .gp-card{
-            background: var(--gp-card);
-            border: 1px solid var(--gp-border);
-            border-radius: 1rem;
-            box-shadow: 0 1px 2px rgba(0,0,0,.04);
-        }
-        .gp-card .gp-card-h{
-            padding: 1rem 1rem .75rem 1rem;
-            border-bottom:1px solid var(--gp-border);
-        }
-        .gp-card .gp-card-b{
-            padding: 1rem;
+        .gp-logo{
+            width: 30px;
+            height: 30px;
+            border-radius: 10px;
+            background: rgba(255,255,255,.20);
+            border: 1px solid rgba(255,255,255,.25);
+            display:flex;
+            align-items:center;
+            justify-content:center;
         }
 
-        .gp-footer{
-            border-top:1px solid var(--gp-border);
-            background: var(--gp-bg);
-            color: var(--gp-muted);
-        }
         .gp-badge{
             display:inline-flex;
             align-items:center;
             gap:.4rem;
             font-size:.85rem;
-            color: var(--gp-muted);
-            background: var(--gp-chip);
-            border:1px solid var(--gp-border);
+            color: rgba(255,255,255,.92);
+            background: rgba(255,255,255,.18);
+            border: 1px solid rgba(255,255,255,.22);
             border-radius: 999px;
             padding: .35rem .65rem;
         }
 
-        .gp-lang .dropdown-menu{
-            min-width: 11rem;
+        .gp-controls{ display:flex; align-items:center; gap:.6rem; }
+
+        /* FIX: Тема/Язык НЕ прозрачные, а "пилюли" как на мокапе */
+        .btn.gp-btn{
+            border-radius: 999px;
+            border: 1px solid var(--gp-header-pill-border);
+            background: var(--gp-header-pill-bg);
+            color: var(--gp-header-pill-text);
+            padding: .35rem .75rem;
+            box-shadow: 0 10px 24px rgba(0,0,0,.08);
+        }
+        .btn.gp-btn:hover{
+            background: var(--gp-header-pill-bg-hover);
+            color: var(--gp-header-pill-text);
+        }
+
+        /* Tabs */
+        .gp-tabs a{
+            display:inline-flex;
+            align-items:center;
+            gap:.45rem;
+            color: rgba(255,255,255,.92);
+            text-decoration:none;
+            padding: .5rem .8rem;
+            border-radius: .85rem;
+            border: 1px solid transparent;
+            background: transparent;
+        }
+        .gp-tabs a:hover{
+            background: rgba(255,255,255,.16);
+            border-color: rgba(255,255,255,.18);
+        }
+        .gp-tabs a.active{
+            background: rgba(0,0,0,.22);
+            border-color: rgba(255,255,255,.22);
+            color:#fff;
+        }
+
+        /* Shell */
+        .gp-shell{
+            max-width: 1220px;
+            margin: 0 auto;
+            padding: 1.25rem;
+            color: var(--gp-text);
+        }
+
+        /* =========================
+           ГЛАВНОЕ: градиент В КОЛОНКАХ/КАРТОЧКАХ без правки разметки
+           Делает все gp-card "как на фото" (мягкий градиент).
+           Если где-то нужно строго белое: добавь class="gp-card gp-card-plain"
+           ========================= */
+        .gp-card{
+            position: relative;
+            overflow: hidden;
+            background: var(--gp-card);
+            border: 1px solid var(--gp-border);
+            border-radius: 1rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,.05);
+            color: var(--gp-text);
+        }
+        .gp-card::before{
+            content:"";
+            position:absolute;
+            inset:0;
+            background: var(--gp-card-grad);
+            opacity: .95;
+            pointer-events:none;
+        }
+        .gp-card > *{ position: relative; z-index: 1; }
+
+        .gp-card.gp-card-plain::before{ opacity: 0; }
+
+        html[data-theme="dark"] .gp-card,
+        html[data-theme="system"] .gp-card{
+            box-shadow: none;
+        }
+        html[data-theme="dark"] .gp-card::before{ opacity: .55; }
+        @@media (prefers-color-scheme: dark){
+            html[data-theme="system"] .gp-card::before{ opacity: .55; }
+        }
+
+        .gp-card .gp-card-h{
+            padding: 1rem 1rem .75rem 1rem;
+            border-bottom:1px solid var(--gp-border);
+        }
+        .gp-card .gp-card-b{ padding: 1rem; }
+
+        .gp-number{
+            color: var(--gp-number);
+            font-weight: 800;
+            letter-spacing: .2px;
+        }
+
+        /* Bootstrap helpers */
+        .text-muted{ color: var(--gp-muted) !important; }
+        .bg-white{ background: var(--gp-card) !important; }
+        .border{ border-color: var(--gp-border) !important; }
+        .table{ color: var(--gp-text); }
+
+        /* Dropdown theme fix */
+        .dropdown-menu{
+            background: var(--gp-card);
+            border: 1px solid var(--gp-border);
+            color: var(--gp-text);
+        }
+        .dropdown-item{ color: var(--gp-text); }
+        .dropdown-item:hover{ background: rgba(10,86,196,.10); }
+        .dropdown-item-text{ color: var(--gp-muted) !important; }
+
+        a{ color: var(--bs-link-color); }
+        a:hover{ color: var(--bs-link-hover-color); }
+
+        /* =========================
+           ЦВЕТНЫЕ КНОПКИ как на фото (без переписывания классов на страницах)
+           Перекрашиваем bootstrap btn-primary / btn-outline-* / btn-secondary
+           ========================= */
+        .btn{
+            border-radius: .75rem;
+        }
+
+        /* primary */
+        .btn-primary,
+        .btn.btn-primary{
+            background: var(--gp-btn-primary-bg) !important;
+            border-color: rgba(0,0,0,.06) !important;
+            color: var(--gp-btn-primary-text) !important;
+            box-shadow: 0 10px 24px rgba(10,86,196,.18);
+        }
+        .btn-primary:hover,
+        .btn.btn-primary:hover{
+            background: var(--gp-btn-primary-bg-hover) !important;
+            color: var(--gp-btn-primary-text) !important;
+        }
+
+        /* secondary (для светлых кнопок типа "Открыть карту") */
+        .btn-secondary,
+        .btn-outline-secondary{
+            background: rgba(255,255,255,.82) !important;
+            color: #111827 !important;
+            border-color: rgba(17,24,39,.12) !important;
+        }
+        html[data-theme="dark"] .btn-secondary,
+        html[data-theme="dark"] .btn-outline-secondary{
+            background: rgba(255,255,255,.10) !important;
+            color: var(--gp-text) !important;
+            border-color: rgba(255,255,255,.16) !important;
+        }
+        @@media (prefers-color-scheme: dark){
+            html[data-theme="system"] .btn-secondary,
+            html[data-theme="system"] .btn-outline-secondary{
+                background: rgba(255,255,255,.10) !important;
+                color: var(--gp-text) !important;
+                border-color: rgba(255,255,255,.16) !important;
+            }
+        }
+
+        /* outline primary (пилюли на карте "Ямы/Освещение/...") */
+        .btn-outline-primary{
+            background: rgba(10,86,196,.10) !important;
+            border-color: rgba(10,86,196,.28) !important;
+            color: var(--gp-blue-900) !important;
+        }
+        .btn-outline-primary:hover{
+            background: rgba(10,86,196,.16) !important;
+        }
+
+        .btn-outline-success{
+            background: rgba(63,229,67,.10) !important;
+            border-color: rgba(63,229,67,.30) !important;
+            color: #0F6D2B !important;
+        }
+        .btn-outline-success:hover{ background: rgba(63,229,67,.16) !important; }
+
+        .btn-outline-danger{
+            background: rgba(224,3,18,.08) !important;
+            border-color: rgba(224,3,18,.30) !important;
+            color: #7A0B12 !important;
+        }
+        .btn-outline-danger:hover{ background: rgba(224,3,18,.12) !important; }
+
+        /* Footer */
+        .gp-footer{
+            border-top:1px solid rgba(17,24,39,.08);
+            background: rgba(255,255,255,.65);
+            color: var(--gp-muted);
+        }
+        html[data-theme="dark"] .gp-footer{
+            background: rgba(255,255,255,.04);
+            border-top-color: rgba(255,255,255,.10);
+            color: rgba(232,238,249,.72);
+        }
+        @@media (prefers-color-scheme: dark){
+            html[data-theme="system"] .gp-footer{
+                background: rgba(255,255,255,.04);
+                border-top-color: rgba(255,255,255,.10);
+                color: rgba(232,238,249,.72);
+            }
         }
     </style>
 </head>
 
 <body>
-<header class="gp-topbar">
-    <div class="container-fluid px-4 py-3 d-flex align-items-center justify-content-between">
+<header class="gp-topbar" id="gpHeader">
+    <div class="gp-toprow d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center gap-3">
-            <a class="navbar-brand gp-brand m-0 p-0" asp-page="/Index">Geoportal</a>
+            <a class="gp-brand" asp-page="/Index">
+                <span class="gp-logo" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z" stroke="white" stroke-width="1.6" opacity=".95"/>
+                        <path d="M8 12l2.3 2.3L16 8.6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                Geoportal
+            </a>
             <span class="gp-badge">Интерфейс: Русский</span>
         </div>
 
-        <div class="dropdown gp-lang">
-            <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Язык
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-                <li><span class="dropdown-item-text text-muted">Подключим позже (RU/UZ/EN)</span></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item disabled" href="#">Русский</a></li>
-                <li><a class="dropdown-item disabled" href="#">O‘zbek</a></li>
-                <li><a class="dropdown-item disabled" href="#">English</a></li>
-            </ul>
+        <div class="gp-controls">
+            <div class="dropdown gp-dropdown">
+                <button class="btn gp-btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Тема
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><button class="dropdown-item" type="button" data-theme="system">Системная</button></li>
+                    <li><button class="dropdown-item" type="button" data-theme="light">Светлая</button></li>
+                    <li><button class="dropdown-item" type="button" data-theme="dark">Тёмная</button></li>
+                </ul>
+            </div>
+
+            <div class="dropdown gp-dropdown">
+                <button class="btn gp-btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Язык
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><span class="dropdown-item-text">Подключим позже (RU/UZ/EN)</span></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item disabled" href="#">Русский</a></li>
+                    <li><a class="dropdown-item disabled" href="#">O‘zbek</a></li>
+                    <li><a class="dropdown-item disabled" href="#">English</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 
-    <div class="container-fluid px-4 pb-3">
-        <nav class="gp-tabs d-flex flex-wrap gap-2">
-            <a asp-page="/Map" class="@(IsActive("/Map") ? "active" : "")">Карта</a>
-            <a asp-page="/Reports/New" class="@(IsActiveStarts("/Reports") ? "active" : "")">Оставить сообщение</a>
-            <a asp-page="/Data" class="@(IsActive("/Data") ? "active" : "")">Данные</a>
-            <a asp-page="/Tools" class="@(IsActive("/Tools") ? "active" : "")">Инструменты</a>
-            <a asp-page="/Compare" class="@(IsActive("/Compare") ? "active" : "")">Сравнение</a>
-            <a asp-page="/Schools" class="@(IsActive("/Schools") ? "active" : "")">Школы</a>
-        </nav>
-    </div>
+    <nav class="gp-tabs">
+        <a asp-page="/Map" class="@(IsActive("/Map") ? "active" : "")">Карта</a>
+        <a asp-page="/Reports/New" class="@(IsActiveStarts("/Reports") ? "active" : "")">Оставить сообщение</a>
+        <a asp-page="/Data" class="@(IsActive("/Data") ? "active" : "")">Данные</a>
+        <a asp-page="/Tools" class="@(IsActive("/Tools") ? "active" : "")">Инструменты</a>
+        <a asp-page="/Compare" class="@(IsActive("/Compare") ? "active" : "")">Сравнение</a>
+        <a asp-page="/Schools" class="@(IsActive("/Schools") ? "active" : "")">Школы</a>
+    </nav>
 </header>
 
 <div class="gp-shell">
@@ -136,6 +454,52 @@
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+(function () {
+  // theme persistence
+  const key = "gp_theme";
+  const html = document.documentElement;
+
+  function applyTheme(t) {
+    html.setAttribute("data-theme", t);
+  }
+
+  const saved = localStorage.getItem(key);
+  applyTheme(saved || "system");
+
+  document.querySelectorAll("[data-theme]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const t = btn.getAttribute("data-theme");
+      localStorage.setItem(key, t);
+      applyTheme(t);
+    });
+  });
+
+  // Header height: robust (no jumps)
+  const header = document.getElementById("gpHeader");
+  if (!header) return;
+
+  function setHeaderHeight() {
+    const h = Math.ceil(header.getBoundingClientRect().height);
+    document.documentElement.style.setProperty("--gp-header-h", h + "px");
+  }
+
+  setHeaderHeight();
+  requestAnimationFrame(setHeaderHeight);
+
+  window.addEventListener("load", () => {
+    setHeaderHeight();
+    requestAnimationFrame(setHeaderHeight);
+  });
+
+  const ro = new ResizeObserver(() => setHeaderHeight());
+  ro.observe(header);
+
+  window.addEventListener("resize", setHeaderHeight);
+})();
+</script>
+
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

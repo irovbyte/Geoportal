@@ -1,31 +1,288 @@
-html {
-  font-size: 14px;
+/* =========================
+   Geoportal UI Theme (UZ palette)
+   ========================= */
+
+:root {
+  /* Palette from your approved image */
+  --gp-primary: #0A56C4;        /* Primary Blue */
+  --gp-secondary: #3AB0C2;      /* Secondary Blue */
+  --gp-flag-green: #3FE543;     /* Flag Green */
+  --gp-bg: #F0F4FB;             /* Background */
+  --gp-card: #FFFFFF;           /* Cards */
+  --gp-accent-red: #E00312;     /* Accent Red (errors) */
+  --gp-magenta: #FF33A8;        /* Magenta (icons, accents) */
+  --gp-purple: #8A2BE2;         /* Purple (icons, accents) */
+
+  /* Extra supporting tones */
+  --gp-primary-dark: #1E51BB;   /* Dark blue for numbers */
+  --gp-text: #0B1B3A;           /* Main text */
+  --gp-muted: #6B778C;          /* Muted text */
+  --gp-border: rgba(10, 86, 196, 0.14);
+  --gp-shadow: 0 8px 24px rgba(11, 27, 58, 0.08);
+
+  /* Success (emerald) */
+  --gp-success: #00A86B;
+  --gp-success-bg: rgba(0, 168, 107, 0.10);
+  --gp-success-border: rgba(0, 168, 107, 0.25);
+
+  /* Error */
+  --gp-danger-bg: rgba(224, 3, 18, 0.10);
+  --gp-danger-border: rgba(224, 3, 18, 0.22);
+
+  /* Header */
+  --gp-header-height: 76px;
+
+  /* Gradients */
+  --gp-gradient: linear-gradient(90deg, var(--gp-primary) 0%, var(--gp-secondary) 45%, var(--gp-flag-green) 100%);
+  --gp-gradient-soft: linear-gradient(90deg, rgba(10, 86, 196, 0.18) 0%, rgba(58, 176, 194, 0.16) 45%, rgba(63, 229, 67, 0.16) 100%);
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+/* Base */
+html, body {
+  height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+  background: var(--gp-bg);
+  color: var(--gp-text);
+  padding-top: var(--gp-header-height); /* because header is fixed */
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* Links */
+a {
+  color: var(--gp-primary);
+}
+a:hover {
+  color: #0847a5;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+/* =========================
+   Fixed Header + Gradient
+   ========================= */
+
+.gp-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--gp-header-height);
+  z-index: 1030;
+  background: var(--gp-gradient);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.10);
+}
+
+.gp-navbar {
+  height: var(--gp-header-height);
+  background: transparent !important;
+}
+
+.gp-navbar .navbar-brand,
+.gp-navbar .nav-link,
+.gp-navbar .navbar-text {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.gp-navbar .nav-link:hover {
+  color: #ffffff !important;
+  opacity: 0.96;
+}
+
+.gp-navbar .nav-link.active {
+  color: #ffffff !important;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 10px;
+  text-decoration-thickness: 2px;
+}
+
+/* Language dropdown/button in header */
+.gp-navbar .btn,
+.gp-navbar .dropdown-toggle {
+  border-radius: 10px !important;
+}
+
+/* =========================
+   Containers & cards
+   ========================= */
+
+.container,
+.container-fluid {
+  max-width: 1180px;
+}
+
+.card,
+.gp-card {
+  background: var(--gp-card);
+  border: 1px solid var(--gp-border);
+  border-radius: 16px;
+  box-shadow: var(--gp-shadow);
+}
+
+.card-header {
+  background: transparent;
+  border-bottom: 1px solid rgba(11, 27, 58, 0.08);
+}
+
+/* Soft gradient blocks (like “monitoring” hero, map preview) */
+.gp-surface-gradient {
+  background: var(--gp-gradient-soft);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 18px;
+  box-shadow: 0 10px 28px rgba(11, 27, 58, 0.10);
+}
+
+/* =========================
+   Typography helpers
+   ========================= */
+
+.gp-muted {
+  color: var(--gp-muted);
+}
+
+/* Numbers should be dark blue from gradient */
+.gp-number,
+.gp-metric-number,
+.gp-stat-number {
+  color: var(--gp-primary-dark);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* =========================
+   Buttons (Bootstrap overrides)
+   ========================= */
+
+.btn {
+  border-radius: 12px;
+}
+
+.btn-primary {
+  background-color: var(--gp-primary) !important;
+  border-color: rgba(255, 255, 255, 0.0) !important;
+  box-shadow: 0 10px 20px rgba(10, 86, 196, 0.22);
+}
+
+.btn-primary:hover {
+  background-color: #094db0 !important;
+}
+
+.btn-outline-primary {
+  color: var(--gp-primary) !important;
+  border-color: rgba(10, 86, 196, 0.35) !important;
+}
+
+.btn-outline-primary:hover {
+  background: rgba(10, 86, 196, 0.10) !important;
+}
+
+/* Secondary action buttons */
+.btn-light {
+  background: rgba(255, 255, 255, 0.78) !important;
+  border-color: rgba(255, 255, 255, 0.55) !important;
+}
+
+/* =========================
+   Alerts (top banner etc.)
+   ========================= */
+
+.alert {
+  border-radius: 14px;
+  border-width: 1px;
+  box-shadow: 0 10px 24px rgba(11, 27, 58, 0.10);
+}
+
+/* Error (red) */
+.alert-danger {
+  background: var(--gp-danger-bg) !important;
+  border-color: var(--gp-danger-border) !important;
+  color: #7b0b12 !important;
+}
+
+/* Success (emerald) */
+.alert-success {
+  background: var(--gp-success-bg) !important;
+  border-color: var(--gp-success-border) !important;
+  color: #075c3d !important;
+}
+
+/* Optional: thin top banner style (если сделаете такой блок) */
+.gp-top-banner {
+  position: sticky;
+  top: var(--gp-header-height);
+  z-index: 1025;
+  border-radius: 0;
+  margin: 0;
+}
+
+/* =========================
+   Pills / tags
+   ========================= */
+
+.badge,
+.gp-pill {
+  border-radius: 999px;
+  padding: 0.45rem 0.65rem;
+}
+
+/* “Category chips” (map filters) */
+.gp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(10, 86, 196, 0.08);
+  border: 1px solid rgba(10, 86, 196, 0.14);
+  color: var(--gp-primary-dark);
+  font-weight: 600;
+}
+
+.gp-chip:hover {
+  background: rgba(10, 86, 196, 0.12);
+}
+
+/* Accent chips for icons/labels (pink & purple) */
+.gp-accent-magenta {
+  color: var(--gp-magenta);
+}
+.gp-accent-purple {
+  color: var(--gp-purple);
+}
+
+/* =========================
+   Tables / lists (soft)
+   ========================= */
+
+.table {
+  color: var(--gp-text);
+}
+
+.table thead th {
+  color: var(--gp-muted);
+  border-bottom-color: rgba(11, 27, 58, 0.10);
+}
+
+.table td, .table th {
+  border-top-color: rgba(11, 27, 58, 0.08);
+}
+
+/* =========================
+   Footer
+   ========================= */
+
+footer, .footer {
+  color: rgba(255, 255, 255, 0.88);
+  background: var(--gp-gradient);
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+/* Keep footer links readable */
+footer a, .footer a {
+  color: rgba(255, 255, 255, 0.92);
+  text-decoration: none;
+}
+footer a:hover, .footer a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
