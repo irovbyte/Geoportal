@@ -1,0 +1,26 @@
+@page
+@model Geoportal.Web.Pages.CompareModel
+@{
+    ViewData["Title"] = "Сравнение";
+}
+<div class="gp-card">
+    <div class="gp-card-h">
+        <h5 class="m-0">Сравнение районов/периодов</h5>
+        <div class="text-muted small">Макет</div>
+    </div>
+    <div class="gp-card-b">
+        <div class="row g-3">
+            <div class="col-12 col-md-5">
+                <label class="form-label">Период A</label>
+                <select class="form-select"><option>Последние 7 дней</option><option>Последние 30 дней</option></select>
+            </div>
+            <div class="col-12 col-md-5">
+                <label class="form-label">Период B</label>
+                <select class="form-select"><option>Предыдущие 7 дней</option><option>Предыдущие 30 дней</option></select>
+            </div>
+            <div class="col-12 col-md-2 d-flex align-items-end">
+                <button class="btn btn-dark w-100" type="button">Сравнить</button>
+            </div>
+        </div>
+    </div>
+</div>

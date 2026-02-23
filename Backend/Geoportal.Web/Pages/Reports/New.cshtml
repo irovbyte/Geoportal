@@ -1,0 +1,73 @@
+@page
+@model Geoportal.Web.Pages.Reports.NewModel
+@{
+    ViewData["Title"] = "Оставить сообщение";
+}
+<div class="row g-3">
+    <div class="col-12 col-lg-7">
+        <div class="gp-card">
+            <div class="gp-card-h">
+                <h5 class="m-0">Оставить сообщение</h5>
+                <div class="text-muted small">Форма (макет). Позже: БД + MinIO + RabbitMQ</div>
+            </div>
+            <div class="gp-card-b">
+                <form method="post">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label">Категория</label>
+                            <select class="form-select" name="Category">
+                                <option>Яма / дорога</option>
+                                <option>Освещение</option>
+                                <option>Мусор</option>
+                                <option>Вода / канализация</option>
+                                <option>Другое</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Адрес / ориентир</label>
+                            <input class="form-control" name="Address" placeholder="Например: ул. Примерная, 10" />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Описание</label>
+                            <textarea class="form-control" name="Description" rows="5" placeholder="Опишите проблему кратко и по делу"></textarea>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Контакт (опционально)</label>
+                            <input class="form-control" name="Contact" placeholder="+998..." />
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Фото (позже)</label>
+                            <input class="form-control" type="file" disabled />
+                            <div class="text-muted small mt-1">Заглушка. Позже: загрузка + AI-модерация.</div>
+                        </div>
+                        <div class="col-12 d-flex gap-2">
+                            <button class="btn btn-dark" type="submit">Отправить</button>
+                            <a class="btn btn-outline-secondary" asp-page="/Map">Показать на карте</a>
+                        </div>
+                    </div>
+                </form>
+
+                @if (Model.ShowSuccess)
+                {
+                    <div class="alert alert-success mt-3 mb-0">
+                        Сообщение принято (макет).
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-5">
+        <div class="gp-card h-100">
+            <div class="gp-card-h"><h5 class="m-0">Как это работает</h5></div>
+            <div class="gp-card-b">
+                <ol class="mb-0">
+                    <li>Вы отправляете сообщение</li>
+                    <li>Заявка проходит модерацию</li>
+                    <li>Попадает в обработку</li>
+                    <li>Статус обновляется на карте</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>

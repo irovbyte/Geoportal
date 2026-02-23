@@ -1,52 +1,141 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+@{
+    var title = ViewData["Title"] as string ?? "Геопортал";
+    var path = Context.Request.Path.Value ?? "";
+    bool IsActive(string p) => string.Equals(path, p, StringComparison.OrdinalIgnoreCase);
+    bool IsActiveStarts(string p) => path.StartsWith(p, StringComparison.OrdinalIgnoreCase);
+}
+
+<!DOCTYPE html>
+<html lang="ru">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Geoportal.Web</title>
-    <script type="importmap"></script>
+    <title>@title - Geoportal</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Geoportal.Web.styles.css" asp-append-version="true" />
+
+    <style>
+        :root{
+            --gp-border:#e5e7eb;
+            --gp-text:#111827;
+            --gp-muted:#6b7280;
+            --gp-bg:#ffffff;
+            --gp-chip:#f3f4f6;
+            --gp-soft:#f8fafc;
+            --gp-card:#ffffff;
+        }
+
+        body { background: var(--gp-soft); color: var(--gp-text); }
+        .gp-topbar { border-bottom:1px solid var(--gp-border); background: var(--gp-bg); }
+        .gp-brand { font-weight:800; letter-spacing:.2px; }
+        .gp-shell { max-width: 1220px; margin: 0 auto; padding: 1.25rem; }
+
+        .gp-tabs a{
+            display:inline-flex;
+            align-items:center;
+            gap:.45rem;
+            color: var(--gp-muted);
+            text-decoration:none;
+            padding: .55rem .8rem;
+            border-radius: .75rem;
+            border:1px solid transparent;
+        }
+        .gp-tabs a:hover{
+            background: var(--gp-chip);
+            color: var(--gp-text);
+        }
+        .gp-tabs a.active{
+            background: var(--gp-text);
+            color:#fff;
+        }
+
+        .gp-card{
+            background: var(--gp-card);
+            border: 1px solid var(--gp-border);
+            border-radius: 1rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,.04);
+        }
+        .gp-card .gp-card-h{
+            padding: 1rem 1rem .75rem 1rem;
+            border-bottom:1px solid var(--gp-border);
+        }
+        .gp-card .gp-card-b{
+            padding: 1rem;
+        }
+
+        .gp-footer{
+            border-top:1px solid var(--gp-border);
+            background: var(--gp-bg);
+            color: var(--gp-muted);
+        }
+        .gp-badge{
+            display:inline-flex;
+            align-items:center;
+            gap:.4rem;
+            font-size:.85rem;
+            color: var(--gp-muted);
+            background: var(--gp-chip);
+            border:1px solid var(--gp-border);
+            border-radius: 999px;
+            padding: .35rem .65rem;
+        }
+
+        .gp-lang .dropdown-menu{
+            min-width: 11rem;
+        }
+    </style>
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">Geoportal.Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+<header class="gp-topbar">
+    <div class="container-fluid px-4 py-3 d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-3">
+            <a class="navbar-brand gp-brand m-0 p-0" asp-page="/Index">Geoportal</a>
+            <span class="gp-badge">Интерфейс: Русский</span>
+        </div>
+
+        <div class="dropdown gp-lang">
+            <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Язык
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><span class="dropdown-item-text text-muted">Подключим позже (RU/UZ/EN)</span></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item disabled" href="#">Русский</a></li>
+                <li><a class="dropdown-item disabled" href="#">O‘zbek</a></li>
+                <li><a class="dropdown-item disabled" href="#">English</a></li>
+            </ul>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - Geoportal.Web - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
+    <div class="container-fluid px-4 pb-3">
+        <nav class="gp-tabs d-flex flex-wrap gap-2">
+            <a asp-page="/Map" class="@(IsActive("/Map") ? "active" : "")">Карта</a>
+            <a asp-page="/Reports/New" class="@(IsActiveStarts("/Reports") ? "active" : "")">Оставить сообщение</a>
+            <a asp-page="/Data" class="@(IsActive("/Data") ? "active" : "")">Данные</a>
+            <a asp-page="/Tools" class="@(IsActive("/Tools") ? "active" : "")">Инструменты</a>
+            <a asp-page="/Compare" class="@(IsActive("/Compare") ? "active" : "")">Сравнение</a>
+            <a asp-page="/Schools" class="@(IsActive("/Schools") ? "active" : "")">Школы</a>
+        </nav>
+    </div>
+</header>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+<div class="gp-shell">
+    <main role="main">
+        @RenderBody()
+    </main>
+</div>
 
-    @await RenderSectionAsync("Scripts", required: false)
+<footer class="gp-footer">
+    <div class="container-fluid px-4 py-3">
+        <span>© @DateTime.UtcNow.Year Geoportal</span>
+    </div>
+</footer>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
