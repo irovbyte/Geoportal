@@ -18,11 +18,10 @@
 
     <style>
         :root{
-            /* Palette */
+            /* Base palette */
             --gp-blue-950:#063A98;
             --gp-blue-900:#0A56C4;
-            --gp-blue-700:#1D76E3;
-            --gp-blue-600:#3AB0C2;
+            --gp-cyan-600:#3AB0C2;
             --gp-green-500:#3FE543;
 
             --gp-bg:#F0F4FB;
@@ -32,28 +31,25 @@
             --gp-text:#111827;
             --gp-muted:#6B7280;
 
-            --gp-number:#0A56C4;
+            /* Metrics */
+            --gp-number:#063A98;   /* dark from gradient */
+            --gp-success:#16A34A;
+            --gp-danger:#DC2626;
 
-            --gp-danger:#E00312;
-            --gp-success:#10B981;
-
-            /* Gradients */
+            /* EXACT same gradient for header + banner sections (as requested) */
             --gp-header-grad: linear-gradient(90deg,#0A56C4 0%,#3AB0C2 55%,#3FE543 100%);
-            --gp-panel-grad: linear-gradient(135deg, rgba(10,86,196,.32) 0%, rgba(58,176,194,.22) 45%, rgba(63,229,67,.22) 100%);
-            --gp-card-grad:  linear-gradient(135deg, rgba(10,86,196,.22) 0%, rgba(58,176,194,.16) 45%, rgba(63,229,67,.16) 100%);
 
-            /* Buttons */
-            --gp-btn-primary-bg: #0A56C4;
-            --gp-btn-primary-bg-hover: #0747A6;
-            --gp-btn-primary-text: #FFFFFF;
+            /* Collage like in mock (soft glass overlay on top of gradient) */
+            --gp-grad-overlay: linear-gradient(0deg, rgba(255,255,255,.62), rgba(255,255,255,.62));
+            --gp-grad-overlay-strong: linear-gradient(0deg, rgba(255,255,255,.48), rgba(255,255,255,.48));
 
-            /* Header small pills (Тема/Язык) */
+            /* Header pills */
             --gp-header-pill-bg: rgba(255,255,255,.26);
             --gp-header-pill-bg-hover: rgba(255,255,255,.34);
             --gp-header-pill-border: rgba(255,255,255,.35);
             --gp-header-pill-text: rgba(255,255,255,.96);
 
-            /* Bootstrap bridge (light) */
+            /* Bootstrap bridge */
             --bs-body-bg: var(--gp-bg);
             --bs-body-color: var(--gp-text);
             --bs-secondary-color: var(--gp-muted);
@@ -71,12 +67,9 @@
             --gp-text:#E8EEF9;
             --gp-muted: rgba(232,238,249,.72);
 
-            --gp-panel-grad: linear-gradient(135deg, rgba(10,86,196,.22) 0%, rgba(58,176,194,.16) 45%, rgba(63,229,67,.16) 100%);
-            --gp-card-grad:  linear-gradient(135deg, rgba(10,86,196,.16) 0%, rgba(58,176,194,.12) 45%, rgba(63,229,67,.12) 100%);
-
-            --gp-btn-primary-bg: #2B78FF;
-            --gp-btn-primary-bg-hover: #3B86FF;
-            --gp-btn-primary-text: #FFFFFF;
+            /* Dark overlay so gradient stays visible, but text readable */
+            --gp-grad-overlay: linear-gradient(0deg, rgba(10,18,32,.62), rgba(10,18,32,.62));
+            --gp-grad-overlay-strong: linear-gradient(0deg, rgba(10,18,32,.52), rgba(10,18,32,.52));
 
             --gp-header-pill-bg: rgba(255,255,255,.12);
             --gp-header-pill-bg-hover: rgba(255,255,255,.18);
@@ -91,7 +84,6 @@
             --bs-link-hover-color: #A6C9FF;
         }
 
-        /* SYSTEM mode follows OS (ВАЖНО: @@media в cshtml!) */
         @@media (prefers-color-scheme: dark){
             html[data-theme="system"]{
                 color-scheme: dark;
@@ -102,12 +94,8 @@
                 --gp-text:#E8EEF9;
                 --gp-muted: rgba(232,238,249,.72);
 
-                --gp-panel-grad: linear-gradient(135deg, rgba(10,86,196,.22) 0%, rgba(58,176,194,.16) 45%, rgba(63,229,67,.16) 100%);
-                --gp-card-grad:  linear-gradient(135deg, rgba(10,86,196,.16) 0%, rgba(58,176,194,.12) 45%, rgba(63,229,67,.12) 100%);
-
-                --gp-btn-primary-bg: #2B78FF;
-                --gp-btn-primary-bg-hover: #3B86FF;
-                --gp-btn-primary-text: #FFFFFF;
+                --gp-grad-overlay: linear-gradient(0deg, rgba(10,18,32,.62), rgba(10,18,32,.62));
+                --gp-grad-overlay-strong: linear-gradient(0deg, rgba(10,18,32,.52), rgba(10,18,32,.52));
 
                 --gp-header-pill-bg: rgba(255,255,255,.12);
                 --gp-header-pill-bg-hover: rgba(255,255,255,.18);
@@ -152,7 +140,6 @@
             gap:.35rem .5rem;
         }
 
-        /* Brand */
         .gp-brand{
             font-weight: 800;
             letter-spacing: .2px;
@@ -174,21 +161,9 @@
             justify-content:center;
         }
 
-        .gp-badge{
-            display:inline-flex;
-            align-items:center;
-            gap:.4rem;
-            font-size:.85rem;
-            color: rgba(255,255,255,.92);
-            background: rgba(255,255,255,.18);
-            border: 1px solid rgba(255,255,255,.22);
-            border-radius: 999px;
-            padding: .35rem .65rem;
-        }
-
         .gp-controls{ display:flex; align-items:center; gap:.6rem; }
 
-        /* FIX: Тема/Язык НЕ прозрачные, а "пилюли" как на мокапе */
+        /* Header pills */
         .btn.gp-btn{
             border-radius: 999px;
             border: 1px solid var(--gp-header-pill-border);
@@ -232,40 +207,16 @@
             color: var(--gp-text);
         }
 
-        /* =========================
-           ГЛАВНОЕ: градиент В КОЛОНКАХ/КАРТОЧКАХ без правки разметки
-           Делает все gp-card "как на фото" (мягкий градиент).
-           Если где-то нужно строго белое: добавь class="gp-card gp-card-plain"
-           ========================= */
+        /* Cards base (DEFAULT = adaptive plain, like mock for "Последние обращения") */
         .gp-card{
-            position: relative;
-            overflow: hidden;
             background: var(--gp-card);
             border: 1px solid var(--gp-border);
             border-radius: 1rem;
             box-shadow: 0 1px 2px rgba(0,0,0,.05);
             color: var(--gp-text);
         }
-        .gp-card::before{
-            content:"";
-            position:absolute;
-            inset:0;
-            background: var(--gp-card-grad);
-            opacity: .95;
-            pointer-events:none;
-        }
-        .gp-card > *{ position: relative; z-index: 1; }
-
-        .gp-card.gp-card-plain::before{ opacity: 0; }
-
         html[data-theme="dark"] .gp-card,
-        html[data-theme="system"] .gp-card{
-            box-shadow: none;
-        }
-        html[data-theme="dark"] .gp-card::before{ opacity: .55; }
-        @@media (prefers-color-scheme: dark){
-            html[data-theme="system"] .gp-card::before{ opacity: .55; }
-        }
+        html[data-theme="system"] .gp-card{ box-shadow: none; }
 
         .gp-card .gp-card-h{
             padding: 1rem 1rem .75rem 1rem;
@@ -273,17 +224,93 @@
         }
         .gp-card .gp-card-b{ padding: 1rem; }
 
-        .gp-number{
-            color: var(--gp-number);
+        /* ====== Gradient section cards (collage like in mock) ====== */
+        .gp-card.gp-grad-h,
+        .gp-card.gp-grad-d{
+            position: relative;
+            overflow: hidden;
+            border-color: rgba(17,24,39,.10);
+        }
+        .gp-card.gp-grad-h::before,
+        .gp-card.gp-grad-d::before{
+            content:"";
+            position:absolute;
+            inset:0;
+            pointer-events:none;
+        }
+        /* horizontal (same as header) */
+        .gp-card.gp-grad-h::before{
+            background: var(--gp-header-grad);
+        }
+        /* diagonal collage for "Карта (превью)" like the mock block */
+        .gp-card.gp-grad-d::before{
+            background: linear-gradient(135deg,#0A56C4 0%,#3AB0C2 52%,#3FE543 100%);
+        }
+
+        .gp-card.gp-grad-h::after,
+        .gp-card.gp-grad-d::after{
+            content:"";
+            position:absolute;
+            inset:0;
+            background: var(--gp-grad-overlay);
+            pointer-events:none;
+        }
+        /* make top big banner a touch more saturated like image */
+        .gp-card.gp-grad-h.gp-grad-strong::after{
+            background: var(--gp-grad-overlay-strong);
+        }
+
+        .gp-card.gp-grad-h > *, .gp-card.gp-grad-d > *{ position: relative; z-index: 1; }
+
+        /* KPI mini cards: white (on top of gradient) */
+        .gp-card.gp-kpi{
+            background: rgba(255,255,255,.90);
+            border-color: rgba(17,24,39,.10);
+            box-shadow: 0 8px 24px rgba(17,24,39,.08);
+        }
+        html[data-theme="dark"] .gp-card.gp-kpi{
+            background: rgba(255,255,255,.08);
+            border-color: rgba(255,255,255,.14);
+            box-shadow: none;
+        }
+        @@media (prefers-color-scheme: dark){
+            html[data-theme="system"] .gp-card.gp-kpi{
+                background: rgba(255,255,255,.08);
+                border-color: rgba(255,255,255,.14);
+                box-shadow: none;
+            }
+        }
+
+        /* Numbers dark-blue everywhere */
+        .gp-number,
+        .gp-metric,
+        .kpi-value,
+        .kpi-number,
+        .stat-value,
+        .gp-card .display-1,
+        .gp-card .display-2,
+        .gp-card .display-3,
+        .gp-card .display-4,
+        .gp-card .display-5,
+        .gp-card .display-6{
+            color: var(--gp-number) !important;
             font-weight: 800;
             letter-spacing: .2px;
         }
 
-        /* Bootstrap helpers */
+        /* +% / -% */
+        .gp-delta.pos{ color: var(--gp-success) !important; font-weight: 600; }
+        .gp-delta.neg{ color: var(--gp-danger) !important; font-weight: 600; }
+
+        /* Bootstrap adaptation fixes */
         .text-muted{ color: var(--gp-muted) !important; }
-        .bg-white{ background: var(--gp-card) !important; }
-        .border{ border-color: var(--gp-border) !important; }
-        .table{ color: var(--gp-text); }
+        .table{ color: var(--gp-text) !important; }
+        .list-group-item{
+            background: transparent !important;
+            color: var(--gp-text) !important;
+            border-color: var(--gp-border) !important;
+        }
+        hr, .dropdown-divider{ border-color: var(--gp-border) !important; }
 
         /* Dropdown theme fix */
         .dropdown-menu{
@@ -298,32 +325,20 @@
         a{ color: var(--bs-link-color); }
         a:hover{ color: var(--bs-link-hover-color); }
 
-        /* =========================
-           ЦВЕТНЫЕ КНОПКИ как на фото (без переписывания классов на страницах)
-           Перекрашиваем bootstrap btn-primary / btn-outline-* / btn-secondary
-           ========================= */
-        .btn{
-            border-radius: .75rem;
-        }
+        /* Buttons palette */
+        .btn{ border-radius: .75rem; }
 
-        /* primary */
-        .btn-primary,
-        .btn.btn-primary{
-            background: var(--gp-btn-primary-bg) !important;
+        .btn-primary{
+            background: var(--gp-blue-900) !important;
             border-color: rgba(0,0,0,.06) !important;
-            color: var(--gp-btn-primary-text) !important;
+            color: #fff !important;
             box-shadow: 0 10px 24px rgba(10,86,196,.18);
         }
-        .btn-primary:hover,
-        .btn.btn-primary:hover{
-            background: var(--gp-btn-primary-bg-hover) !important;
-            color: var(--gp-btn-primary-text) !important;
-        }
+        .btn-primary:hover{ filter: brightness(.95); }
 
-        /* secondary (для светлых кнопок типа "Открыть карту") */
         .btn-secondary,
         .btn-outline-secondary{
-            background: rgba(255,255,255,.82) !important;
+            background: rgba(255,255,255,.86) !important;
             color: #111827 !important;
             border-color: rgba(17,24,39,.12) !important;
         }
@@ -342,29 +357,12 @@
             }
         }
 
-        /* outline primary (пилюли на карте "Ямы/Освещение/...") */
         .btn-outline-primary{
-            background: rgba(10,86,196,.10) !important;
-            border-color: rgba(10,86,196,.28) !important;
+            background: rgba(10,86,196,.12) !important;
+            border-color: rgba(10,86,196,.30) !important;
             color: var(--gp-blue-900) !important;
         }
-        .btn-outline-primary:hover{
-            background: rgba(10,86,196,.16) !important;
-        }
-
-        .btn-outline-success{
-            background: rgba(63,229,67,.10) !important;
-            border-color: rgba(63,229,67,.30) !important;
-            color: #0F6D2B !important;
-        }
-        .btn-outline-success:hover{ background: rgba(63,229,67,.16) !important; }
-
-        .btn-outline-danger{
-            background: rgba(224,3,18,.08) !important;
-            border-color: rgba(224,3,18,.30) !important;
-            color: #7A0B12 !important;
-        }
-        .btn-outline-danger:hover{ background: rgba(224,3,18,.12) !important; }
+        .btn-outline-primary:hover{ background: rgba(10,86,196,.18) !important; }
 
         /* Footer */
         .gp-footer{
@@ -400,7 +398,28 @@
                 </span>
                 Geoportal
             </a>
-            <span class="gp-badge">Интерфейс: Русский</span>
+
+            <!-- Region dropdown (Uzbekistan) -->
+            <div class="dropdown gp-dropdown">
+                <button class="btn gp-btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="gpRegionBtn">
+                    Регион: Не выбрано
+                </button>
+                <ul class="dropdown-menu">
+                    <li><button class="dropdown-item" type="button" data-region="Ташкент">Ташкент</button></li>
+                    <li><button class="dropdown-item" type="button" data-region="Андижан">Андижан</button></li>
+                    <li><button class="dropdown-item" type="button" data-region="Бухара">Бухара</button></li>
+                    <li><button class="dropdown-item" type="button" data-region="Фергана">Фергана</button></li>
+                    <li><button class="dropdown-item" type="button" data-region="Джиззах">Джиззах</button></li>
+                    <li><button class="dropdown-item" type="button" data-region="Харезм">Харезм</button></li>
+                    <li><button class="dropdown-item" type="button" data-region="Наманган">Наманган</button></li>
+                    <li><button class="dropdown-item" type="button" data-region="Навои">Навои</button></li>
+                    <li><button class="dropdown-item" type="button" data-region="Кашкадарьё">Кашкадарьё</button></li>
+                    <li><button class="dropdown-item" type="button" data-region="Самарканд">Самарканд</button></li>
+                    <li><button class="dropdown-item" type="button" data-region="Сирдарьё">Сирдарьё</button></li>
+                    <li><button class="dropdown-item" type="button" data-region="Сурхандарьё">Сурхандарьё</button></li>
+                    <li><button class="dropdown-item" type="button" data-region="Каракалпакистан">Каракалпакистан</button></li>
+                </ul>
+            </div>
         </div>
 
         <div class="gp-controls">
@@ -457,30 +476,48 @@
 
 <script>
 (function () {
-  // theme persistence
-  const key = "gp_theme";
+  // ===== Theme persistence =====
+  const keyTheme = "gp_theme";
   const html = document.documentElement;
 
-  function applyTheme(t) {
-    html.setAttribute("data-theme", t);
-  }
+  function applyTheme(t) { html.setAttribute("data-theme", t); }
 
-  const saved = localStorage.getItem(key);
-  applyTheme(saved || "system");
+  const savedTheme = localStorage.getItem(keyTheme);
+  applyTheme(savedTheme || "system");
 
   document.querySelectorAll("[data-theme]").forEach(btn => {
     btn.addEventListener("click", () => {
       const t = btn.getAttribute("data-theme");
-      localStorage.setItem(key, t);
+      localStorage.setItem(keyTheme, t);
       applyTheme(t);
     });
   });
 
-  // Header height: robust (no jumps)
-  const header = document.getElementById("gpHeader");
-  if (!header) return;
+  // ===== Region persistence =====
+  const keyRegion = "gp_region";
+  const regionBtn = document.getElementById("gpRegionBtn");
 
+  function setRegion(name){
+    if (!regionBtn) return;
+    regionBtn.textContent = "Регион: " + name;
+  }
+
+  const savedRegion = localStorage.getItem(keyRegion);
+  if (savedRegion) setRegion(savedRegion);
+
+  document.querySelectorAll("[data-region]").forEach(item => {
+    item.addEventListener("click", () => {
+      const r = item.getAttribute("data-region");
+      if (!r) return;
+      localStorage.setItem(keyRegion, r);
+      setRegion(r);
+    });
+  });
+
+  // ===== Header height: robust (no jumps) =====
+  const header = document.getElementById("gpHeader");
   function setHeaderHeight() {
+    if (!header) return;
     const h = Math.ceil(header.getBoundingClientRect().height);
     document.documentElement.style.setProperty("--gp-header-h", h + "px");
   }
@@ -493,10 +530,97 @@
     requestAnimationFrame(setHeaderHeight);
   });
 
-  const ro = new ResizeObserver(() => setHeaderHeight());
-  ro.observe(header);
+  if (header && window.ResizeObserver) {
+    const ro = new ResizeObserver(() => setHeaderHeight());
+    ro.observe(header);
+  } else {
+    window.addEventListener("resize", setHeaderHeight);
+  }
 
-  window.addEventListener("resize", setHeaderHeight);
+  // ===== Utils =====
+  function textNorm(s){
+    return (s || "").replace(/\s+/g, " ").trim().toLowerCase();
+  }
+
+  function findCardByTitleContains(needle){
+    const n = textNorm(needle);
+    const candidates = Array.from(document.querySelectorAll("h1,h2,h3,h4,.card-title,.gp-card-h"));
+    const hit = candidates.find(el => textNorm(el.textContent).includes(n));
+    if (!hit) return null;
+    return hit.closest(".gp-card, .card");
+  }
+
+  // ===== Apply gradients exactly like mock =====
+  // 1) Big top summary: same as header, more saturated
+  const mon = findCardByTitleContains("Мониторинг инфраструктуры");
+  if (mon) {
+    mon.classList.add("gp-grad-h","gp-grad-strong");
+  }
+
+  // 2) Map preview: diagonal collage
+  const mapPrev = findCardByTitleContains("Карта (превью)");
+  if (mapPrev) {
+    mapPrev.classList.add("gp-grad-d");
+  }
+
+  // 3) Latest requests: MUST remain adaptive plain (white/dark)
+  const last = findCardByTitleContains("Последние обращения");
+  if (last) {
+    last.classList.remove("gp-grad-h","gp-grad-d","gp-grad-strong");
+  }
+
+  // ===== Auto color +12% / -12% =====
+  function colorizeDeltas(scope) {
+    const root = scope || document;
+    const nodes = root.querySelectorAll("*");
+    nodes.forEach(el => {
+      if (!el || !el.childNodes || el.childNodes.length !== 1) return;
+      if (el.children && el.children.length) return;
+
+      const txt = (el.textContent || "").trim();
+      const m = txt.match(/^([+\-])\s*\d+(\.\d+)?\s*%$/);
+      if (!m) return;
+
+      el.classList.add("gp-delta");
+      el.classList.remove("pos","neg");
+      if (m[1] === "+") el.classList.add("pos");
+      if (m[1] === "-") el.classList.add("neg");
+    });
+  }
+  colorizeDeltas();
+
+  // ===== Make KPI mini cards white automatically (inside Monitoring block) =====
+  if (mon) {
+    const innerCards = mon.querySelectorAll(".gp-card");
+    innerCards.forEach(c => {
+      if (c === mon) return;
+      // only small inner boxes
+      c.classList.add("gp-kpi");
+    });
+  }
+
+  // ===== Keep fixes on dynamic changes =====
+  if (window.MutationObserver) {
+    const mo = new MutationObserver(() => {
+      const mon2 = findCardByTitleContains("Мониторинг инфраструктуры");
+      if (mon2) mon2.classList.add("gp-grad-h","gp-grad-strong");
+
+      const mapPrev2 = findCardByTitleContains("Карта (превью)");
+      if (mapPrev2) mapPrev2.classList.add("gp-grad-d");
+
+      const last2 = findCardByTitleContains("Последние обращения");
+      if (last2) last2.classList.remove("gp-grad-h","gp-grad-d","gp-grad-strong");
+
+      colorizeDeltas();
+
+      if (mon2) {
+        mon2.querySelectorAll(".gp-card").forEach(c => {
+          if (c !== mon2) c.classList.add("gp-kpi");
+        });
+      }
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
+  }
 })();
 </script>
 
