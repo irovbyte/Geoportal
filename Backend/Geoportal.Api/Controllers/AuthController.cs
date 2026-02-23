@@ -18,17 +18,13 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] UserRegistrationDto dto)
     {
-        // 1. Проверяем, нет ли уже такого номера
         if (await _context.Users.AnyAsync(u => u.PhoneNumber == dto.PhoneNumber))
             return BadRequest("Этот номер уже зарегистрирован");
 
-        // 2. Проверяем DeviceId (защита от мультиаккаунтов)
-        if (await _context.Users.AnyAsync(u => u.DeviceId == dto.DeviceId))
-            return BadRequest("На этом устройстве уже создан аккаунт");
-
+        // Если у тебя User.Id это строка (string)
         var user = new User
         {
-            Id = Guid.NewGuid().ToString(), // Теперь это строка, ошибки не будет
+            Id = Guid.NewGuid().ToString(),
             PhoneNumber = dto.PhoneNumber,
             PasswordHash = dto.Password,
             DeviceId = dto.DeviceId,
@@ -53,6 +49,6 @@ public class AuthController : ControllerBase
     }
 }
 
-// Вспомогательные классы для данных (DTO)
+// DTO классы
 public record UserRegistrationDto(string PhoneNumber, string Password, string DeviceId);
 public record UserLoginDto(string PhoneNumber, string Password);
