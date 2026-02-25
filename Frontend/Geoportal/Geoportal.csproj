@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
@@ -43,15 +43,11 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
-
+		<MauiIcon Include="Resources\AppIcon\appicon.png" ForegroundFile="Resources\AppIcon\appicon.png" Color="#0A56C4" />
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
-
+		<MauiSplashScreen Include="Resources\Splash\splash.png" Color="#0A56C4" BaseSize="128,128" />
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
-		
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
 
@@ -62,6 +58,48 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.9" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Pages\LoginPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\MainPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Resources\Raw\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Resources\Languages\AppResources.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+
+		<EmbeddedResource Update="Resources\Languages\AppResources.ru.resx">
+			<Generator></Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Languages\AppResources.en.resx">
+			<Generator></Generator>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Resources\Languages\AppResources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>AppResources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Update="Resources\Images\logo_login.png">
+	    <Color>#0A56C4</Color>
+	    <ForegroundFile>Resources\AppIcon\appicon.png</ForegroundFile>
+	  </MauiImage>
 	</ItemGroup>
 
 </Project>
