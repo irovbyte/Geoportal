@@ -1,6 +1,7 @@
 using Geoportal.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using BCrypt.Net;
 
 namespace Geoportal.Api.Controllers;
 
@@ -21,12 +22,14 @@ public class AuthController : ControllerBase
         if (await _context.Users.AnyAsync(u => u.PhoneNumber == dto.PhoneNumber))
             return BadRequest("Этот номер уже зарегистрирован");
 
-        // Если у тебя User.Id это строка (string)
+        if (await _context.Users.AnyAsync(u => u.DeviceId == dto.DeviceId))
+            return BadRequest("С этого устройства уже создан аккаунт.");
+
         var user = new User
         {
             Id = Guid.NewGuid().ToString(),
             PhoneNumber = dto.PhoneNumber,
-            PasswordHash = dto.Password,
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
             DeviceId = dto.DeviceId,
             CreatedAt = DateTime.UtcNow
         };
@@ -41,14 +44,32 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Login([FromBody] UserLoginDto dto)
     {
         var user = await _context.Users
-            .FirstOrDefaultAsync(u => u.PhoneNumber == dto.PhoneNumber && u.PasswordHash == dto.Password);
+            .FirstOrDefaultAsync(u => u.PhoneNumber == dto.PhoneNumber);
 
-        if (user == null) return Unauthorized("Неверный номер или пароль");
+        if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
+            return Unauthorized("Неверный номер или пароль");
+
+        if (user.DeviceId != dto.DeviceId)
+        {
+            user.DeviceId = dto.DeviceId;
+            await _context.SaveChangesAsync();
+        }
 
         return Ok(new { message = "Вход выполнен", userId = user.Id });
     }
+
+    [HttpDelete("delete-account")]
+    public async Task<IActionResult> DeleteAccount(string phoneNumber)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
+        if (user == null) return NotFound("Пользователь не найден");
+
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
+
+        return Ok(new { message = $"Аккаунт {phoneNumber} успешно удален" });
+    }
 }
 
-// DTO классы
 public record UserRegistrationDto(string PhoneNumber, string Password, string DeviceId);
-public record UserLoginDto(string PhoneNumber, string Password);
+public record UserLoginDto(string PhoneNumber, string Password, string DeviceId);
