@@ -1,0 +1,116 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Главная";
+}
+
+<div class="container-fluid py-4">
+    <div class="gp-card mb-4">
+        <div class="gp-card-h border-0">
+            <h2 class="text-white mb-0" style="position: relative; z-index: 2;">Мониторинг инфраструктуры</h2>
+            <p class="text-white opacity-75 mb-0" style="position: relative; z-index: 2;">Сводная информация по всем объектам</p>
+        </div>
+        
+        <div class="gp-card-b">
+            <div class="row g-3">
+                <div class="col-12 col-md-3">
+                    <div class="gp-card gp-kpi h-100">
+                        <div class="gp-card-b">
+                            <h6 class="text-muted mb-2">Всего объектов</h6>
+                            <div class="d-flex align-items-end justify-content-between">
+                                <span class="display-5 gp-number mb-0">1,245</span>
+                                <span class="fs-6">+12.5%</span> </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12 col-md-3">
+                    <div class="gp-card gp-kpi h-100">
+                        <div class="gp-card-b">
+                            <h6 class="text-muted mb-2">Активные заявки</h6>
+                            <div class="d-flex align-items-end justify-content-between">
+                                <span class="display-5 gp-number mb-0">84</span>
+                                <span class="fs-6">-5.2%</span> </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <div class="gp-card gp-kpi h-100">
+                        <div class="gp-card-b">
+                            <h6 class="text-muted mb-2">Школы в ремонте</h6>
+                            <div class="d-flex align-items-end justify-content-between">
+                                <span class="display-5 gp-number mb-0">12</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <div class="gp-card gp-kpi h-100">
+                        <div class="gp-card-b">
+                            <h6 class="text-muted mb-2">Бюджет освоен</h6>
+                            <div class="d-flex align-items-end justify-content-between">
+                                <span class="display-5 gp-number mb-0">68%</span>
+                                <span class="fs-6">+2.1%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-12 col-lg-8">
+            <div class="gp-card h-100">
+                <div class="gp-card-h d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Карта (превью)</h4>
+                    <a asp-page="/Map" class="btn btn-sm btn-outline-primary" style="position: relative; z-index: 2;">Открыть полную карту</a>
+                </div>
+                <div class="gp-card-b d-flex align-items-center justify-content-center" style="min-height: 300px; position: relative; z-index: 2;">
+                    <div class="text-center text-white">
+                        <span style="font-size: 3rem;">🗺️</span>
+                        <p class="mt-2">Интерактивная карта загружается...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-4">
+            <div class="gp-card h-100">
+                <div class="gp-card-h">
+                    <h4 class="mb-0">Последние обращения</h4>
+                </div>
+                <div class="gp-card-b p-0">
+                    <div class="list-group list-group-flush">
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center p-3">
+                            <div>
+                                <h6 class="mb-1">Отсутствует отопление</h6>
+                                <small class="text-muted">Школа №42, Ташкент</small>
+                            </div>
+                            <span class="badge bg-danger rounded-pill">Срочно</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center p-3">
+                            <div>
+                                <h6 class="mb-1">Ремонт крыши завершен</h6>
+                                <small class="text-muted">Школа №15, Самарканд</small>
+                            </div>
+                            <span class="badge bg-success rounded-pill">Готово</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center p-3">
+                            <div>
+                                <h6 class="mb-1">Запрос на новое оборудование</h6>
+                                <small class="text-muted">Школа №7, Бухара</small>
+                            </div>
+                            <span class="badge bg-warning text-dark rounded-pill">В работе</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="gp-card-b border-top text-center">
+                    <a asp-page="/Reports/New" class="btn btn-primary w-100">Посмотреть все</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

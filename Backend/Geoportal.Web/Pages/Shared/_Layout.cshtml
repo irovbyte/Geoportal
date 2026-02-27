@@ -12,633 +12,101 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@title - Geoportal</title>
 
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Geoportal.Web.styles.css" asp-append-version="true" />
-
-    <style>
-        :root{
-            /* Base palette */
-            --gp-blue-950:#063A98;
-            --gp-blue-900:#0A56C4;
-            --gp-cyan-600:#3AB0C2;
-            --gp-green-500:#3FE543;
-
-            --gp-bg:#F0F4FB;
-            --gp-card:#FFFFFF;
-            --gp-border:#E5E7EB;
-
-            --gp-text:#111827;
-            --gp-muted:#6B7280;
-
-            /* Metrics */
-            --gp-number:#063A98;   /* dark from gradient */
-            --gp-success:#16A34A;
-            --gp-danger:#DC2626;
-
-            /* EXACT same gradient for header + banner sections (as requested) */
-            --gp-header-grad: linear-gradient(90deg,#0A56C4 0%,#3AB0C2 55%,#3FE543 100%);
-
-            /* Collage like in mock (soft glass overlay on top of gradient) */
-            --gp-grad-overlay: linear-gradient(0deg, rgba(255,255,255,.62), rgba(255,255,255,.62));
-            --gp-grad-overlay-strong: linear-gradient(0deg, rgba(255,255,255,.48), rgba(255,255,255,.48));
-
-            /* Header pills */
-            --gp-header-pill-bg: rgba(255,255,255,.26);
-            --gp-header-pill-bg-hover: rgba(255,255,255,.34);
-            --gp-header-pill-border: rgba(255,255,255,.35);
-            --gp-header-pill-text: rgba(255,255,255,.96);
-
-            /* Bootstrap bridge */
-            --bs-body-bg: var(--gp-bg);
-            --bs-body-color: var(--gp-text);
-            --bs-secondary-color: var(--gp-muted);
-            --bs-border-color: var(--gp-border);
-            --bs-link-color: var(--gp-blue-900);
-            --bs-link-hover-color: #0747A6;
-        }
-
-        html[data-theme="dark"]{
-            color-scheme: dark;
-
-            --gp-bg:#0B1220;
-            --gp-card: rgba(255,255,255,.06);
-            --gp-border: rgba(255,255,255,.12);
-            --gp-text:#E8EEF9;
-            --gp-muted: rgba(232,238,249,.72);
-
-            /* Dark overlay so gradient stays visible, but text readable */
-            --gp-grad-overlay: linear-gradient(0deg, rgba(10,18,32,.62), rgba(10,18,32,.62));
-            --gp-grad-overlay-strong: linear-gradient(0deg, rgba(10,18,32,.52), rgba(10,18,32,.52));
-
-            --gp-header-pill-bg: rgba(255,255,255,.12);
-            --gp-header-pill-bg-hover: rgba(255,255,255,.18);
-            --gp-header-pill-border: rgba(255,255,255,.22);
-            --gp-header-pill-text: rgba(255,255,255,.96);
-
-            --bs-body-bg: var(--gp-bg);
-            --bs-body-color: var(--gp-text);
-            --bs-secondary-color: var(--gp-muted);
-            --bs-border-color: var(--gp-border);
-            --bs-link-color: #7DB2FF;
-            --bs-link-hover-color: #A6C9FF;
-        }
-
-        @@media (prefers-color-scheme: dark){
-            html[data-theme="system"]{
-                color-scheme: dark;
-
-                --gp-bg:#0B1220;
-                --gp-card: rgba(255,255,255,.06);
-                --gp-border: rgba(255,255,255,.12);
-                --gp-text:#E8EEF9;
-                --gp-muted: rgba(232,238,249,.72);
-
-                --gp-grad-overlay: linear-gradient(0deg, rgba(10,18,32,.62), rgba(10,18,32,.62));
-                --gp-grad-overlay-strong: linear-gradient(0deg, rgba(10,18,32,.52), rgba(10,18,32,.52));
-
-                --gp-header-pill-bg: rgba(255,255,255,.12);
-                --gp-header-pill-bg-hover: rgba(255,255,255,.18);
-                --gp-header-pill-border: rgba(255,255,255,.22);
-                --gp-header-pill-text: rgba(255,255,255,.96);
-
-                --bs-body-bg: var(--gp-bg);
-                --bs-body-color: var(--gp-text);
-                --bs-secondary-color: var(--gp-muted);
-                --bs-border-color: var(--gp-border);
-                --bs-link-color: #7DB2FF;
-                --bs-link-hover-color: #A6C9FF;
-            }
-        }
-
-        /* Base */
-        html, body { height: 100%; }
-        body{
-            background: var(--gp-bg);
-            color: var(--gp-text);
-            margin: 0;
-            padding-top: var(--gp-header-h, 120px);
-        }
-
-        /* Header */
-        .gp-topbar{
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1030;
-            border-bottom: 1px solid rgba(255,255,255,.25);
-            background: var(--gp-header-grad);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .gp-toprow{ padding: .9rem 1.25rem .65rem 1.25rem; }
-
-        .gp-tabs{
-            padding: .35rem 1.25rem .95rem 1.25rem;
-            display:flex;
-            flex-wrap:wrap;
-            gap:.35rem .5rem;
-        }
-
-        .gp-brand{
-            font-weight: 800;
-            letter-spacing: .2px;
-            color: #fff !important;
-            text-decoration: none;
-            display:inline-flex;
-            align-items:center;
-            gap:.6rem;
-        }
-
-        .gp-logo{
-            width: 30px;
-            height: 30px;
-            border-radius: 10px;
-            background: rgba(255,255,255,.20);
-            border: 1px solid rgba(255,255,255,.25);
-            display:flex;
-            align-items:center;
-            justify-content:center;
-        }
-
-        .gp-controls{ display:flex; align-items:center; gap:.6rem; }
-
-        /* Header pills */
-        .btn.gp-btn{
-            border-radius: 999px;
-            border: 1px solid var(--gp-header-pill-border);
-            background: var(--gp-header-pill-bg);
-            color: var(--gp-header-pill-text);
-            padding: .35rem .75rem;
-            box-shadow: 0 10px 24px rgba(0,0,0,.08);
-        }
-        .btn.gp-btn:hover{
-            background: var(--gp-header-pill-bg-hover);
-            color: var(--gp-header-pill-text);
-        }
-
-        /* Tabs */
-        .gp-tabs a{
-            display:inline-flex;
-            align-items:center;
-            gap:.45rem;
-            color: rgba(255,255,255,.92);
-            text-decoration:none;
-            padding: .5rem .8rem;
-            border-radius: .85rem;
-            border: 1px solid transparent;
-            background: transparent;
-        }
-        .gp-tabs a:hover{
-            background: rgba(255,255,255,.16);
-            border-color: rgba(255,255,255,.18);
-        }
-        .gp-tabs a.active{
-            background: rgba(0,0,0,.22);
-            border-color: rgba(255,255,255,.22);
-            color:#fff;
-        }
-
-        /* Shell */
-        .gp-shell{
-            max-width: 1220px;
-            margin: 0 auto;
-            padding: 1.25rem;
-            color: var(--gp-text);
-        }
-
-        /* Cards base (DEFAULT = adaptive plain, like mock for "Последние обращения") */
-        .gp-card{
-            background: var(--gp-card);
-            border: 1px solid var(--gp-border);
-            border-radius: 1rem;
-            box-shadow: 0 1px 2px rgba(0,0,0,.05);
-            color: var(--gp-text);
-        }
-        html[data-theme="dark"] .gp-card,
-        html[data-theme="system"] .gp-card{ box-shadow: none; }
-
-        .gp-card .gp-card-h{
-            padding: 1rem 1rem .75rem 1rem;
-            border-bottom:1px solid var(--gp-border);
-        }
-        .gp-card .gp-card-b{ padding: 1rem; }
-
-        /* ====== Gradient section cards (collage like in mock) ====== */
-        .gp-card.gp-grad-h,
-        .gp-card.gp-grad-d{
-            position: relative;
-            overflow: hidden;
-            border-color: rgba(17,24,39,.10);
-        }
-        .gp-card.gp-grad-h::before,
-        .gp-card.gp-grad-d::before{
-            content:"";
-            position:absolute;
-            inset:0;
-            pointer-events:none;
-        }
-        /* horizontal (same as header) */
-        .gp-card.gp-grad-h::before{
-            background: var(--gp-header-grad);
-        }
-        /* diagonal collage for "Карта (превью)" like the mock block */
-        .gp-card.gp-grad-d::before{
-            background: linear-gradient(135deg,#0A56C4 0%,#3AB0C2 52%,#3FE543 100%);
-        }
-
-        .gp-card.gp-grad-h::after,
-        .gp-card.gp-grad-d::after{
-            content:"";
-            position:absolute;
-            inset:0;
-            background: var(--gp-grad-overlay);
-            pointer-events:none;
-        }
-        /* make top big banner a touch more saturated like image */
-        .gp-card.gp-grad-h.gp-grad-strong::after{
-            background: var(--gp-grad-overlay-strong);
-        }
-
-        .gp-card.gp-grad-h > *, .gp-card.gp-grad-d > *{ position: relative; z-index: 1; }
-
-        /* KPI mini cards: white (on top of gradient) */
-        .gp-card.gp-kpi{
-            background: rgba(255,255,255,.90);
-            border-color: rgba(17,24,39,.10);
-            box-shadow: 0 8px 24px rgba(17,24,39,.08);
-        }
-        html[data-theme="dark"] .gp-card.gp-kpi{
-            background: rgba(255,255,255,.08);
-            border-color: rgba(255,255,255,.14);
-            box-shadow: none;
-        }
-        @@media (prefers-color-scheme: dark){
-            html[data-theme="system"] .gp-card.gp-kpi{
-                background: rgba(255,255,255,.08);
-                border-color: rgba(255,255,255,.14);
-                box-shadow: none;
-            }
-        }
-
-        /* Numbers dark-blue everywhere */
-        .gp-number,
-        .gp-metric,
-        .kpi-value,
-        .kpi-number,
-        .stat-value,
-        .gp-card .display-1,
-        .gp-card .display-2,
-        .gp-card .display-3,
-        .gp-card .display-4,
-        .gp-card .display-5,
-        .gp-card .display-6{
-            color: var(--gp-number) !important;
-            font-weight: 800;
-            letter-spacing: .2px;
-        }
-
-        /* +% / -% */
-        .gp-delta.pos{ color: var(--gp-success) !important; font-weight: 600; }
-        .gp-delta.neg{ color: var(--gp-danger) !important; font-weight: 600; }
-
-        /* Bootstrap adaptation fixes */
-        .text-muted{ color: var(--gp-muted) !important; }
-        .table{ color: var(--gp-text) !important; }
-        .list-group-item{
-            background: transparent !important;
-            color: var(--gp-text) !important;
-            border-color: var(--gp-border) !important;
-        }
-        hr, .dropdown-divider{ border-color: var(--gp-border) !important; }
-
-        /* Dropdown theme fix */
-        .dropdown-menu{
-            background: var(--gp-card);
-            border: 1px solid var(--gp-border);
-            color: var(--gp-text);
-        }
-        .dropdown-item{ color: var(--gp-text); }
-        .dropdown-item:hover{ background: rgba(10,86,196,.10); }
-        .dropdown-item-text{ color: var(--gp-muted) !important; }
-
-        a{ color: var(--bs-link-color); }
-        a:hover{ color: var(--bs-link-hover-color); }
-
-        /* Buttons palette */
-        .btn{ border-radius: .75rem; }
-
-        .btn-primary{
-            background: var(--gp-blue-900) !important;
-            border-color: rgba(0,0,0,.06) !important;
-            color: #fff !important;
-            box-shadow: 0 10px 24px rgba(10,86,196,.18);
-        }
-        .btn-primary:hover{ filter: brightness(.95); }
-
-        .btn-secondary,
-        .btn-outline-secondary{
-            background: rgba(255,255,255,.86) !important;
-            color: #111827 !important;
-            border-color: rgba(17,24,39,.12) !important;
-        }
-        html[data-theme="dark"] .btn-secondary,
-        html[data-theme="dark"] .btn-outline-secondary{
-            background: rgba(255,255,255,.10) !important;
-            color: var(--gp-text) !important;
-            border-color: rgba(255,255,255,.16) !important;
-        }
-        @@media (prefers-color-scheme: dark){
-            html[data-theme="system"] .btn-secondary,
-            html[data-theme="system"] .btn-outline-secondary{
-                background: rgba(255,255,255,.10) !important;
-                color: var(--gp-text) !important;
-                border-color: rgba(255,255,255,.16) !important;
-            }
-        }
-
-        .btn-outline-primary{
-            background: rgba(10,86,196,.12) !important;
-            border-color: rgba(10,86,196,.30) !important;
-            color: var(--gp-blue-900) !important;
-        }
-        .btn-outline-primary:hover{ background: rgba(10,86,196,.18) !important; }
-
-        /* Footer */
-        .gp-footer{
-            border-top:1px solid rgba(17,24,39,.08);
-            background: rgba(255,255,255,.65);
-            color: var(--gp-muted);
-        }
-        html[data-theme="dark"] .gp-footer{
-            background: rgba(255,255,255,.04);
-            border-top-color: rgba(255,255,255,.10);
-            color: rgba(232,238,249,.72);
-        }
-        @@media (prefers-color-scheme: dark){
-            html[data-theme="system"] .gp-footer{
-                background: rgba(255,255,255,.04);
-                border-top-color: rgba(255,255,255,.10);
-                color: rgba(232,238,249,.72);
-            }
-        }
-
-        /* Sticky footer to bottom */
-        html, body {
-            height: 100%;
-        }
-
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .gp-shell {
-            flex: 1;
-        }
-    </style>
 </head>
-
 <body>
-<header class="gp-topbar" id="gpHeader">
-    <div class="gp-toprow d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center gap-3">
-            <a class="gp-brand" asp-page="/Index">
-                <span class="gp-logo" aria-hidden="true">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                        <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z" stroke="white" stroke-width="1.6" opacity=".95"/>
-                        <path d="M8 12l2.3 2.3L16 8.6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </span>
-                Geoportal
-            </a>
+    <header class="gp-topbar" id="gpHeader">
+        <div class="gp-toprow d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-3">
+                <a class="gp-brand" asp-page="/Index">
+                    <span class="gp-logo" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z" stroke="white" stroke-width="1.6" opacity=".95" />
+                            <path d="M8 12l2.3 2.3L16 8.6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                    Geoportal
+                </a>
 
-            <!-- Region dropdown (Uzbekistan) -->
-            <div class="dropdown gp-dropdown">
-                <button class="btn gp-btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="gpRegionBtn">
-                    Регион: Не выбрано
-                </button>
-                <ul class="dropdown-menu">
-                    <li><button class="dropdown-item" type="button" data-region="Ташкент">Ташкент</button></li>
-                    <li><button class="dropdown-item" type="button" data-region="Андижан">Андижан</button></li>
-                    <li><button class="dropdown-item" type="button" data-region="Бухара">Бухара</button></li>
-                    <li><button class="dropdown-item" type="button" data-region="Фергана">Фергана</button></li>
-                    <li><button class="dropdown-item" type="button" data-region="Джиззах">Джиззах</button></li>
-                    <li><button class="dropdown-item" type="button" data-region="Харезм">Харезм</button></li>
-                    <li><button class="dropdown-item" type="button" data-region="Наманган">Наманган</button></li>
-                    <li><button class="dropdown-item" type="button" data-region="Навои">Навои</button></li>
-                    <li><button class="dropdown-item" type="button" data-region="Кашкадарьё">Кашкадарьё</button></li>
-                    <li><button class="dropdown-item" type="button" data-region="Самарканд">Самарканд</button></li>
-                    <li><button class="dropdown-item" type="button" data-region="Сирдарьё">Сирдарьё</button></li>
-                    <li><button class="dropdown-item" type="button" data-region="Сурхандарьё">Сурхандарьё</button></li>
-                    <li><button class="dropdown-item" type="button" data-region="Каракалпакистан">Каракалпакистан</button></li>
-                </ul>
+                <div class="dropdown gp-dropdown">
+                    <button class="btn gp-btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="gpRegionBtn">
+                        Регион: Не выбрано
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><button class="dropdown-item" type="button" data-region="Ташкент">Ташкент</button></li>
+                        <li><button class="dropdown-item" type="button" data-region="Андижан">Андижан</button></li>
+                        <li><button class="dropdown-item" type="button" data-region="Бухара">Бухара</button></li>
+                        <li><button class="dropdown-item" type="button" data-region="Фергана">Фергана</button></li>
+                        <li><button class="dropdown-item" type="button" data-region="Джиззах">Джиззах</button></li>
+                        <li><button class="dropdown-item" type="button" data-region="Харезм">Харезм</button></li>
+                        <li><button class="dropdown-item" type="button" data-region="Наманган">Наманган</button></li>
+                        <li><button class="dropdown-item" type="button" data-region="Навои">Навои</button></li>
+                        <li><button class="dropdown-item" type="button" data-region="Кашкадарьё">Кашкадарьё</button></li>
+                        <li><button class="dropdown-item" type="button" data-region="Самарканд">Самарканд</button></li>
+                        <li><button class="dropdown-item" type="button" data-region="Сирдарьё">Сирдарьё</button></li>
+                        <li><button class="dropdown-item" type="button" data-region="Сурхандарьё">Сурхандарьё</button></li>
+                        <li><button class="dropdown-item" type="button" data-region="Каракалпакистан">Каракалпакистан</button></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="gp-controls">
+                <div class="dropdown gp-dropdown">
+                    <button class="btn gp-btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Тема
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><button class="dropdown-item" type="button" data-theme="system">Системная</button></li>
+                        <li><button class="dropdown-item" type="button" data-theme="light">Светлая</button></li>
+                        <li><button class="dropdown-item" type="button" data-theme="dark">Тёмная</button></li>
+                    </ul>
+                </div>
+
+                <div class="dropdown gp-dropdown">
+                    <button class="btn gp-btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Язык
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><span class="dropdown-item-text">Подключим позже (RU/UZ/EN)</span></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item disabled" href="#">Русский</a></li>
+                        <li><a class="dropdown-item disabled" href="#">O‘zbek</a></li>
+                        <li><a class="dropdown-item disabled" href="#">English</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
 
-        <div class="gp-controls">
-            <div class="dropdown gp-dropdown">
-                <button class="btn gp-btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Тема
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><button class="dropdown-item" type="button" data-theme="system">Системная</button></li>
-                    <li><button class="dropdown-item" type="button" data-theme="light">Светлая</button></li>
-                    <li><button class="dropdown-item" type="button" data-theme="dark">Тёмная</button></li>
-                </ul>
-            </div>
+        <nav class="gp-tabs">
+            <a asp-page="/Map" class="@(IsActive("/Map") ? "active" : "")">Карта</a>
+            <a asp-page="/Reports/New" class="@(IsActiveStarts("/Reports") ? "active" : "")">Оставить сообщение</a>
+            <a asp-page="/Data" class="@(IsActive("/Data") ? "active" : "")">Данные</a>
+            <a asp-page="/Tools" class="@(IsActive("/Tools") ? "active" : "")">Инструменты</a>
+            <a asp-page="/Compare" class="@(IsActive("/Compare") ? "active" : "")">Сравнение</a>
+            <a asp-page="/Schools" class="@(IsActive("/Schools") ? "active" : "")">Школы</a>
+        </nav>
+    </header>
 
-            <div class="dropdown gp-dropdown">
-                <button class="btn gp-btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Язык
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><span class="dropdown-item-text">Подключим позже (RU/UZ/EN)</span></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item disabled" href="#">Русский</a></li>
-                    <li><a class="dropdown-item disabled" href="#">O‘zbek</a></li>
-                    <li><a class="dropdown-item disabled" href="#">English</a></li>
-                </ul>
-            </div>
+    <div class="gp-shell">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="gp-footer">
+        <div class="container-fluid px-4 py-3">
+            <span>© @DateTime.UtcNow.Year Geoportal</span>
         </div>
-    </div>
+    </footer>
 
-    <nav class="gp-tabs">
-        <a asp-page="/Map" class="@(IsActive("/Map") ? "active" : "")">Карта</a>
-        <a asp-page="/Reports/New" class="@(IsActiveStarts("/Reports") ? "active" : "")">Оставить сообщение</a>
-        <a asp-page="/Data" class="@(IsActive("/Data") ? "active" : "")">Данные</a>
-        <a asp-page="/Tools" class="@(IsActive("/Tools") ? "active" : "")">Инструменты</a>
-        <a asp-page="/Compare" class="@(IsActive("/Compare") ? "active" : "")">Сравнение</a>
-        <a asp-page="/Schools" class="@(IsActive("/Schools") ? "active" : "")">Школы</a>
-    </nav>
-</header>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
+    <script src="~/js/site.js" asp-append-version="true"></script>
 
-<div class="gp-shell">
-    <main role="main">
-        @RenderBody()
-    </main>
-</div>
-
-<footer class="gp-footer">
-    <div class="container-fluid px-4 py-3">
-        <span>© @DateTime.UtcNow.Year Geoportal</span>
-    </div>
-</footer>
-
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-(function () {
-  // ===== Theme persistence =====
-  const keyTheme = "gp_theme";
-  const html = document.documentElement;
-
-  function applyTheme(t) { html.setAttribute("data-theme", t); }
-
-  const savedTheme = localStorage.getItem(keyTheme);
-  applyTheme(savedTheme || "system");
-
-  document.querySelectorAll("[data-theme]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const t = btn.getAttribute("data-theme");
-      localStorage.setItem(keyTheme, t);
-      applyTheme(t);
-    });
-  });
-
-  // ===== Region persistence =====
-  const keyRegion = "gp_region";
-  const regionBtn = document.getElementById("gpRegionBtn");
-
-  function setRegion(name){
-    if (!regionBtn) return;
-    regionBtn.textContent = "Регион: " + name;
-  }
-
-  const savedRegion = localStorage.getItem(keyRegion);
-  if (savedRegion) setRegion(savedRegion);
-
-  document.querySelectorAll("[data-region]").forEach(item => {
-    item.addEventListener("click", () => {
-      const r = item.getAttribute("data-region");
-      if (!r) return;
-      localStorage.setItem(keyRegion, r);
-      setRegion(r);
-    });
-  });
-
-  // ===== Header height: robust (no jumps) =====
-  const header = document.getElementById("gpHeader");
-  function setHeaderHeight() {
-    if (!header) return;
-    const h = Math.ceil(header.getBoundingClientRect().height);
-    document.documentElement.style.setProperty("--gp-header-h", h + "px");
-  }
-
-  setHeaderHeight();
-  requestAnimationFrame(setHeaderHeight);
-
-  window.addEventListener("load", () => {
-    setHeaderHeight();
-    requestAnimationFrame(setHeaderHeight);
-  });
-
-  if (header && window.ResizeObserver) {
-    const ro = new ResizeObserver(() => setHeaderHeight());
-    ro.observe(header);
-  } else {
-    window.addEventListener("resize", setHeaderHeight);
-  }
-
-  // ===== Utils =====
-  function textNorm(s){
-    return (s || "").replace(/\s+/g, " ").trim().toLowerCase();
-  }
-
-  function findCardByTitleContains(needle){
-    const n = textNorm(needle);
-    const candidates = Array.from(document.querySelectorAll("h1,h2,h3,h4,.card-title,.gp-card-h"));
-    const hit = candidates.find(el => textNorm(el.textContent).includes(n));
-    if (!hit) return null;
-    return hit.closest(".gp-card, .card");
-  }
-
-  // ===== Apply gradients exactly like mock =====
-  // 1) Big top summary: same as header, more saturated
-  const mon = findCardByTitleContains("Мониторинг инфраструктуры");
-  if (mon) {
-    mon.classList.add("gp-grad-h","gp-grad-strong");
-  }
-
-  // 2) Map preview: diagonal collage
-  const mapPrev = findCardByTitleContains("Карта (превью)");
-  if (mapPrev) {
-    mapPrev.classList.add("gp-grad-d");
-  }
-
-  // 3) Latest requests: MUST remain adaptive plain (white/dark)
-  const last = findCardByTitleContains("Последние обращения");
-  if (last) {
-    last.classList.remove("gp-grad-h","gp-grad-d","gp-grad-strong");
-  }
-
-  // ===== Auto color +12% / -12% =====
-  function colorizeDeltas(scope) {
-    const root = scope || document;
-    const nodes = root.querySelectorAll("*");
-    nodes.forEach(el => {
-      if (!el || !el.childNodes || el.childNodes.length !== 1) return;
-      if (el.children && el.children.length) return;
-
-      const txt = (el.textContent || "").trim();
-      const m = txt.match(/^([+\-])\s*\d+(\.\d+)?\s*%$/);
-      if (!m) return;
-
-      el.classList.add("gp-delta");
-      el.classList.remove("pos","neg");
-      if (m[1] === "+") el.classList.add("pos");
-      if (m[1] === "-") el.classList.add("neg");
-    });
-  }
-  colorizeDeltas();
-
-  // ===== Make KPI mini cards white automatically (inside Monitoring block) =====
-  if (mon) {
-    const innerCards = mon.querySelectorAll(".gp-card");
-    innerCards.forEach(c => {
-      if (c === mon) return;
-      // only small inner boxes
-      c.classList.add("gp-kpi");
-    });
-  }
-
-  // ===== Keep fixes on dynamic changes =====
-  if (window.MutationObserver) {
-    const mo = new MutationObserver(() => {
-      const mon2 = findCardByTitleContains("Мониторинг инфраструктуры");
-      if (mon2) mon2.classList.add("gp-grad-h","gp-grad-strong");
-
-      const mapPrev2 = findCardByTitleContains("Карта (превью)");
-      if (mapPrev2) mapPrev2.classList.add("gp-grad-d");
-
-      const last2 = findCardByTitleContains("Последние обращения");
-      if (last2) last2.classList.remove("gp-grad-h","gp-grad-d","gp-grad-strong");
-
-      colorizeDeltas();
-
-      if (mon2) {
-        mon2.querySelectorAll(".gp-card").forEach(c => {
-          if (c !== mon2) c.classList.add("gp-kpi");
-        });
-      }
-    });
-    mo.observe(document.body, { childList: true, subtree: true });
-  }
-})();
-</script>
-
-@await RenderSectionAsync("Scripts", required: false)
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
