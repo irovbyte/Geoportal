@@ -7,11 +7,14 @@ namespace Geoportal
         public App()
         {
             InitializeComponent();
+
         }
+
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
             return new Window(new LoginPage());
         }
+
     }
 }

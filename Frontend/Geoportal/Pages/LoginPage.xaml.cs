@@ -7,6 +7,7 @@ public partial class LoginPage : ContentPage
 {
     private bool _isLoginMode = true;
     private readonly AuthService _authService = new();
+    private bool _isFormatting = false;
 
     public LoginPage()
     {
@@ -23,31 +24,35 @@ public partial class LoginPage : ContentPage
                 var app = Application.Current;
                 if (app?.Windows.Count > 0)
                 {
-                    app.Windows[0].Page = new NavigationPage(new MainPage());
+                    app.Windows[0].Page = new Geoportal.AppShell();
                 }
             });
         }
     }
-
     private void OnPhoneTextChanged(object sender, TextChangedEventArgs e)
     {
-        if (string.IsNullOrEmpty(e.NewTextValue)) return;
+        if (_isFormatting) return;
 
-        string cleaned = new string(e.NewTextValue.Where(char.IsDigit).ToArray());
+        var entry = sender as Entry;
+        if (entry == null) return;
 
-        string formatted = "";
-        for (int i = 0; i < cleaned.Length; i++)
+        _isFormatting = true;
+
+        try
         {
-            if (i == 2 || i == 5 || i == 7) formatted += " ";
-            formatted += cleaned[i];
+            string cleaned = new string((e.NewTextValue ?? "").Where(char.IsDigit).ToArray());
+
+            if (cleaned.Length > 9)
+                cleaned = cleaned.Substring(0, 9);
+
+            if (entry.Text != cleaned)
+                entry.Text = cleaned;
         }
-
-        if (e.OldTextValue != formatted)
+        finally
         {
-            ((Entry)sender).Text = formatted;
+            _isFormatting = false;
         }
     }
-
     private async void OnSubmitClicked(object sender, EventArgs e)
     {
         string rawPhone = "+998" + new string(PhoneEntry.Text?.Where(char.IsDigit).ToArray());
@@ -74,13 +79,19 @@ public partial class LoginPage : ContentPage
 
         if (result.Success)
         {
-            string message = _isLoginMode ? AppResources.WelcomeMessage : AppResources.RegisterSuccess;
-            await DisplayAlert(AppResources.SuccessTitle, message, "OK");
+            // Сохраняем состояние
+            Preferences.Default.Set("is_logged_in", true);
 
-            if (_isLoginMode)
+            // КРИТИЧЕСКИЙ МОМЕНТ: Добавляем переход прямо сюда
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                Preferences.Default.Set("is_logged_in", true);
-            }
+                var app = Application.Current;
+                if (app?.Windows.Count > 0)
+                {
+                    // Меняем страницу логина на AppShell (главный экран с табами)
+                    app.Windows[0].Page = new Geoportal.AppShell();
+                }
+            });
         }
         else
         {

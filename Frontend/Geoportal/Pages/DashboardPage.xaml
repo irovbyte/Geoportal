@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Geoportal.Pages.DashboardPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="Transparent">
+
+    <Grid>
+        <BoxView Margin="0,0,0,0" HorizontalOptions="Fill" VerticalOptions="Fill">
+            <BoxView.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#0A56C4" Offset="0.1" />
+                    <GradientStop Color="#3AB0C2" Offset="0.5" />
+                    <GradientStop Color="#3FE543" Offset="1.0" />
+                </LinearGradientBrush>
+            </BoxView.Background>
+        </BoxView>
+
+        <ScrollView Padding="20,10,20,20">
+            <VerticalStackLayout Spacing="20">
+
+                <VerticalStackLayout Margin="0,20,0,10">
+                    <Label Text="Панель управления" TextColor="White" FontSize="28" FontAttributes="Bold"/>
+                    <Label Text="Мониторинг инфраструктуры" TextColor="White" FontSize="14" Opacity="0.8"/>
+                </VerticalStackLayout>
+
+                <Border StrokeShape="RoundRectangle 30" 
+                        BackgroundColor="#CCFFFFFF" 
+                        StrokeThickness="0" 
+                        Padding="25">
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Offset="0,15" Opacity="0.2" Radius="30" />
+                    </Border.Shadow>
+
+                    <VerticalStackLayout Spacing="20">
+                        <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="15" RowSpacing="15">
+                            <VerticalStackLayout Grid.Column="0" Grid.Row="0">
+                                <Label Text="ОБЪЕКТЫ" FontSize="10" TextColor="#6B7280" CharacterSpacing="1"/>
+                                <Label Text="1,245" FontSize="22" FontAttributes="Bold" TextColor="#063A98"/>
+                                <Label Text="+12.5%" FontSize="12" TextColor="#16A34A" FontAttributes="Bold"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1" Grid.Row="0">
+                                <Label Text="ЗАЯВКИ" FontSize="10" TextColor="#6B7280" CharacterSpacing="1"/>
+                                <Label Text="84" FontSize="22" FontAttributes="Bold" TextColor="#063A98"/>
+                                <Label Text="-5.2%" FontSize="12" TextColor="#DC2626" FontAttributes="Bold"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="0" Grid.Row="1">
+                                <Label Text="ШКОЛЫ" FontSize="10" TextColor="#6B7280" CharacterSpacing="1"/>
+                                <Label Text="312" FontSize="22" FontAttributes="Bold" TextColor="#063A98"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1" Grid.Row="1">
+                                <Label Text="БЮДЖЕТ" FontSize="10" TextColor="#6B7280" CharacterSpacing="1"/>
+                                <Label Text="68%" FontSize="22" FontAttributes="Bold" TextColor="#063A98"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Label Text="Карта объектов" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="5,0"/>
+                <Border StrokeShape="RoundRectangle 25" HeightRequest="220" StrokeThickness="0" BackgroundColor="#CCFFFFFF">
+                    <Grid>
+                        <BoxView Color="#E5E7EB" Margin="10" CornerRadius="15"/>
+                        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
+                            <Label Text="🗺️" FontSize="40" HorizontalOptions="Center"/>
+                            <Button Text="Развернуть карту" 
+                                    BackgroundColor="#0A56C4" 
+                                    TextColor="White" 
+                                    CornerRadius="10" 
+                                    FontSize="12"
+                                    Padding="15,0"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <Label Text="Последние обращения" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="5,0"/>
+
+                <Border StrokeShape="RoundRectangle 20" BackgroundColor="#CCFFFFFF" StrokeThickness="0" Padding="15">
+                    <Grid ColumnDefinitions="40, *">
+                        <Label Text="⚠️" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        <VerticalStackLayout Grid.Column="1" Margin="10,0,0,0">
+                            <Label Text="Проблема с освещением" FontAttributes="Bold" TextColor="Black" FontSize="14"/>
+                            <Label Text="Мирзо-Улугбекский р-н, Ташкент" FontSize="11" TextColor="#6B7280"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

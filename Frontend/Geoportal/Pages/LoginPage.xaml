@@ -6,7 +6,7 @@
              Shell.NavBarIsVisible="False">
 
     <Grid>
-        <BoxView>
+        <BoxView HorizontalOptions="Fill" VerticalOptions="Fill">
             <BoxView.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                     <GradientStop Color="#0A56C4" Offset="0.1" />
@@ -19,9 +19,8 @@
         <ScrollView VerticalOptions="Center" HorizontalOptions="Fill">
             <VerticalStackLayout Spacing="0" 
                                  Padding="25" 
-                                 WidthRequest="480" 
-                                 MaximumWidthRequest="600" 
-                                 HorizontalOptions="Center">
+                                 HorizontalOptions="Fill" 
+                                 MaximumWidthRequest="500">
 
                 <Border StrokeShape="RoundRectangle 40" 
                         BackgroundColor="{AppThemeBinding Light=#CCFFFFFF, Dark=#CC1F1F1F}" 
