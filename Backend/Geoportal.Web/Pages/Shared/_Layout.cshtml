@@ -1,112 +1,98 @@
 @{
     var title = ViewData["Title"] as string ?? "Геопортал";
-    var path = Context.Request.Path.Value ?? "";
-    bool IsActive(string p) => string.Equals(path, p, StringComparison.OrdinalIgnoreCase);
-    bool IsActiveStarts(string p) => path.StartsWith(p, StringComparison.OrdinalIgnoreCase);
 }
 
 <!DOCTYPE html>
-<html lang="ru" data-theme="system">
+<html lang="ru">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@title - Geoportal</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Geoportal.Web.styles.css" asp-append-version="true" />
+    <style>
+        :root {
+            --bg: #F0F4FB;
+            --card: #FFFFFF;
+            --text: #111827;
+            --header-grad: linear-gradient(90deg, #0A56C4 0%, #3AB0C2 55%, #3FE543 100%);
+            --overlay: linear-gradient(0deg, rgba(255, 255, 255, .6), rgba(255, 255, 255, .6));
+        }
+
+        body { 
+            background-color: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            padding-top: 130px; 
+            font-family: sans-serif; 
+        }
+
+        /* Шапка */
+        .header { 
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000; 
+            background: var(--header-grad); padding: 15px 25px; 
+            color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .header h3 { margin: 0; font-weight: 800; letter-spacing: 1px; }
+
+        /* Табы навигации */
+        .nav-bar { display: flex; gap: 15px; margin-top: 15px; }
+        .nav-bar a { 
+            color: rgba(255,255,255,0.8); text-decoration: none; 
+            padding: 8px 16px; border-radius: 8px; transition: 0.2s; 
+        }
+        .nav-bar a:hover { background: rgba(255,255,255,0.2); color: white; }
+        .nav-bar a.active { background: rgba(0,0,0,0.2); color: white; font-weight: bold; }
+
+        /* Контейнер */
+        .main-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        /* Карточки */
+        .gp-card { 
+            background: var(--card); border-radius: 20px; 
+            border: 1px solid #E5E7EB; padding: 25px; margin-bottom: 25px; 
+            position: relative; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Тот самый имбовый градиент для мониторинга */
+        .gp-card-grad { color: white !important; }
+        .gp-card-grad::before { 
+            content: ""; position: absolute; inset: 0; 
+            background: var(--header-grad); z-index: 0; 
+        }
+        .gp-card-grad::after { 
+            content: ""; position: absolute; inset: 0; 
+            background: var(--overlay); z-index: 1; 
+        }
+        .gp-card-grad > * { position: relative; z-index: 2; }
+
+        /* KPI блоки внутри мониторинга */
+        .kpi-box { 
+            background: white; border-radius: 15px; padding: 15px; 
+            color: #063A98; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .kpi-val { font-size: 24px; font-weight: 800; display: block; }
+        .kpi-label { font-size: 13px; color: #6B7280; }
+        .pos { color: #16A34A; font-weight: bold; }
+        .neg { color: #DC2626; font-weight: bold; }
+    </style>
 </head>
 <body>
-    <header class="gp-topbar" id="gpHeader">
-        <div class="gp-toprow d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center gap-3">
-                <a class="gp-brand" asp-page="/Index">
-                    <span class="gp-logo" aria-hidden="true">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z" stroke="white" stroke-width="1.6" opacity=".95" />
-                            <path d="M8 12l2.3 2.3L16 8.6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </span>
-                    Geoportal
-                </a>
-
-                <div class="dropdown gp-dropdown">
-                    <button class="btn gp-btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="gpRegionBtn">
-                        Регион: Не выбрано
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><button class="dropdown-item" type="button" data-region="Ташкент">Ташкент</button></li>
-                        <li><button class="dropdown-item" type="button" data-region="Андижан">Андижан</button></li>
-                        <li><button class="dropdown-item" type="button" data-region="Бухара">Бухара</button></li>
-                        <li><button class="dropdown-item" type="button" data-region="Фергана">Фергана</button></li>
-                        <li><button class="dropdown-item" type="button" data-region="Джиззах">Джиззах</button></li>
-                        <li><button class="dropdown-item" type="button" data-region="Харезм">Харезм</button></li>
-                        <li><button class="dropdown-item" type="button" data-region="Наманган">Наманган</button></li>
-                        <li><button class="dropdown-item" type="button" data-region="Навои">Навои</button></li>
-                        <li><button class="dropdown-item" type="button" data-region="Кашкадарьё">Кашкадарьё</button></li>
-                        <li><button class="dropdown-item" type="button" data-region="Самарканд">Самарканд</button></li>
-                        <li><button class="dropdown-item" type="button" data-region="Сирдарьё">Сирдарьё</button></li>
-                        <li><button class="dropdown-item" type="button" data-region="Сурхандарьё">Сурхандарьё</button></li>
-                        <li><button class="dropdown-item" type="button" data-region="Каракалпакистан">Каракалпакистан</button></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="gp-controls">
-                <div class="dropdown gp-dropdown">
-                    <button class="btn gp-btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Тема
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><button class="dropdown-item" type="button" data-theme="system">Системная</button></li>
-                        <li><button class="dropdown-item" type="button" data-theme="light">Светлая</button></li>
-                        <li><button class="dropdown-item" type="button" data-theme="dark">Тёмная</button></li>
-                    </ul>
-                </div>
-
-                <div class="dropdown gp-dropdown">
-                    <button class="btn gp-btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Язык
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><span class="dropdown-item-text">Подключим позже (RU/UZ/EN)</span></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item disabled" href="#">Русский</a></li>
-                        <li><a class="dropdown-item disabled" href="#">O‘zbek</a></li>
-                        <li><a class="dropdown-item disabled" href="#">English</a></li>
-                    </ul>
-                </div>
-            </div>
+    <div class="header">
+        <h3>GEOPORTAL</h3>
+        <div class="nav-bar">
+            <a href="/" class="active">Дашборд</a>
+            <a href="/Reports/New">Отправить отчет</a>
+            <a href="#">Карта</a>
+            <a href="#">Настройки</a>
         </div>
-
-        <nav class="gp-tabs">
-            <a asp-page="/Map" class="@(IsActive("/Map") ? "active" : "")">Карта</a>
-            <a asp-page="/Reports/New" class="@(IsActiveStarts("/Reports") ? "active" : "")">Оставить сообщение</a>
-            <a asp-page="/Data" class="@(IsActive("/Data") ? "active" : "")">Данные</a>
-            <a asp-page="/Tools" class="@(IsActive("/Tools") ? "active" : "")">Инструменты</a>
-            <a asp-page="/Compare" class="@(IsActive("/Compare") ? "active" : "")">Сравнение</a>
-            <a asp-page="/Schools" class="@(IsActive("/Schools") ? "active" : "")">Школы</a>
-        </nav>
-    </header>
-
-    <div class="gp-shell">
-        <main role="main">
-            @RenderBody()
-        </main>
     </div>
 
-    <footer class="gp-footer">
-        <div class="container-fluid px-4 py-3">
-            <span>© @DateTime.UtcNow.Year Geoportal</span>
-        </div>
-    </footer>
+    <div class="main-container">
+        @RenderBody()
+    </div>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    
-    <script src="~/js/site.js" asp-append-version="true"></script>
-
-    @await RenderSectionAsync("Scripts", required: false)
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
