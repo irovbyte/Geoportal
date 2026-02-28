@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:res="clr-namespace:Geoportal.Resources.Languages"
              x:Class="Geoportal.Pages.DashboardPage"
              Shell.NavBarIsVisible="False"
              BackgroundColor="Transparent">
 
     <Grid>
-        <BoxView Margin="0,0,0,0" HorizontalOptions="Fill" VerticalOptions="Fill">
+        <BoxView HorizontalOptions="Fill" VerticalOptions="Fill">
             <BoxView.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                     <GradientStop Color="#0A56C4" Offset="0.1" />
@@ -19,73 +20,91 @@
         <ScrollView Padding="20,10,20,20">
             <VerticalStackLayout Spacing="20">
 
-                <VerticalStackLayout Margin="0,20,0,10">
-                    <Label Text="Панель управления" TextColor="White" FontSize="28" FontAttributes="Bold"/>
-                    <Label Text="Мониторинг инфраструктуры" TextColor="White" FontSize="14" Opacity="0.8"/>
+                <VerticalStackLayout Margin="0,20,0,10" HorizontalOptions="Center">
+                    <Label Text="{x:Static res:AppResources.DashboardTitle}" TextColor="White" FontSize="24" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                    <Label Text="{x:Static res:AppResources.DashboardSubtitle}" TextColor="White" FontSize="14" Opacity="0.9" HorizontalTextAlignment="Center" Margin="0,5,0,0"/>
                 </VerticalStackLayout>
 
-                <Border StrokeShape="RoundRectangle 30" 
-                        BackgroundColor="#CCFFFFFF" 
-                        StrokeThickness="0" 
-                        Padding="25">
-                    <Border.Shadow>
-                        <Shadow Brush="Black" Offset="0,15" Opacity="0.2" Radius="30" />
-                    </Border.Shadow>
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+                    <Button Grid.Column="0" Text="{x:Static res:AppResources.LeaveReportBtn}" BackgroundColor="#3FE543" TextColor="White" FontAttributes="Bold" CornerRadius="20" HeightRequest="45">
+                        <Button.Shadow>
+                            <Shadow Brush="Black" Offset="0,5" Opacity="0.2" Radius="10"/>
+                        </Button.Shadow>
+                    </Button>
+                    <Button Grid.Column="1" Text="{x:Static res:AppResources.ResultsBtn}" BackgroundColor="#8B5CF6" TextColor="White" FontAttributes="Bold" CornerRadius="20" HeightRequest="45">
+                        <Button.Shadow>
+                            <Shadow Brush="Black" Offset="0,5" Opacity="0.2" Radius="10"/>
+                        </Button.Shadow>
+                    </Button>
+                </Grid>
 
-                    <VerticalStackLayout Spacing="20">
-                        <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="15" RowSpacing="15">
-                            <VerticalStackLayout Grid.Column="0" Grid.Row="0">
-                                <Label Text="ОБЪЕКТЫ" FontSize="10" TextColor="#6B7280" CharacterSpacing="1"/>
-                                <Label Text="1,245" FontSize="22" FontAttributes="Bold" TextColor="#063A98"/>
-                                <Label Text="+12.5%" FontSize="12" TextColor="#16A34A" FontAttributes="Bold"/>
+                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                    <HorizontalStackLayout Spacing="15">
+                        <Border StrokeShape="RoundRectangle 20" BackgroundColor="#E6FFFFFF" Padding="15" WidthRequest="140" StrokeThickness="0">
+                            <VerticalStackLayout>
+                                <Label Text="{x:Static res:AppResources.Schools}" FontSize="16" FontAttributes="Bold" TextColor="Black"/>
+                                <Label Text="11 139" FontSize="14" TextColor="#4B5563" Margin="0,5,0,10"/>
+                                <Label Text="🍎" FontSize="40" HorizontalOptions="Center"/>
                             </VerticalStackLayout>
+                        </Border>
 
-                            <VerticalStackLayout Grid.Column="1" Grid.Row="0">
-                                <Label Text="ЗАЯВКИ" FontSize="10" TextColor="#6B7280" CharacterSpacing="1"/>
-                                <Label Text="84" FontSize="22" FontAttributes="Bold" TextColor="#063A98"/>
-                                <Label Text="-5.2%" FontSize="12" TextColor="#DC2626" FontAttributes="Bold"/>
+                        <Border StrokeShape="RoundRectangle 20" BackgroundColor="#E6FFFFFF" Padding="15" WidthRequest="140" StrokeThickness="0">
+                            <VerticalStackLayout>
+                                <Label Text="{x:Static res:AppResources.Kindergartens}" FontSize="16" FontAttributes="Bold" TextColor="Black"/>
+                                <Label Text="6 935" FontSize="14" TextColor="#4B5563" Margin="0,5,0,10"/>
+                                <Label Text="🏫" FontSize="40" HorizontalOptions="Center"/>
                             </VerticalStackLayout>
+                        </Border>
 
-                            <VerticalStackLayout Grid.Column="0" Grid.Row="1">
-                                <Label Text="ШКОЛЫ" FontSize="10" TextColor="#6B7280" CharacterSpacing="1"/>
-                                <Label Text="312" FontSize="22" FontAttributes="Bold" TextColor="#063A98"/>
+                        <Border StrokeShape="RoundRectangle 20" BackgroundColor="#E6FFFFFF" Padding="15" WidthRequest="140" StrokeThickness="0">
+                            <VerticalStackLayout>
+                                <Label Text="{x:Static res:AppResources.MedicalFacilities}" FontSize="16" FontAttributes="Bold" TextColor="Black"/>
+                                <Label Text="3 034" FontSize="14" TextColor="#4B5563" Margin="0,5,0,10"/>
+                                <Label Text="🏥" FontSize="40" HorizontalOptions="Center"/>
                             </VerticalStackLayout>
+                        </Border>
 
-                            <VerticalStackLayout Grid.Column="1" Grid.Row="1">
-                                <Label Text="БЮДЖЕТ" FontSize="10" TextColor="#6B7280" CharacterSpacing="1"/>
-                                <Label Text="68%" FontSize="22" FontAttributes="Bold" TextColor="#063A98"/>
+                        <Border StrokeShape="RoundRectangle 20" BackgroundColor="#E6FFFFFF" Padding="15" WidthRequest="140" StrokeThickness="0">
+                            <VerticalStackLayout>
+                                <Label Text="{x:Static res:AppResources.SportFacilities}" FontSize="16" FontAttributes="Bold" TextColor="Black"/>
+                                <Label Text="356" FontSize="14" TextColor="#4B5563" Margin="0,5,0,10"/>
+                                <Label Text="⚽" FontSize="40" HorizontalOptions="Center"/>
                             </VerticalStackLayout>
-                        </Grid>
-                    </VerticalStackLayout>
-                </Border>
+                        </Border>
+                    </HorizontalStackLayout>
+                </ScrollView>
 
-                <Label Text="Карта объектов" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="5,0"/>
-                <Border StrokeShape="RoundRectangle 25" HeightRequest="220" StrokeThickness="0" BackgroundColor="#CCFFFFFF">
-                    <Grid>
-                        <BoxView Color="#E5E7EB" Margin="10" CornerRadius="15"/>
-                        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
-                            <Label Text="🗺️" FontSize="40" HorizontalOptions="Center"/>
-                            <Button Text="Развернуть карту" 
-                                    BackgroundColor="#0A56C4" 
-                                    TextColor="White" 
-                                    CornerRadius="10" 
-                                    FontSize="12"
-                                    Padding="15,0"/>
+                <Border StrokeShape="RoundRectangle 20" BackgroundColor="#F3F4F6" Padding="20" StrokeThickness="0">
+                    <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, Auto" ColumnSpacing="15" RowSpacing="20">
+                        <VerticalStackLayout Grid.Row="0" Grid.Column="0">
+                            <Label Text="{x:Static res:AppResources.Spent}" FontSize="12" TextColor="#6B7280"/>
+                            <Label Text="169,899.82" FontSize="16" FontAttributes="Bold" TextColor="Black"/>
+                            <Label Text="mlrd.so'm" FontSize="10" TextColor="#6B7280"/>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Row="0" Grid.Column="1">
+                            <Label Text="{x:Static res:AppResources.Allocated}" FontSize="12" TextColor="#6B7280"/>
+                            <Label Text="500,236.92" FontSize="16" FontAttributes="Bold" TextColor="Black"/>
+                            <Label Text="mlrd.so'm" FontSize="10" TextColor="#6B7280"/>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Row="1" Grid.Column="0">
+                            <Label Text="{x:Static res:AppResources.Projects}" FontSize="12" TextColor="#6B7280"/>
+                            <Label Text="30,749" FontSize="16" FontAttributes="Bold" TextColor="Black"/>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Row="1" Grid.Column="1">
+                            <Label Text="{x:Static res:AppResources.Mastery}" FontSize="12" TextColor="#6B7280"/>
+                            <Label Text="34%" FontSize="16" FontAttributes="Bold" TextColor="Black"/>
                         </VerticalStackLayout>
                     </Grid>
                 </Border>
 
-                <Label Text="Последние обращения" TextColor="White" FontSize="18" FontAttributes="Bold" Margin="5,0"/>
-
-                <Border StrokeShape="RoundRectangle 20" BackgroundColor="#CCFFFFFF" StrokeThickness="0" Padding="15">
-                    <Grid ColumnDefinitions="40, *">
-                        <Label Text="⚠️" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                        <VerticalStackLayout Grid.Column="1" Margin="10,0,0,0">
-                            <Label Text="Проблема с освещением" FontAttributes="Bold" TextColor="Black" FontSize="14"/>
-                            <Label Text="Мирзо-Улугбекский р-н, Ташкент" FontSize="11" TextColor="#6B7280"/>
-                        </VerticalStackLayout>
-                    </Grid>
-                </Border>
+                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                    <HorizontalStackLayout Spacing="10">
+                        <Button Text="{x:Static res:AppResources.Map}" BackgroundColor="White" TextColor="Black" CornerRadius="15" HeightRequest="35" FontSize="12" Padding="15,0"/>
+                        <Button Text="{x:Static res:AppResources.Data}" BackgroundColor="#E5E7EB" TextColor="Black" CornerRadius="15" HeightRequest="35" FontSize="12" Padding="15,0"/>
+                        <Button Text="{x:Static res:AppResources.Graphics}" BackgroundColor="#E5E7EB" TextColor="Black" CornerRadius="15" HeightRequest="35" FontSize="12" Padding="15,0"/>
+                        <Button Text="{x:Static res:AppResources.Compare}" BackgroundColor="#E5E7EB" TextColor="Black" CornerRadius="15" HeightRequest="35" FontSize="12" Padding="15,0"/>
+                    </HorizontalStackLayout>
+                </ScrollView>
 
             </VerticalStackLayout>
         </ScrollView>

@@ -168,4 +168,157 @@
   <data name="TabSettings" xml:space="preserve">
     <value>Настройки</value>
   </data>
+  <data name="DashboardTitle" xml:space="preserve">
+    <value>Сообщите о проблемах в вашем регионе</value>
+  </data>
+  <data name="DashboardSubtitle" xml:space="preserve">
+    <value>Мы поможем ее решить</value>
+  </data>
+  <data name="LeaveReportBtn" xml:space="preserve">
+    <value>Оставить информацию</value>
+  </data>
+  <data name="ResultsBtn" xml:space="preserve">
+    <value>Результаты</value>
+  </data>
+  <data name="Schools" xml:space="preserve">
+    <value>Школы</value>
+  </data>
+  <data name="Kindergartens" xml:space="preserve">
+    <value>Детские сады</value>
+  </data>
+  <data name="MedicalFacilities" xml:space="preserve">
+    <value>Мед. учреждения</value>
+  </data>
+  <data name="SportFacilities" xml:space="preserve">
+    <value>Спортивные объекты</value>
+  </data>
+  <data name="Spent" xml:space="preserve">
+    <value>Потрачено:</value>
+  </data>
+  <data name="Allocated" xml:space="preserve">
+    <value>Выделено:</value>
+  </data>
+  <data name="Projects" xml:space="preserve">
+    <value>Проекты:</value>
+  </data>
+  <data name="Mastery" xml:space="preserve">
+    <value>Освоение:</value>
+  </data>
+  <data name="Map" xml:space="preserve">
+    <value>Карта</value>
+  </data>
+  <data name="Data" xml:space="preserve">
+    <value>Данные</value>
+  </data>
+  <data name="Graphics" xml:space="preserve">
+    <value>Графика</value>
+  </data>
+  <data name="Compare" xml:space="preserve">
+    <value>Сравнение</value>
+  </data>
+  <data name="ReportTitle" xml:space="preserve">
+    <value>Оставить информацию</value>
+  </data>
+  <data name="AddPhoto" xml:space="preserve">
+    <value>Добавьте фото инфраструктуры вашего района</value>
+  </data>
+  <data name="SelectRegion" xml:space="preserve">
+    <value>Выберите область</value>
+  </data>
+  <data name="SelectDistrict" xml:space="preserve">
+    <value>Выберите район</value>
+  </data>
+  <data name="InfraName" xml:space="preserve">
+    <value>Название инфраструктуры</value>
+  </data>
+  <data name="SelectSector" xml:space="preserve">
+    <value>Выберите сектор</value>
+  </data>
+  <data name="AddComment" xml:space="preserve">
+    <value>Оставьте дополнительный комментарий о проблемах инфраструктуры.</value>
+  </data>
+  <data name="Internet" xml:space="preserve">
+    <value>Интернет</value>
+  </data>
+  <data name="DrinkingWater" xml:space="preserve">
+    <value>Питьевая вода</value>
+  </data>
+  <data name="CapacityStudents" xml:space="preserve">
+    <value>Вместимость и общее количество учеников</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>Таблица</value>
+  </data>
+  <data name="Optic" xml:space="preserve">
+    <value>Оптика</value>
+  </data>
+  <data name="MobileInternet" xml:space="preserve">
+    <value>Мобильный интернет</value>
+  </data>
+  <data name="RegionAndijan" xml:space="preserve">
+    <value>Андижан</value>
+  </data>
+  <data name="RegionBukhara" xml:space="preserve">
+    <value>Бухара</value>
+  </data>
+  <data name="RegionFergana" xml:space="preserve">
+    <value>Фергана</value>
+  </data>
+  <data name="RegionJizzakh" xml:space="preserve">
+    <value>Джизак</value>
+  </data>
+  <data name="RegionKashkadarya" xml:space="preserve">
+    <value>Кашкадарья</value>
+  </data>
+  <data name="ProjectName" xml:space="preserve">
+    <value>Название проекта</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Год</value>
+  </data>
+  <data name="Sector" xml:space="preserve">
+    <value>Сектор</value>
+  </data>
+  <data name="DonorType" xml:space="preserve">
+    <value>Тип донора</value>
+  </data>
+  <data name="DonorName" xml:space="preserve">
+    <value>Имя донора</value>
+  </data>
+  <data name="Region" xml:space="preserve">
+    <value>Регион/Область</value>
+  </data>
+  <data name="SpentAmount" xml:space="preserve">
+    <value>Потрачено</value>
+  </data>
+  <data name="AllocatedAmount" xml:space="preserve">
+    <value>Выделено</value>
+  </data>
+  <data name="NoInternet" xml:space="preserve">
+    <value>Интернет отсутствует</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="Main" xml:space="preserve">
+    <value>Главная</value>
+  </data>
+  <data name="Scanner" xml:space="preserve">
+    <value>Сканер</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="ActiveUser" xml:space="preserve">
+    <value>Активный пользователь</value>
+  </data>
+  <data name="MyReports" xml:space="preserve">
+    <value>Мои публикации</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Язык приложения</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Выйти</value>
+  </data>
 </root>

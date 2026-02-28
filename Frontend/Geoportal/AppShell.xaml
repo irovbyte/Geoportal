@@ -2,32 +2,35 @@
        xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:pages="clr-namespace:Geoportal.Pages" 
+       xmlns:res="clr-namespace:Geoportal.Resources.Languages"
        Shell.FlyoutBehavior="Disabled"
-       Shell.NavBarIsVisible="False"
-       Shell.BackgroundColor="#0A56C4"
-       Shell.ForegroundColor="{AppThemeBinding Light=#0A56C4, Dark=White}"
-       Shell.TitleColor="{AppThemeBinding Light=#0A56C4, Dark=White}"
-       Shell.UnselectedColor="{AppThemeBinding Light=Gray, Dark=#888888}"
-       Shell.TabBarBackgroundColor="{AppThemeBinding Light=White, Dark=#1F1F1F}">
+       Shell.NavBarIsVisible="False">
+
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Style TargetType="TabBar">
+                <Setter Property="Shell.TabBarBackgroundColor" Value="White" />
+                <Setter Property="Shell.TabBarUnselectedColor" Value="#9CA3AF" />
+                <Setter Property="Shell.TabBarTitleColor" Value="#0A56C4" />
+                <Setter Property="Shell.TabBarForegroundColor" Value="#0A56C4" />
+            </Style>
+        </ResourceDictionary>
+    </Shell.Resources>
 
     <TabBar>
-        <Tab Title="Главная" Icon="home_icon.png">
+        <Tab Title="{x:Static res:AppResources.Main}" Icon="home_icon.png">
             <ShellContent ContentTemplate="{DataTemplate pages:DashboardPage}" />
         </Tab>
 
-        <Tab Title="Репорты" Icon="report_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate pages:ReportsPage}" />
+        <Tab Title="{x:Static res:AppResources.Data}" Icon="data_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate pages:DataTablePage}" />
         </Tab>
 
-        <Tab Title="Сканер" Icon="qr_scanner_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate pages:ScannerPage}" />
+        <Tab Title="{x:Static res:AppResources.Graphics}" Icon="chart_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate pages:GraphicsPage}" />
         </Tab>
 
-        <Tab Title="Сравнение" Icon="compare_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate pages:ComparePage}" />
-        </Tab>
-
-        <Tab Title="Настройки" Icon="settings_icon.png">
+        <Tab Title="{x:Static res:AppResources.Settings}" Icon="settings_icon.png">
             <ShellContent ContentTemplate="{DataTemplate pages:SettingsPage}" />
         </Tab>
     </TabBar>

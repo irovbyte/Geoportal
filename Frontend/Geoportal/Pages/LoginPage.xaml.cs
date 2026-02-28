@@ -1,7 +1,7 @@
 using Geoportal.Resources.Languages;
-using GeoportalApp.Services;
+using Geoportal.Services;
 
-namespace GeoportalApp.Pages;
+namespace Geoportal.Pages;
 
 public partial class LoginPage : ContentPage
 {
@@ -79,24 +79,27 @@ public partial class LoginPage : ContentPage
 
         if (result.Success)
         {
-            // Сохраняем состояние
+
             Preferences.Default.Set("is_logged_in", true);
 
-            // КРИТИЧЕСКИЙ МОМЕНТ: Добавляем переход прямо сюда
+            Preferences.Default.Set("user_phone", rawPhone);
+
+     
+            if (!Preferences.Default.ContainsKey("app_lang"))
+            {
+                var deviceLanguage = System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+                Preferences.Default.Set("app_lang", deviceLanguage);
+            }
+
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 var app = Application.Current;
                 if (app?.Windows.Count > 0)
                 {
-                    // Меняем страницу логина на AppShell (главный экран с табами)
+
                     app.Windows[0].Page = new Geoportal.AppShell();
                 }
             });
-        }
-        else
-        {
-            try { Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(500)); } catch { }
-            await DisplayAlert(AppResources.ErrorTitle, result.Message, "OK");
         }
     }
 

@@ -1,6 +1,6 @@
 ﻿namespace Geoportal.Models
 {
-    internal class LoginRequest
+    public class LoginRequest
     {
         public string PhoneNumber { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;

@@ -61,11 +61,128 @@ namespace Geoportal.Resources.Languages {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Faol foydalanuvchi.
+        /// </summary>
+        public static string ActiveUser {
+            get {
+                return ResourceManager.GetString("ActiveUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Infratuzilmadagi muammolar haqida qo&apos;shimcha izoh qoldiring..
+        /// </summary>
+        public static string AddComment {
+            get {
+                return ResourceManager.GetString("AddComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Hududingizdagi infratuzilmaning fotosuratini qo&apos;shing.
+        /// </summary>
+        public static string AddPhoto {
+            get {
+                return ResourceManager.GetString("AddPhoto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ajratilgan:.
+        /// </summary>
+        public static string Allocated {
+            get {
+                return ResourceManager.GetString("Allocated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ajratilgan.
+        /// </summary>
+        public static string AllocatedAmount {
+            get {
+                return ResourceManager.GetString("AllocatedAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sig&apos;im va umimy talaba soni.
+        /// </summary>
+        public static string CapacityStudents {
+            get {
+                return ResourceManager.GetString("CapacityStudents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Solishtirish.
+        /// </summary>
+        public static string Compare {
+            get {
+                return ResourceManager.GetString("Compare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Tasdiqlash.
         /// </summary>
         public static string ConfirmPlaceholder {
             get {
                 return ResourceManager.GetString("ConfirmPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Biz uni hal qilishga yordam beramiz.
+        /// </summary>
+        public static string DashboardSubtitle {
+            get {
+                return ResourceManager.GetString("DashboardSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Siz hududingizdagi muammolar haqida ma&apos;lumot qoldiring.
+        /// </summary>
+        public static string DashboardTitle {
+            get {
+                return ResourceManager.GetString("DashboardTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ma&apos;lumotlar.
+        /// </summary>
+        public static string Data {
+            get {
+                return ResourceManager.GetString("Data", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Donor nomi.
+        /// </summary>
+        public static string DonorName {
+            get {
+                return ResourceManager.GetString("DonorName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Donor turi.
+        /// </summary>
+        public static string DonorType {
+            get {
+                return ResourceManager.GetString("DonorType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ichimlik suvi.
+        /// </summary>
+        public static string DrinkingWater {
+            get {
+                return ResourceManager.GetString("DrinkingWater", resourceCulture);
             }
         }
         
@@ -88,11 +205,146 @@ namespace Geoportal.Resources.Languages {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Garfik vositalar.
+        /// </summary>
+        public static string Graphics {
+            get {
+                return ResourceManager.GetString("Graphics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Infratuzilma nomi.
+        /// </summary>
+        public static string InfraName {
+            get {
+                return ResourceManager.GetString("InfraName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Internet.
+        /// </summary>
+        public static string Internet {
+            get {
+                return ResourceManager.GetString("Internet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Bog&apos;chalar.
+        /// </summary>
+        public static string Kindergartens {
+            get {
+                return ResourceManager.GetString("Kindergartens", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ilova tili.
+        /// </summary>
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ma&apos;lumot qoldirish.
+        /// </summary>
+        public static string LeaveReportBtn {
+            get {
+                return ResourceManager.GetString("LeaveReportBtn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на KIRISH.
         /// </summary>
         public static string LoginTitle {
             get {
                 return ResourceManager.GetString("LoginTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Chiqish.
+        /// </summary>
+        public static string Logout {
+            get {
+                return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Asosiy.
+        /// </summary>
+        public static string Main {
+            get {
+                return ResourceManager.GetString("Main", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Xarita.
+        /// </summary>
+        public static string Map {
+            get {
+                return ResourceManager.GetString("Map", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на O&apos;zlashtirish:.
+        /// </summary>
+        public static string Mastery {
+            get {
+                return ResourceManager.GetString("Mastery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Tibbiyot muassasalari.
+        /// </summary>
+        public static string MedicalFacilities {
+            get {
+                return ResourceManager.GetString("MedicalFacilities", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Mobil internet.
+        /// </summary>
+        public static string MobileInternet {
+            get {
+                return ResourceManager.GetString("MobileInternet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Mening nashrlarim.
+        /// </summary>
+        public static string MyReports {
+            get {
+                return ResourceManager.GetString("MyReports", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Internet umuman yo&apos;q.
+        /// </summary>
+        public static string NoInternet {
+            get {
+                return ResourceManager.GetString("NoInternet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Optik.
+        /// </summary>
+        public static string Optic {
+            get {
+                return ResourceManager.GetString("Optic", resourceCulture);
             }
         }
         
@@ -124,6 +376,78 @@ namespace Geoportal.Resources.Languages {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Loyiha nomi.
+        /// </summary>
+        public static string ProjectName {
+            get {
+                return ResourceManager.GetString("ProjectName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Loyihalar:.
+        /// </summary>
+        public static string Projects {
+            get {
+                return ResourceManager.GetString("Projects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Viloyat.
+        /// </summary>
+        public static string Region {
+            get {
+                return ResourceManager.GetString("Region", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Andijon.
+        /// </summary>
+        public static string RegionAndijan {
+            get {
+                return ResourceManager.GetString("RegionAndijan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Buxoro.
+        /// </summary>
+        public static string RegionBukhara {
+            get {
+                return ResourceManager.GetString("RegionBukhara", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Farg&apos;ona.
+        /// </summary>
+        public static string RegionFergana {
+            get {
+                return ResourceManager.GetString("RegionFergana", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Jizzax.
+        /// </summary>
+        public static string RegionJizzakh {
+            get {
+                return ResourceManager.GetString("RegionJizzakh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Qashqadaryo.
+        /// </summary>
+        public static string RegionKashkadarya {
+            get {
+                return ResourceManager.GetString("RegionKashkadarya", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Ro&apos;yxatdan o&apos;tdingiz!.
         /// </summary>
         public static string RegisterSuccess {
@@ -138,6 +462,123 @@ namespace Geoportal.Resources.Languages {
         public static string RegisterTitle {
             get {
                 return ResourceManager.GetString("RegisterTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ma&apos;lumot qoldirish.
+        /// </summary>
+        public static string ReportTitle {
+            get {
+                return ResourceManager.GetString("ReportTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Natijalar.
+        /// </summary>
+        public static string ResultsBtn {
+            get {
+                return ResourceManager.GetString("ResultsBtn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Skaner.
+        /// </summary>
+        public static string Scanner {
+            get {
+                return ResourceManager.GetString("Scanner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Maktablar.
+        /// </summary>
+        public static string Schools {
+            get {
+                return ResourceManager.GetString("Schools", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sektor.
+        /// </summary>
+        public static string Sector {
+            get {
+                return ResourceManager.GetString("Sector", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Tumanni tanlang.
+        /// </summary>
+        public static string SelectDistrict {
+            get {
+                return ResourceManager.GetString("SelectDistrict", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Viloyatni tanlang.
+        /// </summary>
+        public static string SelectRegion {
+            get {
+                return ResourceManager.GetString("SelectRegion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sektorni tanlang.
+        /// </summary>
+        public static string SelectSector {
+            get {
+                return ResourceManager.GetString("SelectSector", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sozlamalar.
+        /// </summary>
+        public static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sarflangan:.
+        /// </summary>
+        public static string Spent {
+            get {
+                return ResourceManager.GetString("Spent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sarflangan.
+        /// </summary>
+        public static string SpentAmount {
+            get {
+                return ResourceManager.GetString("SpentAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sport inshootlari.
+        /// </summary>
+        public static string SportFacilities {
+            get {
+                return ResourceManager.GetString("SportFacilities", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Yuborish.
+        /// </summary>
+        public static string Submit {
+            get {
+                return ResourceManager.GetString("Submit", resourceCulture);
             }
         }
         
@@ -187,6 +628,15 @@ namespace Geoportal.Resources.Languages {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Jadval.
+        /// </summary>
+        public static string Table {
+            get {
+                return ResourceManager.GetString("Table", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Hisobot.
         /// </summary>
         public static string TabReport {
@@ -210,6 +660,15 @@ namespace Geoportal.Resources.Languages {
         public static string WelcomeMessage {
             get {
                 return ResourceManager.GetString("WelcomeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Yil.
+        /// </summary>
+        public static string Year {
+            get {
+                return ResourceManager.GetString("Year", resourceCulture);
             }
         }
     }

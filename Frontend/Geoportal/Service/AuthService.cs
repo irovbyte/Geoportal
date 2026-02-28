@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Json;
+using Geoportal.Models;
 
-namespace GeoportalApp.Services;
+namespace Geoportal.Services;
 
 public class AuthService
 {
@@ -21,7 +22,7 @@ public class AuthService
 
     public async Task<(bool Success, string Message)> LoginAsync(string phone, string password)
     {
-        var request = new
+        var request = new LoginRequest
         {
             PhoneNumber = phone,
             Password = password,
@@ -44,7 +45,7 @@ public class AuthService
 
     public async Task<(bool Success, string Message)> RegisterAsync(string phone, string password)
     {
-        var request = new
+        var request = new LoginRequest
         {
             PhoneNumber = phone,
             Password = password,

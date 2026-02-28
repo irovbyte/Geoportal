@@ -1,20 +1,41 @@
-﻿using GeoportalApp.Pages;
+﻿using Geoportal.Pages;
+using Geoportal.Resources.Languages;
+using System.Globalization;
 
-namespace Geoportal
+namespace Geoportal;
+
+public partial class App : Application
 {
-    public partial class App : Application
+    public App()
     {
-        public App()
-        {
-            InitializeComponent();
+        InitializeComponent();
 
+        // 1. Установка языка остается в конструкторе
+        string deviceLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+        string savedLang = Preferences.Default.Get("app_lang", deviceLanguage);
+
+        var culture = new CultureInfo(savedLang);
+        AppResources.Culture = culture;
+        CultureInfo.DefaultThreadCurrentCulture = culture;
+        CultureInfo.DefaultThreadCurrentUICulture = culture;
+    }
+
+    protected override Window CreateWindow(IActivationState? activationState)
+    {
+
+        bool isLoggedIn = Preferences.Default.Get("is_logged_in", false);
+
+        Page rootPage;
+
+        if (isLoggedIn)
+        {
+            rootPage = new AppShell();
+        }
+        else
+        {
+            rootPage = new NavigationPage(new LoginPage());
         }
 
-
-        protected override Window CreateWindow(IActivationState? activationState)
-        {
-            return new Window(new LoginPage());
-        }
-
+        return new Window(rootPage);
     }
 }

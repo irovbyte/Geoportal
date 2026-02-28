@@ -168,4 +168,157 @@
   <data name="TabSettings" xml:space="preserve">
     <value>Sozlamalar</value>
   </data>
+  <data name="DashboardTitle" xml:space="preserve">
+    <value>Siz hududingizdagi muammolar haqida ma'lumot qoldiring</value>
+  </data>
+  <data name="DashboardSubtitle" xml:space="preserve">
+    <value>Biz uni hal qilishga yordam beramiz</value>
+  </data>
+  <data name="LeaveReportBtn" xml:space="preserve">
+    <value>Ma'lumot qoldirish</value>
+  </data>
+  <data name="ResultsBtn" xml:space="preserve">
+    <value>Natijalar</value>
+  </data>
+  <data name="Schools" xml:space="preserve">
+    <value>Maktablar</value>
+  </data>
+  <data name="Kindergartens" xml:space="preserve">
+    <value>Bog'chalar</value>
+  </data>
+  <data name="MedicalFacilities" xml:space="preserve">
+    <value>Tibbiyot muassasalari</value>
+  </data>
+  <data name="SportFacilities" xml:space="preserve">
+    <value>Sport inshootlari</value>
+  </data>
+  <data name="Spent" xml:space="preserve">
+    <value>Sarflangan:</value>
+  </data>
+  <data name="Allocated" xml:space="preserve">
+    <value>Ajratilgan:</value>
+  </data>
+  <data name="Projects" xml:space="preserve">
+    <value>Loyihalar:</value>
+  </data>
+  <data name="Mastery" xml:space="preserve">
+    <value>O'zlashtirish:</value>
+  </data>
+  <data name="Map" xml:space="preserve">
+    <value>Xarita</value>
+  </data>
+  <data name="Data" xml:space="preserve">
+    <value>Ma'lumotlar</value>
+  </data>
+  <data name="Graphics" xml:space="preserve">
+    <value>Garfik vositalar</value>
+  </data>
+  <data name="Compare" xml:space="preserve">
+    <value>Solishtirish</value>
+  </data>
+  <data name="ReportTitle" xml:space="preserve">
+    <value>Ma'lumot qoldirish</value>
+  </data>
+  <data name="AddPhoto" xml:space="preserve">
+    <value>Hududingizdagi infratuzilmaning fotosuratini qo'shing</value>
+  </data>
+  <data name="SelectRegion" xml:space="preserve">
+    <value>Viloyatni tanlang</value>
+  </data>
+  <data name="SelectDistrict" xml:space="preserve">
+    <value>Tumanni tanlang</value>
+  </data>
+  <data name="InfraName" xml:space="preserve">
+    <value>Infratuzilma nomi</value>
+  </data>
+  <data name="SelectSector" xml:space="preserve">
+    <value>Sektorni tanlang</value>
+  </data>
+  <data name="AddComment" xml:space="preserve">
+    <value>Infratuzilmadagi muammolar haqida qo'shimcha izoh qoldiring.</value>
+  </data>
+  <data name="Internet" xml:space="preserve">
+    <value>Internet</value>
+  </data>
+  <data name="DrinkingWater" xml:space="preserve">
+    <value>Ichimlik suvi</value>
+  </data>
+  <data name="CapacityStudents" xml:space="preserve">
+    <value>Sig'im va umimy talaba soni</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>Jadval</value>
+  </data>
+  <data name="Optic" xml:space="preserve">
+    <value>Optik</value>
+  </data>
+  <data name="MobileInternet" xml:space="preserve">
+    <value>Mobil internet</value>
+  </data>
+  <data name="RegionAndijan" xml:space="preserve">
+    <value>Andijon</value>
+  </data>
+  <data name="RegionBukhara" xml:space="preserve">
+    <value>Buxoro</value>
+  </data>
+  <data name="RegionFergana" xml:space="preserve">
+    <value>Farg'ona</value>
+  </data>
+  <data name="RegionJizzakh" xml:space="preserve">
+    <value>Jizzax</value>
+  </data>
+  <data name="RegionKashkadarya" xml:space="preserve">
+    <value>Qashqadaryo</value>
+  </data>
+  <data name="ProjectName" xml:space="preserve">
+    <value>Loyiha nomi</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Yil</value>
+  </data>
+  <data name="Sector" xml:space="preserve">
+    <value>Sektor</value>
+  </data>
+  <data name="DonorType" xml:space="preserve">
+    <value>Donor turi</value>
+  </data>
+  <data name="DonorName" xml:space="preserve">
+    <value>Donor nomi</value>
+  </data>
+  <data name="Region" xml:space="preserve">
+    <value>Viloyat</value>
+  </data>
+  <data name="SpentAmount" xml:space="preserve">
+    <value>Sarflangan</value>
+  </data>
+  <data name="AllocatedAmount" xml:space="preserve">
+    <value>Ajratilgan</value>
+  </data>
+  <data name="NoInternet" xml:space="preserve">
+    <value>Internet umuman yo'q</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Yuborish</value>
+  </data>
+  <data name="Main" xml:space="preserve">
+    <value>Asosiy</value>
+  </data>
+  <data name="Scanner" xml:space="preserve">
+    <value>Skaner</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Sozlamalar</value>
+  </data>
+  <data name="ActiveUser" xml:space="preserve">
+    <value>Faol foydalanuvchi</value>
+  </data>
+  <data name="MyReports" xml:space="preserve">
+    <value>Mening nashrlarim</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Ilova tili</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Chiqish</value>
+  </data>
 </root>

@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConfirmPlaceholder" xml:space="preserve">
-    <value>Confirm</value>
+    <value>Confirmation</value>
   </data>
   <data name="ErrorMessage" xml:space="preserve">
     <value>Check your data</value>
@@ -127,7 +127,7 @@
     <value>Error</value>
   </data>
   <data name="LoginTitle" xml:space="preserve">
-    <value>LOGIN</value>
+    <value>ENTRANCE</value>
   </data>
   <data name="PassMismatch" xml:space="preserve">
     <value>Passwords mismatch</value>
@@ -167,5 +167,158 @@
   </data>
   <data name="TabSettings" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="DashboardTitle" xml:space="preserve">
+    <value>Report problems in your area</value>
+  </data>
+  <data name="DashboardSubtitle" xml:space="preserve">
+    <value>We will help solve it</value>
+  </data>
+  <data name="LeaveReportBtn" xml:space="preserve">
+    <value>Leave report</value>
+  </data>
+  <data name="ResultsBtn" xml:space="preserve">
+    <value>Results</value>
+  </data>
+  <data name="Schools" xml:space="preserve">
+    <value>Schools</value>
+  </data>
+  <data name="Kindergartens" xml:space="preserve">
+    <value>Kindergartens</value>
+  </data>
+  <data name="MedicalFacilities" xml:space="preserve">
+    <value>Medical facilities</value>
+  </data>
+  <data name="SportFacilities" xml:space="preserve">
+    <value>Sport facilities</value>
+  </data>
+  <data name="Spent" xml:space="preserve">
+    <value>Spent:</value>
+  </data>
+  <data name="Allocated" xml:space="preserve">
+    <value>Allocated:</value>
+  </data>
+  <data name="Projects" xml:space="preserve">
+    <value>Projects:</value>
+  </data>
+  <data name="Mastery" xml:space="preserve">
+    <value>Mastery:</value>
+  </data>
+  <data name="Map" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="Data" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="Graphics" xml:space="preserve">
+    <value>Graphics</value>
+  </data>
+  <data name="Compare" xml:space="preserve">
+    <value>Compare</value>
+  </data>
+  <data name="ReportTitle" xml:space="preserve">
+    <value>Leave a report</value>
+  </data>
+  <data name="AddPhoto" xml:space="preserve">
+    <value>Add a photo of the infrastructure in your area</value>
+  </data>
+  <data name="SelectRegion" xml:space="preserve">
+    <value>Select region</value>
+  </data>
+  <data name="SelectDistrict" xml:space="preserve">
+    <value>Select district</value>
+  </data>
+  <data name="InfraName" xml:space="preserve">
+    <value>Infrastructure name</value>
+  </data>
+  <data name="SelectSector" xml:space="preserve">
+    <value>Select sector</value>
+  </data>
+  <data name="AddComment" xml:space="preserve">
+    <value>Leave an additional comment about the infrastructure problems</value>
+  </data>
+  <data name="Internet" xml:space="preserve">
+    <value>Internet</value>
+  </data>
+  <data name="DrinkingWater" xml:space="preserve">
+    <value>Drinking water</value>
+  </data>
+  <data name="CapacityStudents" xml:space="preserve">
+    <value>Capacity and total students</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>Table</value>
+  </data>
+  <data name="Optic" xml:space="preserve">
+    <value>Optic</value>
+  </data>
+  <data name="MobileInternet" xml:space="preserve">
+    <value>Mobile internet</value>
+  </data>
+  <data name="RegionAndijan" xml:space="preserve">
+    <value>Andijan</value>
+  </data>
+  <data name="RegionBukhara" xml:space="preserve">
+    <value>Bukhara</value>
+  </data>
+  <data name="RegionFergana" xml:space="preserve">
+    <value>Fergana</value>
+  </data>
+  <data name="RegionJizzakh" xml:space="preserve">
+    <value>Jizzakh</value>
+  </data>
+  <data name="RegionKashkadarya" xml:space="preserve">
+    <value>Kashkadarya</value>
+  </data>
+  <data name="ProjectName" xml:space="preserve">
+    <value>Project name</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="Sector" xml:space="preserve">
+    <value>Sector</value>
+  </data>
+  <data name="DonorType" xml:space="preserve">
+    <value>Donor Type</value>
+  </data>
+  <data name="DonorName" xml:space="preserve">
+    <value>Donor Name</value>
+  </data>
+  <data name="Region" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="SpentAmount" xml:space="preserve">
+    <value>Spent</value>
+  </data>
+  <data name="AllocatedAmount" xml:space="preserve">
+    <value>Allocated</value>
+  </data>
+  <data name="NoInternet" xml:space="preserve">
+    <value>No internet access</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="Main" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Scanner" xml:space="preserve">
+    <value>Scanner</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="ActiveUser" xml:space="preserve">
+    <value>Active user</value>
+  </data>
+  <data name="MyReports" xml:space="preserve">
+    <value>My reports</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>App language</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
   </data>
 </root>

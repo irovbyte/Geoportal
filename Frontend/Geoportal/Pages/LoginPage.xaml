@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:lang="clr-namespace:Geoportal.Resources.Languages"
-             x:Class="GeoportalApp.Pages.LoginPage"
+             x:Class="Geoportal.Pages.LoginPage"
              Shell.NavBarIsVisible="False">
 
     <Grid>
