@@ -3,9 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:lang="clr-namespace:Geoportal.Resources.Languages"
              x:Class="Geoportal.Pages.LoginPage"
-             Shell.NavBarIsVisible="False">
+             Shell.NavBarIsVisible="False"
+             SafeAreaEdges="None"
+             BackgroundColor="Transparent">
 
-    <Grid>
+    <Grid SafeAreaEdges="None">
         <BoxView HorizontalOptions="Fill" VerticalOptions="Fill">
             <BoxView.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -16,28 +18,25 @@
             </BoxView.Background>
         </BoxView>
 
-        <ScrollView VerticalOptions="Center" HorizontalOptions="Fill">
-            <VerticalStackLayout Spacing="0" 
-                                 Padding="25" 
-                                 HorizontalOptions="Fill" 
-                                 MaximumWidthRequest="500">
+        <ScrollView VerticalOptions="Fill" HorizontalOptions="Fill">
+            <Grid VerticalOptions="Center" HorizontalOptions="Center" Padding="20">
 
                 <Border StrokeShape="RoundRectangle 40" 
+                        WidthRequest="450"
                         BackgroundColor="{AppThemeBinding Light=#CCFFFFFF, Dark=#CC1F1F1F}" 
                         StrokeThickness="0"
-                        Padding="35"
-                        HorizontalOptions="Fill">
+                        Padding="40"
+                        HorizontalOptions="Center">
+
                     <Border.Shadow>
                         <Shadow Brush="Black" Offset="0,20" Opacity="0.3" Radius="30" />
                     </Border.Shadow>
 
-                    <VerticalStackLayout Spacing="20">
-
+                    <VerticalStackLayout Spacing="25">
                         <Border StrokeShape="RoundRectangle 50" 
                                 HeightRequest="100" 
                                 WidthRequest="100"
                                 HorizontalOptions="Center"
-                                Margin="0,0,0,10"
                                 BackgroundColor="White"
                                 StrokeThickness="2"
                                 Stroke="{StaticResource Gray200}">
@@ -46,65 +45,66 @@
 
                         <Label x:Name="TitleLabel" 
                                Text="{x:Static lang:AppResources.LoginTitle}" 
-                               FontSize="28"
+                               FontSize="30"
                                FontAttributes="Bold"
                                HorizontalOptions="Center"
                                TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}"/>
 
-                        <Border StrokeShape="RoundRectangle 15" Stroke="{StaticResource Gray200}" BackgroundColor="{AppThemeBinding Light=White, Dark=#33FFFFFF}" HeightRequest="60">
-                            <Grid ColumnDefinitions="55,Auto,*">
-                                <Label Text="📱" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20"/>
-                                <Label Grid.Column="1" Text="+998 " VerticalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" Margin="0,0,5,0" FontAttributes="Bold" FontSize="16"/>
-                                <Entry x:Name="PhoneEntry" 
-                                       Grid.Column="2" 
-                                       Placeholder="{x:Static lang:AppResources.PhonePlaceholder}" 
-                                       Keyboard="Telephone" 
-                                       MaxLength="12" 
-                                       FontSize="16"
-                                       VerticalOptions="Center" 
-                                       TextColor="{AppThemeBinding Light=Black, Dark=White}"
-                                       TextChanged="OnPhoneTextChanged"/>
-                            </Grid>
-                        </Border>
+                        <VerticalStackLayout Spacing="15">
+                            <Border StrokeShape="RoundRectangle 15" Stroke="{StaticResource Gray200}" BackgroundColor="{AppThemeBinding Light=White, Dark=#33FFFFFF}" HeightRequest="60">
+                                <Grid ColumnDefinitions="55,Auto,*">
+                                    <Label Text="📱" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20"/>
+                                    <Label Grid.Column="1" Text="+998 " VerticalOptions="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" Margin="0,0,5,0" FontAttributes="Bold" FontSize="16"/>
+                                    <Entry x:Name="PhoneEntry" 
+                                           Grid.Column="2" 
+                                           Placeholder="{x:Static lang:AppResources.PhonePlaceholder}" 
+                                           Keyboard="Telephone" 
+                                           MaxLength="9" 
+                                           FontSize="16"
+                                           VerticalOptions="Center" 
+                                           TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                                           TextChanged="OnPhoneTextChanged"/>
+                                </Grid>
+                            </Border>
 
-                        <Border StrokeShape="RoundRectangle 15" Stroke="{StaticResource Gray200}" BackgroundColor="{AppThemeBinding Light=White, Dark=#33FFFFFF}" HeightRequest="60">
-                            <Grid ColumnDefinitions="55,*">
-                                <Label Text="🔒" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20"/>
-                                <Entry x:Name="PasswordEntry" 
-                                       Grid.Column="1" 
-                                       Placeholder="{x:Static lang:AppResources.PasswordPlaceholder}" 
-                                       IsPassword="True" 
-                                       FontSize="16" 
-                                       VerticalOptions="Center" 
-                                       TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
-                            </Grid>
-                        </Border>
+                            <Border StrokeShape="RoundRectangle 15" Stroke="{StaticResource Gray200}" BackgroundColor="{AppThemeBinding Light=White, Dark=#33FFFFFF}" HeightRequest="60">
+                                <Grid ColumnDefinitions="55,*">
+                                    <Label Text="🔒" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20"/>
+                                    <Entry x:Name="PasswordEntry" 
+                                           Grid.Column="1" 
+                                           Placeholder="{x:Static lang:AppResources.PasswordPlaceholder}" 
+                                           IsPassword="True" 
+                                           FontSize="16" 
+                                           VerticalOptions="Center" 
+                                           TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
+                                </Grid>
+                            </Border>
 
-                        <Border x:Name="ConfirmBorder" IsVisible="False" Opacity="0" StrokeShape="RoundRectangle 15" Stroke="{StaticResource Gray200}" BackgroundColor="{AppThemeBinding Light=White, Dark=#33FFFFFF}" HeightRequest="60">
-                            <Grid ColumnDefinitions="55,*">
-                                <Label Text="🛡️" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20"/>
-                                <Entry x:Name="ConfirmPasswordEntry" 
-                                       Grid.Column="1" 
-                                       Placeholder="{x:Static lang:AppResources.ConfirmPlaceholder}" 
-                                       IsPassword="True" 
-                                       FontSize="16" 
-                                       VerticalOptions="Center" 
-                                       TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
-                            </Grid>
-                        </Border>
+                            <Border x:Name="ConfirmBorder" IsVisible="False" Opacity="0" StrokeShape="RoundRectangle 15" Stroke="{StaticResource Gray200}" BackgroundColor="{AppThemeBinding Light=White, Dark=#33FFFFFF}" HeightRequest="60">
+                                <Grid ColumnDefinitions="55,*">
+                                    <Label Text="🛡️" VerticalOptions="Center" HorizontalOptions="Center" FontSize="20"/>
+                                    <Entry x:Name="ConfirmPasswordEntry" 
+                                           Grid.Column="1" 
+                                           Placeholder="{x:Static lang:AppResources.ConfirmPlaceholder}" 
+                                           IsPassword="True" 
+                                           FontSize="16" 
+                                           VerticalOptions="Center" 
+                                           TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
 
                         <Button x:Name="SubmitBtn" 
                                 Text="{x:Static lang:AppResources.LoginTitle}" 
                                 HeightRequest="60"
-                                CornerRadius="15"
+                                CornerRadius="30"
                                 FontSize="18"
                                 FontAttributes="Bold"
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="White"
-                                Margin="0,10,0,0"
                                 Clicked="OnSubmitClicked">
                             <Button.Shadow>
-                                <Shadow Brush="{StaticResource Primary}" Offset="0,5" Opacity="0.4" Radius="10"/>
+                                <Shadow Brush="{StaticResource Primary}" Offset="0,8" Opacity="0.4" Radius="15"/>
                             </Button.Shadow>
                         </Button>
 
@@ -112,13 +112,13 @@
                                 Text="{x:Static lang:AppResources.SwitchToRegister}" 
                                 FontSize="14"
                                 BackgroundColor="Transparent" 
-                                TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray200}}" 
+                                TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray200}}" 
                                 Clicked="OnSwitchModeClicked"/>
 
-                        <ActivityIndicator x:Name="Loader" IsRunning="False" IsVisible="False" Color="{StaticResource Primary}" />
+                        <ActivityIndicator x:Name="Loader" IsRunning="False" IsVisible="False" Color="{StaticResource Primary}" HorizontalOptions="Center" />
                     </VerticalStackLayout>
                 </Border>
-            </VerticalStackLayout>
+            </Grid>
         </ScrollView>
     </Grid>
 </ContentPage>

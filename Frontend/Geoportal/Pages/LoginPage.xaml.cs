@@ -12,6 +12,14 @@ public partial class LoginPage : ContentPage
     public LoginPage()
     {
         InitializeComponent();
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        // Входная анимация страницы через Async
+        this.Opacity = 0;
+        await this.FadeToAsync(1, 400, Easing.CubicOut);
         CheckAutoLogin();
     }
 
@@ -19,87 +27,48 @@ public partial class LoginPage : ContentPage
     {
         if (Preferences.Default.Get("is_logged_in", false))
         {
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                var app = Application.Current;
-                if (app?.Windows.Count > 0)
-                {
-                    app.Windows[0].Page = new Geoportal.AppShell();
-                }
-            });
+            Application.Current.MainPage = new Geoportal.AppShell();
         }
     }
+
     private void OnPhoneTextChanged(object sender, TextChangedEventArgs e)
     {
         if (_isFormatting) return;
-
-        var entry = sender as Entry;
-        if (entry == null) return;
-
         _isFormatting = true;
-
         try
         {
             string cleaned = new string((e.NewTextValue ?? "").Where(char.IsDigit).ToArray());
-
-            if (cleaned.Length > 9)
-                cleaned = cleaned.Substring(0, 9);
-
-            if (entry.Text != cleaned)
-                entry.Text = cleaned;
+            if (cleaned.Length > 9) cleaned = cleaned.Substring(0, 9);
+            PhoneEntry.Text = cleaned;
         }
-        finally
-        {
-            _isFormatting = false;
-        }
+        finally { _isFormatting = false; }
     }
+
     private async void OnSubmitClicked(object sender, EventArgs e)
     {
-        string rawPhone = "+998" + new string(PhoneEntry.Text?.Where(char.IsDigit).ToArray());
+        // Клик-анимация кнопки
+        await SubmitBtn.ScaleToAsync(0.96, 70, Easing.CubicIn);
+        await SubmitBtn.ScaleToAsync(1.0, 70, Easing.CubicOut);
 
-        if (rawPhone.Length < 12 || PasswordEntry.Text?.Length < 6)
-        {
-            await DisplayAlert(AppResources.ErrorTitle, AppResources.ErrorMessage, "OK");
-            return;
-        }
+        string rawPhone = "+998" + PhoneEntry.Text;
 
-        if (!_isLoginMode && PasswordEntry.Text != ConfirmPasswordEntry.Text)
+        if (string.IsNullOrEmpty(PhoneEntry.Text) || PhoneEntry.Text.Length < 9 || (PasswordEntry.Text?.Length ?? 0) < 6)
         {
-            await DisplayAlert(AppResources.ErrorTitle, AppResources.PassMismatch, "OK");
+            await DisplayAlertAsync(AppResources.ErrorTitle, AppResources.ErrorMessage, "OK");
             return;
         }
 
         SetLoading(true);
-
         var result = _isLoginMode
-            ? await _authService.LoginAsync(rawPhone, PasswordEntry.Text ?? "")
-            : await _authService.RegisterAsync(rawPhone, PasswordEntry.Text ?? "");
-
+            ? await _authService.LoginAsync(rawPhone, PasswordEntry.Text)
+            : await _authService.RegisterAsync(rawPhone, PasswordEntry.Text);
         SetLoading(false);
 
         if (result.Success)
         {
-
             Preferences.Default.Set("is_logged_in", true);
-
             Preferences.Default.Set("user_phone", rawPhone);
-
-     
-            if (!Preferences.Default.ContainsKey("app_lang"))
-            {
-                var deviceLanguage = System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-                Preferences.Default.Set("app_lang", deviceLanguage);
-            }
-
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                var app = Application.Current;
-                if (app?.Windows.Count > 0)
-                {
-
-                    app.Windows[0].Page = new Geoportal.AppShell();
-                }
-            });
+            Application.Current.MainPage = new Geoportal.AppShell();
         }
     }
 
@@ -107,21 +76,32 @@ public partial class LoginPage : ContentPage
     {
         _isLoginMode = !_isLoginMode;
 
-        if (!_isLoginMode) ConfirmBorder.IsVisible = true;
-
+        // Плавное скрытие старых текстов
         await Task.WhenAll(
-            TitleLabel.FadeTo(0, 100),
-            SubmitBtn.FadeTo(0, 100),
-            ConfirmBorder.FadeTo(_isLoginMode ? 0 : 1, 200)
+            TitleLabel.FadeToAsync(0, 150, Easing.SinIn),
+            SubmitBtn.FadeToAsync(0, 150, Easing.SinIn)
         );
 
         TitleLabel.Text = _isLoginMode ? AppResources.LoginTitle : AppResources.RegisterTitle;
         SubmitBtn.Text = _isLoginMode ? AppResources.LoginTitle : AppResources.RegisterTitle;
         SwitchBtn.Text = _isLoginMode ? AppResources.SwitchToRegister : AppResources.SwitchToLogin;
 
-        if (_isLoginMode) ConfirmBorder.IsVisible = false;
+        if (!_isLoginMode)
+        {
+            ConfirmBorder.IsVisible = true;
+            await ConfirmBorder.FadeToAsync(1, 250, Easing.CubicOut);
+        }
+        else
+        {
+            await ConfirmBorder.FadeToAsync(0, 200, Easing.SinIn);
+            ConfirmBorder.IsVisible = false;
+        }
 
-        await Task.WhenAll(TitleLabel.FadeTo(1, 100), SubmitBtn.FadeTo(1, 100));
+        // Плавное появление новых текстов
+        await Task.WhenAll(
+            TitleLabel.FadeToAsync(1, 150, Easing.SinOut),
+            SubmitBtn.FadeToAsync(1, 150, Easing.SinOut)
+        );
     }
 
     private void SetLoading(bool isLoading)
@@ -129,5 +109,6 @@ public partial class LoginPage : ContentPage
         Loader.IsVisible = isLoading;
         Loader.IsRunning = isLoading;
         SubmitBtn.IsEnabled = !isLoading;
+        SubmitBtn.Opacity = isLoading ? 0.6 : 1.0;
     }
 }

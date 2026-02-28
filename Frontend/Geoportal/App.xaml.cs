@@ -33,7 +33,7 @@ public partial class App : Application
         }
         else
         {
-            rootPage = new NavigationPage(new LoginPage());
+            rootPage = new LoginPage();
         }
 
         return new Window(rootPage);

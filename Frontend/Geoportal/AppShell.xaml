@@ -4,8 +4,9 @@
        xmlns:pages="clr-namespace:Geoportal.Pages" 
        xmlns:res="clr-namespace:Geoportal.Resources.Languages"
        Shell.FlyoutBehavior="Disabled"
+       Shell.BackgroundColor="Transparent"
+       Shell.NavBarHasShadow="False"
        Shell.NavBarIsVisible="False">
-
     <Shell.Resources>
         <ResourceDictionary>
             <Style TargetType="TabBar">
@@ -18,19 +19,21 @@
     </Shell.Resources>
 
     <TabBar>
-        <Tab Title="{x:Static res:AppResources.Main}" Icon="home_icon.png">
+        <Tab Title="{x:Static res:AppResources.Main}" Icon="home_icon.png" Route="DashboardPage">
             <ShellContent ContentTemplate="{DataTemplate pages:DashboardPage}" />
         </Tab>
 
-        <Tab Title="{x:Static res:AppResources.Data}" Icon="data_icon.png">
+        <Tab Title="{x:Static res:AppResources.Data}" Icon="data_icon.png" Route="DataTablePage">
             <ShellContent ContentTemplate="{DataTemplate pages:DataTablePage}" />
         </Tab>
 
-        <Tab Title="{x:Static res:AppResources.Graphics}" Icon="chart_icon.png">
+        <Tab Title="{x:Static res:AppResources.Graphics}" Icon="chart_icon.png" Route="GraphicsPage">
             <ShellContent ContentTemplate="{DataTemplate pages:GraphicsPage}" />
         </Tab>
 
-        <Tab Title="{x:Static res:AppResources.Settings}" Icon="settings_icon.png">
+        <Tab Title="{x:Static res:AppResources.Settings}" 
+             Icon="settings_icon.png" 
+             Route="SettingsPage">
             <ShellContent ContentTemplate="{DataTemplate pages:SettingsPage}" />
         </Tab>
     </TabBar>

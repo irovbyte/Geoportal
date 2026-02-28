@@ -4,9 +4,10 @@
              xmlns:res="clr-namespace:Geoportal.Resources.Languages"
              x:Class="Geoportal.Pages.CreateReportPage"
              Shell.NavBarIsVisible="False"
-             BackgroundColor="Transparent">
+             BackgroundColor="Transparent"
+             SafeAreaEdges="None">
 
-    <Grid>
+    <Grid SafeAreaEdges="None">
         <BoxView HorizontalOptions="Fill" VerticalOptions="Fill">
             <BoxView.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -17,7 +18,7 @@
             </BoxView.Background>
         </BoxView>
 
-        <ScrollView Padding="20,10,20,20">
+        <ScrollView Padding="20,40,20,20">
             <VerticalStackLayout Spacing="15">
 
                 <Grid ColumnDefinitions="50, *" Margin="0,20,0,10">

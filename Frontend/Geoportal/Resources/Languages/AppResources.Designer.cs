@@ -259,6 +259,15 @@ namespace Geoportal.Resources.Languages {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Yuklanmoqda....
+        /// </summary>
+        public static string Loading {
+            get {
+                return ResourceManager.GetString("Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на KIRISH.
         /// </summary>
         public static string LoginTitle {

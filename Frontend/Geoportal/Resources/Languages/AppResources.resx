@@ -321,4 +321,7 @@
   <data name="Logout" xml:space="preserve">
     <value>Chiqish</value>
   </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Yuklanmoqda...</value>
+  </data>
 </root>
