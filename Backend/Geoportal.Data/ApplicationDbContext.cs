@@ -9,7 +9,6 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-    // Эта строка говорит базе данных: "Создай таблицу Reports на основе модели Report"
     public DbSet<Report> Reports { get; set; }
     public DbSet<User> Users { get; set; }
 }
