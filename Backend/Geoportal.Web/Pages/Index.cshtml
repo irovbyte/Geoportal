@@ -4,130 +4,88 @@
     ViewData["Title"] = "Главная";
 }
 
-<style>
-    /* Локальные стили для страницы дашборда */
-    .dashboard-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-    }
-
-    /* Адаптация сетки для больших экранов */
-    @@media (min-width: 992px) {
-        .lower-section {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 24px;
-        }
-    }
-
-    /* Стилизация заголовков и текста в градиентной карточке */
-    .gp-card-grad h2 {
-        font-size: 1.8rem;
-        margin-bottom: 8px;
-    }
-
-    .kpi-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 16px;
-        margin-top: 20px;
-    }
-
-    /* Эффект при наведении на карточки */
-    .gp-card {
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .gp-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    }
-
-    /* Кнопка "Все отчеты" */
-    .btn-all-reports {
-        background: #0A56C4;
-        border: none;
-        border-radius: 12px;
-        padding: 12px;
-        font-weight: 600;
-        transition: background 0.3s;
-    }
-
-    .btn-all-reports:hover {
-        background: #063A98;
-    }
-</style>
-
 <div class="dashboard-grid">
-    <div class="gp-card gp-card-grad">
+
+    <!-- ===== MAIN KPI CARD ===== -->
+    <div class="gp-card-grad">
+
         <h2 class="fw-bold">Мониторинг инфраструктуры</h2>
-        <p class="opacity-75">Оперативные данные по региону на @DateTime.Now.ToString("dd.MM.yyyy")</p>
+        <p class="opacity-75">
+            Оперативные данные по региону на @DateTime.Now.ToString("dd.MM.yyyy")
+        </p>
 
         <div class="kpi-container">
-            <div class="kpi-box text-center">
-                <span class="kpi-label">Всего объектов</span>
-                <span class="kpi-val">1,245 <span class="pos">+12%</span></span>
+
+            <div class="kpi-card">
+                <div class="kpi-title">Новых за сутки</div>
+                <div class="kpi-value">128</div>
+                <div class="kpi-delta pos">+12%</div>
             </div>
-            <div class="kpi-box text-center">
-                <span class="kpi-label">Активные заявки</span>
-                <span class="kpi-val">84 <span class="neg">-5%</span></span>
+
+            <div class="kpi-card">
+                <div class="kpi-title">В работе</div>
+                <div class="kpi-value">842</div>
+                <div class="kpi-delta neg">-5%</div>
             </div>
-            <div class="kpi-box text-center">
-                <span class="kpi-label">Школы</span>
-                <span class="kpi-val">312</span>
+
+            <div class="kpi-card">
+                <div class="kpi-title">Закрыто</div>
+                <div class="kpi-value">5 319</div>
+                <div class="kpi-delta pos">+8%</div>
             </div>
-            <div class="kpi-box text-center">
-                <span class="kpi-label">Бюджет</span>
-                <span class="kpi-val">68% <span class="pos">+2%</span></span>
+
+            <div class="kpi-card">
+                <div class="kpi-title">Среднее время</div>
+                <div class="kpi-value">3.4 дня</div>
+                <div class="kpi-delta neg">-3%</div>
             </div>
+
         </div>
     </div>
 
+
+    <!-- ===== LOWER SECTION ===== -->
     <div class="lower-section">
-        <div class="gp-card" style="min-height: 450px; display: flex; flex-direction: column; background: #FFFFFF;">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4 class="fw-bold m-0">Интерактивная карта</h4>
-                <span class="badge bg-success-subtle text-success px-3 py-2">Online</span>
+
+        <!-- MAP CARD -->
+        <div class="gp-card map-card">
+            <div class="map-header">
+                <h4>Интерактивная карта</h4>
+                <span class="map-status">Online</span>
             </div>
-            <div style="flex: 1; background: #f8f9fa; border-radius: 15px; display: flex; align-items: center; justify-content: center; border: 2px dashed #dee2e6;">
-                <div class="text-center">
-                    <div style="font-size: 80px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));">🗺️</div>
-                    <h5 class="text-secondary mt-3">Синхронизация с ГИС...</h5>
+
+            <div class="map-placeholder">
+                <div class="map-placeholder-text">
+                    Синхронизация с ГИС...
                 </div>
             </div>
         </div>
 
-        <div class="gp-card d-flex flex-column" style="background: #FFFFFF;">
-            <h4 class="fw-bold mb-4">Последние обращения</h4>
-            
-            <div class="flex-grow-1">
-                <div class="border-bottom pb-3 mb-3 d-flex gap-3">
-                    <div class="fs-3">⚠️</div>
-                    <div>
-                        <h6 class="mb-1 fw-bold">Проблема с отоплением</h6>
-                        <p class="text-muted small m-0">Школа №42, Ташкент</p>
-                    </div>
-                </div>
 
-                <div class="border-bottom pb-3 mb-3 d-flex gap-3">
-                    <div class="fs-3">✅</div>
-                    <div>
-                        <h6 class="mb-1 fw-bold">Ремонт завершен</h6>
-                        <p class="text-muted small m-0">Школа №15, Самарканд</p>
-                    </div>
-                </div>
+        <!-- REPORTS CARD -->
+        <div class="gp-card reports-card">
+            <h4 class="mb-4">Последние обращения</h4>
 
-                <div class="pb-3 d-flex gap-3">
-                    <div class="fs-3">⏳</div>
-                    <div>
-                        <h6 class="mb-1 fw-bold">Запрос оборудования</h6>
-                        <p class="text-muted small m-0">Лицей №2, Бухара</p>
-                    </div>
-                </div>
+            <div class="report-item">
+                <div class="report-title">Проблема с отоплением</div>
+                <div class="report-meta">Школа №42, Ташкент</div>
             </div>
 
-            <button class="btn btn-primary btn-all-reports w-100 mt-auto">Смотреть все отчеты</button>
+            <div class="report-item">
+                <div class="report-title">Ремонт завершен</div>
+                <div class="report-meta">Школа №15, Самарканд</div>
+            </div>
+
+            <div class="report-item">
+                <div class="report-title">Запрос оборудования</div>
+                <div class="report-meta">Лицей №2, Бухара</div>
+            </div>
+
+            <button class="btn btn-primary w-100 mt-4">
+                Смотреть все отчеты
+            </button>
         </div>
+
     </div>
+
 </div>

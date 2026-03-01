@@ -1,98 +1,130 @@
 @{
-    var title = ViewData["Title"] as string ?? "Геопортал";
+    var title = ViewData["Title"] as string ?? "Geoportal";
 }
 
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@title - Geoportal</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <style>
-        :root {
-            --bg: #F0F4FB;
-            --card: #FFFFFF;
-            --text: #111827;
-            --header-grad: linear-gradient(90deg, #0A56C4 0%, #3AB0C2 55%, #3FE543 100%);
-            --overlay: linear-gradient(0deg, rgba(255, 255, 255, .6), rgba(255, 255, 255, .6));
-        }
-
-        body { 
-            background-color: var(--bg); 
-            color: var(--text); 
-            margin: 0; 
-            padding-top: 130px; 
-            font-family: sans-serif; 
-        }
-
-        /* Шапка */
-        .header { 
-            position: fixed; top: 0; left: 0; right: 0; z-index: 1000; 
-            background: var(--header-grad); padding: 15px 25px; 
-            color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .header h3 { margin: 0; font-weight: 800; letter-spacing: 1px; }
-
-        /* Табы навигации */
-        .nav-bar { display: flex; gap: 15px; margin-top: 15px; }
-        .nav-bar a { 
-            color: rgba(255,255,255,0.8); text-decoration: none; 
-            padding: 8px 16px; border-radius: 8px; transition: 0.2s; 
-        }
-        .nav-bar a:hover { background: rgba(255,255,255,0.2); color: white; }
-        .nav-bar a.active { background: rgba(0,0,0,0.2); color: white; font-weight: bold; }
-
-        /* Контейнер */
-        .main-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-
-        /* Карточки */
-        .gp-card { 
-            background: var(--card); border-radius: 20px; 
-            border: 1px solid #E5E7EB; padding: 25px; margin-bottom: 25px; 
-            position: relative; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        /* Тот самый имбовый градиент для мониторинга */
-        .gp-card-grad { color: white !important; }
-        .gp-card-grad::before { 
-            content: ""; position: absolute; inset: 0; 
-            background: var(--header-grad); z-index: 0; 
-        }
-        .gp-card-grad::after { 
-            content: ""; position: absolute; inset: 0; 
-            background: var(--overlay); z-index: 1; 
-        }
-        .gp-card-grad > * { position: relative; z-index: 2; }
-
-        /* KPI блоки внутри мониторинга */
-        .kpi-box { 
-            background: white; border-radius: 15px; padding: 15px; 
-            color: #063A98; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-        .kpi-val { font-size: 24px; font-weight: 800; display: block; }
-        .kpi-label { font-size: 13px; color: #6B7280; }
-        .pos { color: #16A34A; font-weight: bold; }
-        .neg { color: #DC2626; font-weight: bold; }
-    </style>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
+
 <body>
-    <div class="header">
-        <h3>GEOPORTAL</h3>
-        <div class="nav-bar">
-            <a href="/" class="active">Дашборд</a>
-            <a href="/Reports/New">Отправить отчет</a>
-            <a href="#">Карта</a>
-            <a href="#">Настройки</a>
+
+<header class="gp-header">
+
+    <div class="gp-header-inner">
+
+        <div class="gp-left">
+            <img src="~/images/logo.png" class="gp-logo" />
+            <span class="gp-brand">Geoportal</span>
+
+            <!-- REGION -->
+            <div class="dropdown">
+                <button class="btn gp-dd-btn dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    Регион: Не выбран
+                </button>
+
+                <ul class="dropdown-menu">
+                    <li><button class="dropdown-item" data-region="Тошкент шаҳри">Ташкент</button></li>
+                    <li><button class="dropdown-item" data-region="Андижон вилояти">Андижан</button></li>
+                    <li><button class="dropdown-item" data-region="Бухоро вилояти">Бухара</button></li>
+                    <li><button class="dropdown-item" data-region="Фарғона вилояти">Фергана</button></li>
+                    <li><button class="dropdown-item" data-region="Жиззах вилояти">Джиззак</button></li>
+                    <li><button class="dropdown-item" data-region="Хоразм вилояти">Харезм</button></li>
+                    <li><button class="dropdown-item" data-region="Наманган вилояти">Наманган</button></li>
+                    <li><button class="dropdown-item" data-region="Навоий вилояти">Наваи</button></li>
+                    <li><button class="dropdown-item" data-region="Қашқадарё вилояти">Кашкадарья</button></li>
+                    <li><button class="dropdown-item" data-region="Самарқанд вилояти">Самарканд</button></li>
+                    <li><button class="dropdown-item" data-region="Сирдарё вилояти">Сырдарья</button></li>
+                    <li><button class="dropdown-item" data-region="Сурхондарё вилояти">Сурхандарья</button></li>
+                    <li><button class="dropdown-item" data-region="Қорақалпоғистон Р.">Каракалпакыстан</button></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="gp-right">
+
+            <!-- LANGUAGE -->
+            <div class="dropdown">
+            <button class="btn gp-dd-btn dropdown-toggle"
+                type="button"
+                data-bs-toggle="dorpdown"
+                aria-expanded="false">
+            Язык
+                <ul class="dropdown-content">
+                    <li>Русский</li>
+                    <li>O'zbek</li>
+                    <li>English</li>
+                </ul>
+            </div>
+
+            <!-- THEME -->
+            <div class="dropdown">
+                <button class="btn gp-dd-btn dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    Тема
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><button class="dropdown-item" data-theme="system">Системная</button></li>
+                    <li><button class="dropdown-item" data-theme="light">Светлая</button></li>
+                    <li><button class="dropdown-item" data-theme="dark">Темная</button></li>
+                </ul>
+            </div>
+
+            <a class="gp-login">Логин</a>
         </div>
     </div>
 
-    <div class="main-container">
-        @RenderBody()
-    </div>
+    <nav class="gp-nav">
+        <a asp-page="/Index">Карта</a>
+        <a asp-page="/Reports/New">Оставить сообщение</a>
+        <a href="#">Данные</a>
+        <a href="#">Инструменты</a>
+        <a href="#">Сравнение</a>
+        <a href="#">Школы</a>
+    </nav>
+</header>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<div class="gp-container">
+    @RenderBody()
+</div>
+
+<footer class="gp-footer">
+    © 2024 Geoportal
+</footer>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+(function(){
+    const html = document.documentElement;
+
+    // region change
+    document.querySelectorAll("[data-region]").forEach(btn=>{
+        btn.addEventListener("click",()=>{
+            document.getElementById("gpRegionBtn").textContent =
+                "Регион: " + btn.getAttribute("data-region");
+        });
+    });
+
+    // theme change
+    document.querySelectorAll("[data-theme]").forEach(btn=>{
+        btn.addEventListener("click",()=>{
+            html.setAttribute("data-theme", btn.getAttribute("data-theme"));
+        });
+    });
+})();
+</script>
+
 </body>
 </html>

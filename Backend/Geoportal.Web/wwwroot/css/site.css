@@ -1,0 +1,154 @@
+body{
+    margin:0;
+    background:#F3F5F9;
+    font-family:Inter, sans-serif;
+}
+
+.gp-header{
+    background:linear-gradient(to top right,#0c28c7 0%,#28adbf 65%,#3FE543 100%);
+    color:white;
+}
+
+.gp-header-inner{
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.gp-left,.gp-right{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.gp-logo{ width:42px; }
+
+.gp-dd-btn{
+    background:rgba(255,255,255,.2);
+    border:none;
+    color:white;
+    padding:6px 12px;
+    border-radius:8px;
+}
+
+/* ===== FIXED DROPDOWN ===== */
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    border: none;
+    min-width: 220px;
+    padding: 8px 0;
+}
+
+html[data-theme="dark"] .dropdown-menu {
+    background: rgba(20,20,20,0.85);
+}
+
+.dropdown-item {
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+html[data-theme="dark"] .dropdown-item {
+    color: white;
+}
+
+html[data-theme="light"] .dropdown-item,
+html[data-theme="system"] .dropdown-item {
+    color: #111827;
+}
+
+.gp-nav{
+    max-width:1200px;
+    margin:auto;
+    padding:0 20px 15px;
+    display:flex;
+    gap:25px;
+}
+
+.gp-nav a{
+    color:white;
+    text-decoration:none;
+}
+
+.gp-container{
+    max-width:1200px;
+    margin:40px auto;
+    padding:0 20px;
+}
+
+.gp-card-grad{
+    background:linear-gradient(to top right,#0c28c7 0%,#28adbf 65%,#3FE543 100%);
+    padding:30px;
+    border-radius:20px;
+    color:white;
+}
+
+.kpi-container{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:18px;
+    margin-top:30px;
+}
+
+.kpi-card{
+    background:rgba(255,255,255,.95);
+    padding:20px;
+    border-radius:16px;
+}
+
+.kpi-title{ font-size:14px; color:#6B7280; }
+.kpi-value{
+    font-size:26px;
+    font-weight:700;
+    color:#0c28c7; /* тёмно-синий */
+}
+.kpi-delta{ font-size:13px; font-weight:600; }
+
+.pos{ color:#16A34A; }
+.neg{ color:#DC2626; }
+
+.lower-section{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:24px;
+    margin-top:30px;
+}
+
+.gp-card{
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.report-item{
+    padding:15px 0;
+    border-bottom:1px solid #E5E7EB;
+}
+
+.report-title{
+    font-weight:600;
+    color:#111827;
+}
+
+.report-meta{
+    font-size:13px;
+    color:#6B7280;
+}
+
+.gp-footer{
+    margin-top:60px;
+    padding:20px;
+    text-align:center;
+    background:white;
+}
