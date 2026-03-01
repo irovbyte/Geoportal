@@ -19,9 +19,9 @@
         </BoxView>
 
         <ScrollView Padding="20,40,20,20">
-            <VerticalStackLayout Spacing="15">
+            <VerticalStackLayout x:Name="MainContainer" Spacing="15" MaximumWidthRequest="600" HorizontalOptions="Center">
 
-                <Grid ColumnDefinitions="50, *" Margin="0,20,0,10">
+                <Grid x:Name="HeaderRow" ColumnDefinitions="50, *" Margin="0,20,0,10">
                     <Label Grid.Column="0" Text="←" TextColor="White" FontSize="28" FontAttributes="Bold" VerticalOptions="Center">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnBackTapped" />
@@ -30,7 +30,7 @@
                     <Label Grid.Column="1" Text="{x:Static res:AppResources.ReportTitle}" TextColor="White" FontSize="22" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" Margin="-50,0,0,0"/>
                 </Grid>
 
-                <Border StrokeShape="RoundRectangle 20" BackgroundColor="#E6FFFFFF" StrokeThickness="2" StrokeDashArray="5,5" Stroke="#0A56C4" Padding="20" HeightRequest="150">
+                <Border x:Name="PhotoZone" StrokeShape="RoundRectangle 20" BackgroundColor="#E6FFFFFF" StrokeThickness="2" StrokeDashArray="5,5" Stroke="#0A56C4" Padding="20" HeightRequest="150">
                     <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
                         <Label Text="+" FontSize="40" TextColor="#0A56C4" HorizontalOptions="Center" FontAttributes="Bold"/>
                         <Label Text="{x:Static res:AppResources.AddPhoto}" TextColor="#4B5563" FontSize="14" HorizontalTextAlignment="Center"/>
@@ -40,27 +40,30 @@
                     </Border.GestureRecognizers>
                 </Border>
 
-                <Border StrokeShape="RoundRectangle 15" BackgroundColor="#E6FFFFFF" StrokeThickness="0" Padding="15,0">
-                    <Picker Title="{x:Static res:AppResources.SelectRegion}" TextColor="Black" TitleColor="#6B7280" />
-                </Border>
+                <VerticalStackLayout x:Name="FormGroup" Spacing="15">
+                    <Border StrokeShape="RoundRectangle 15" BackgroundColor="#E6FFFFFF" StrokeThickness="0" Padding="15,0">
+                        <Picker Title="{x:Static res:AppResources.SelectRegion}" TextColor="Black" TitleColor="#6B7280" />
+                    </Border>
 
-                <Border StrokeShape="RoundRectangle 15" BackgroundColor="#E6FFFFFF" StrokeThickness="0" Padding="15,0">
-                    <Picker Title="{x:Static res:AppResources.SelectDistrict}" TextColor="Black" TitleColor="#6B7280" />
-                </Border>
+                    <Border StrokeShape="RoundRectangle 15" BackgroundColor="#E6FFFFFF" StrokeThickness="0" Padding="15,0">
+                        <Picker Title="{x:Static res:AppResources.SelectDistrict}" TextColor="Black" TitleColor="#6B7280" />
+                    </Border>
 
-                <Border StrokeShape="RoundRectangle 15" BackgroundColor="#E6FFFFFF" StrokeThickness="0" Padding="15,0">
-                    <Entry Placeholder="{x:Static res:AppResources.InfraName}" TextColor="Black" PlaceholderColor="#6B7280" BackgroundColor="Transparent" />
-                </Border>
+                    <Border StrokeShape="RoundRectangle 15" BackgroundColor="#E6FFFFFF" StrokeThickness="0" Padding="15,0">
+                        <Entry Placeholder="{x:Static res:AppResources.InfraName}" TextColor="Black" PlaceholderColor="#6B7280" BackgroundColor="Transparent" />
+                    </Border>
 
-                <Border StrokeShape="RoundRectangle 15" BackgroundColor="#E6FFFFFF" StrokeThickness="0" Padding="15,0">
-                    <Picker Title="{x:Static res:AppResources.SelectSector}" TextColor="Black" TitleColor="#6B7280" />
-                </Border>
+                    <Border StrokeShape="RoundRectangle 15" BackgroundColor="#E6FFFFFF" StrokeThickness="0" Padding="15,0">
+                        <Picker Title="{x:Static res:AppResources.SelectSector}" TextColor="Black" TitleColor="#6B7280" />
+                    </Border>
 
-                <Border StrokeShape="RoundRectangle 15" BackgroundColor="#E6FFFFFF" StrokeThickness="0" Padding="15,10">
-                    <Editor Placeholder="{x:Static res:AppResources.AddComment}" TextColor="Black" PlaceholderColor="#6B7280" BackgroundColor="Transparent" HeightRequest="100" AutoSize="TextChanges" />
-                </Border>
+                    <Border StrokeShape="RoundRectangle 15" BackgroundColor="#E6FFFFFF" StrokeThickness="0" Padding="15,10">
+                        <Editor Placeholder="{x:Static res:AppResources.AddComment}" TextColor="Black" PlaceholderColor="#6B7280" BackgroundColor="Transparent" HeightRequest="100" AutoSize="TextChanges" />
+                    </Border>
+                </VerticalStackLayout>
 
-                <Button Text="{x:Static res:AppResources.Submit}" 
+                <Button x:Name="SubmitBtn"
+                        Text="{x:Static res:AppResources.Submit}" 
                         BackgroundColor="#0A56C4" 
                         TextColor="White" 
                         FontAttributes="Bold" 

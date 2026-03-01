@@ -19,9 +19,9 @@
         </BoxView>
 
         <ScrollView Padding="20,40,20,20">
-            <VerticalStackLayout Spacing="20">
+            <VerticalStackLayout x:Name="MainContainer" Spacing="20" HorizontalOptions="Center" MaximumWidthRequest="1000">
 
-                <Grid ColumnDefinitions="50, *" Margin="0,20,0,0">
+                <Grid x:Name="HeaderRow" ColumnDefinitions="50, *" Margin="0,20,0,0">
                     <Label Grid.Column="0" Text="←" TextColor="White" FontSize="28" FontAttributes="Bold" VerticalOptions="Center">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnBackTapped" />
@@ -30,20 +30,18 @@
                     <Label Grid.Column="1" Text="{x:Static res:AppResources.Graphics}" TextColor="White" FontSize="22" FontAttributes="Bold" VerticalOptions="Center" Margin="-20,0,0,0"/>
                 </Grid>
 
-                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                <ScrollView x:Name="FilterRow" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
                     <HorizontalStackLayout Spacing="10">
                         <Button Text="{x:Static res:AppResources.Internet}" BackgroundColor="White" TextColor="Black" CornerRadius="20" HeightRequest="40" FontAttributes="Bold" Padding="20,0"/>
                         <Button Text="{x:Static res:AppResources.DrinkingWater}" BackgroundColor="#CCFFFFFF" TextColor="Black" CornerRadius="20" HeightRequest="40" Padding="20,0"/>
                         <Button Text="{x:Static res:AppResources.CapacityStudents}" BackgroundColor="#CCFFFFFF" TextColor="Black" CornerRadius="20" HeightRequest="40" Padding="20,0"/>
-                        <Button Text="{x:Static res:AppResources.Table}" BackgroundColor="#CCFFFFFF" TextColor="Black" CornerRadius="20" HeightRequest="40" Padding="20,0"/>
-                        <Button Text="{x:Static res:AppResources.Map}" BackgroundColor="#CCFFFFFF" TextColor="Black" CornerRadius="20" HeightRequest="40" Padding="20,0"/>
                     </HorizontalStackLayout>
                 </ScrollView>
 
-                <Border StrokeShape="RoundRectangle 20" BackgroundColor="#F0FDF4" StrokeThickness="0" Padding="15">
+                <Border x:Name="ChartContainer" StrokeShape="RoundRectangle 20" BackgroundColor="#F0FDF4" StrokeThickness="0" Padding="15">
                     <VerticalStackLayout Spacing="15">
 
-                        <HorizontalStackLayout Spacing="15" Margin="0,0,0,10">
+                        <HorizontalStackLayout x:Name="ChartLegend" Spacing="15" Margin="0,0,0,10">
                             <Grid ColumnDefinitions="Auto, Auto" ColumnSpacing="5">
                                 <Ellipse Grid.Column="0" Fill="#3FE543" WidthRequest="12" HeightRequest="12" VerticalOptions="Center"/>
                                 <Label Grid.Column="1" Text="{x:Static res:AppResources.Optic}" FontSize="12" TextColor="Black" VerticalOptions="Center"/>
@@ -52,61 +50,35 @@
                                 <Ellipse Grid.Column="0" Fill="#00E5FF" WidthRequest="12" HeightRequest="12" VerticalOptions="Center"/>
                                 <Label Grid.Column="1" Text="{x:Static res:AppResources.NoInternet}" FontSize="12" TextColor="Black" VerticalOptions="Center"/>
                             </Grid>
-                            <Grid ColumnDefinitions="Auto, Auto" ColumnSpacing="5">
-                                <Ellipse Grid.Column="0" Fill="#0A56C4" WidthRequest="12" HeightRequest="12" VerticalOptions="Center"/>
-                                <Label Grid.Column="1" Text="{x:Static res:AppResources.MobileInternet}" FontSize="12" TextColor="Black" VerticalOptions="Center"/>
-                            </Grid>
                         </HorizontalStackLayout>
 
                         <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
                             <Grid ColumnDefinitions="40, *" RowDefinitions="300" ColumnSpacing="10">
-
                                 <Grid Grid.Column="0" RowDefinitions="*, *, *, *" VerticalOptions="Fill">
                                     <Label Grid.Row="0" Text="1500" FontSize="10" TextColor="Black" VerticalOptions="Start"/>
-                                    <Label Grid.Row="1" Text="1000" FontSize="10" TextColor="Black" VerticalOptions="Start"/>
-                                    <Label Grid.Row="2" Text="500" FontSize="10" TextColor="Black" VerticalOptions="Start"/>
                                     <Label Grid.Row="3" Text="0" FontSize="10" TextColor="Black" VerticalOptions="End"/>
                                 </Grid>
 
                                 <BoxView Grid.Column="0" HorizontalOptions="End" WidthRequest="1" Color="Black" Margin="0,5,0,0"/>
 
                                 <HorizontalStackLayout Grid.Column="1" Spacing="15" VerticalOptions="End">
-
-                                    <VerticalStackLayout Spacing="0" VerticalOptions="End">
+                                    <VerticalStackLayout x:Name="Bar1" Spacing="0" VerticalOptions="End">
                                         <BoxView Color="#00E5FF" WidthRequest="30" HeightRequest="20" />
-                                        <BoxView Color="#0A56C4" WidthRequest="30" HeightRequest="15" />
                                         <BoxView Color="#3FE543" WidthRequest="30" HeightRequest="140" />
                                         <Label Text="Andijon" FontSize="8" TextColor="Black" HorizontalTextAlignment="Center" Margin="0,5,0,0"/>
                                     </VerticalStackLayout>
 
-                                    <VerticalStackLayout Spacing="0" VerticalOptions="End">
+                                    <VerticalStackLayout x:Name="Bar2" Spacing="0" VerticalOptions="End">
                                         <BoxView Color="#00E5FF" WidthRequest="30" HeightRequest="10" />
-                                        <BoxView Color="#0A56C4" WidthRequest="30" HeightRequest="20" />
                                         <BoxView Color="#3FE543" WidthRequest="30" HeightRequest="90" />
                                         <Label Text="Buxoro" FontSize="8" TextColor="Black" HorizontalTextAlignment="Center" Margin="0,5,0,0"/>
                                     </VerticalStackLayout>
 
-                                    <VerticalStackLayout Spacing="0" VerticalOptions="End">
+                                    <VerticalStackLayout x:Name="Bar3" Spacing="0" VerticalOptions="End">
                                         <BoxView Color="#00E5FF" WidthRequest="30" HeightRequest="10" />
-                                        <BoxView Color="#0A56C4" WidthRequest="30" HeightRequest="10" />
                                         <BoxView Color="#3FE543" WidthRequest="30" HeightRequest="190" />
                                         <Label Text="Farg'ona" FontSize="8" TextColor="Black" HorizontalTextAlignment="Center" Margin="0,5,0,0"/>
                                     </VerticalStackLayout>
-
-                                    <VerticalStackLayout Spacing="0" VerticalOptions="End">
-                                        <BoxView Color="#00E5FF" WidthRequest="30" HeightRequest="15" />
-                                        <BoxView Color="#0A56C4" WidthRequest="30" HeightRequest="20" />
-                                        <BoxView Color="#3FE543" WidthRequest="30" HeightRequest="110" />
-                                        <Label Text="Jizzax" FontSize="8" TextColor="Black" HorizontalTextAlignment="Center" Margin="0,5,0,0"/>
-                                    </VerticalStackLayout>
-
-                                    <VerticalStackLayout Spacing="0" VerticalOptions="End">
-                                        <BoxView Color="#00E5FF" WidthRequest="30" HeightRequest="10" />
-                                        <BoxView Color="#0A56C4" WidthRequest="30" HeightRequest="15" />
-                                        <BoxView Color="#3FE543" WidthRequest="30" HeightRequest="240" />
-                                        <Label Text="Qashqadaryo" FontSize="8" TextColor="Black" HorizontalTextAlignment="Center" Margin="0,5,0,0"/>
-                                    </VerticalStackLayout>
-
                                 </HorizontalStackLayout>
                             </Grid>
                         </ScrollView>

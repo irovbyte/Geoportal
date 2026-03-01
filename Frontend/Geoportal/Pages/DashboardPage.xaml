@@ -19,14 +19,14 @@
         </BoxView>
 
         <ScrollView Padding="20,40,20,20">
-            <VerticalStackLayout Spacing="20">
+            <VerticalStackLayout x:Name="MainContainer" Spacing="20" HorizontalOptions="Center" MaximumWidthRequest="1000">
 
-                <VerticalStackLayout Margin="0,20,0,10" HorizontalOptions="Center">
+                <VerticalStackLayout x:Name="HeaderGroup" Margin="0,20,0,10" HorizontalOptions="Center">
                     <Label Text="{x:Static res:AppResources.DashboardTitle}" TextColor="White" FontSize="24" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                     <Label Text="{x:Static res:AppResources.DashboardSubtitle}" TextColor="White" FontSize="14" Opacity="0.9" HorizontalTextAlignment="Center" Margin="0,5,0,0"/>
                 </VerticalStackLayout>
 
-                <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+                <Grid x:Name="ActionButtons" ColumnDefinitions="*, *" ColumnSpacing="15">
                     <Button Grid.Column="0" Text="{x:Static res:AppResources.LeaveReportBtn}" BackgroundColor="#3FE543" TextColor="White" FontAttributes="Bold" CornerRadius="20" HeightRequest="45">
                         <Button.Shadow>
                             <Shadow Brush="Black" Offset="0,5" Opacity="0.2" Radius="10"/>
@@ -40,7 +40,7 @@
                 </Grid>
 
                 <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
-                    <HorizontalStackLayout Spacing="15">
+                    <HorizontalStackLayout x:Name="StatsCards" Spacing="15">
                         <Border StrokeShape="RoundRectangle 20" BackgroundColor="#E6FFFFFF" Padding="15" WidthRequest="140" StrokeThickness="0">
                             <VerticalStackLayout>
                                 <Label Text="{x:Static res:AppResources.Schools}" FontSize="16" FontAttributes="Bold" TextColor="Black"/>
@@ -75,7 +75,7 @@
                     </HorizontalStackLayout>
                 </ScrollView>
 
-                <Border StrokeShape="RoundRectangle 20" BackgroundColor="#F3F4F6" Padding="20" StrokeThickness="0">
+                <Border x:Name="SummaryInfo" StrokeShape="RoundRectangle 20" BackgroundColor="#F3F4F6" Padding="20" StrokeThickness="0">
                     <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, Auto" ColumnSpacing="15" RowSpacing="20">
                         <VerticalStackLayout Grid.Row="0" Grid.Column="0">
                             <Label Text="{x:Static res:AppResources.Spent}" FontSize="12" TextColor="#6B7280"/>
@@ -98,7 +98,7 @@
                     </Grid>
                 </Border>
 
-                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                <ScrollView x:Name="BottomFilters" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
                     <HorizontalStackLayout Spacing="10">
                         <Button Text="{x:Static res:AppResources.Map}" BackgroundColor="White" TextColor="Black" CornerRadius="15" HeightRequest="35" FontSize="12" Padding="15,0"/>
                         <Button Text="{x:Static res:AppResources.Data}" BackgroundColor="#E5E7EB" TextColor="Black" CornerRadius="15" HeightRequest="35" FontSize="12" Padding="15,0"/>

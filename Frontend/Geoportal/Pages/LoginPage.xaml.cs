@@ -1,5 +1,6 @@
 using Geoportal.Resources.Languages;
 using Geoportal.Services;
+using Geoportal.Service.Helpers;
 
 namespace Geoportal.Pages;
 
@@ -16,10 +17,17 @@ public partial class LoginPage : ContentPage
 
     protected override async void OnAppearing()
     {
+        // 1. Мгновенная подготовка (скрываем карточку)
+        AnimationHelper.Prepare(LoginCard);
+
         base.OnAppearing();
-        // Входная анимация страницы через Async
-        this.Opacity = 0;
-        await this.FadeToAsync(1, 400, Easing.CubicOut);
+
+        // 2. Ждем один цикл отрисовки
+        await Task.Yield();
+
+        // 3. Запускаем входную анимацию карточки (Зум + Fade + Подъем)
+        await AnimationHelper.EntranceAsync(LoginCard);
+
         CheckAutoLogin();
     }
 
@@ -46,15 +54,14 @@ public partial class LoginPage : ContentPage
 
     private async void OnSubmitClicked(object sender, EventArgs e)
     {
-        // Клик-анимация кнопки
-        await SubmitBtn.ScaleToAsync(0.96, 70, Easing.CubicIn);
-        await SubmitBtn.ScaleToAsync(1.0, 70, Easing.CubicOut);
+        // Клик-анимация через хелпер
+        await AnimationHelper.ExecuteClickScaleAsync(SubmitBtn);
 
         string rawPhone = "+998" + PhoneEntry.Text;
 
         if (string.IsNullOrEmpty(PhoneEntry.Text) || PhoneEntry.Text.Length < 9 || (PasswordEntry.Text?.Length ?? 0) < 6)
         {
-            await DisplayAlertAsync(AppResources.ErrorTitle, AppResources.ErrorMessage, "OK");
+            await DisplayAlert(AppResources.ErrorTitle, AppResources.ErrorMessage, "OK");
             return;
         }
 
@@ -74,12 +81,14 @@ public partial class LoginPage : ContentPage
 
     private async void OnSwitchModeClicked(object sender, EventArgs e)
     {
+        if (sender is View view) await AnimationHelper.ExecuteClickScaleAsync(view);
+
         _isLoginMode = !_isLoginMode;
 
-        // Плавное скрытие старых текстов
+        // Плавная смена режимов
         await Task.WhenAll(
-            TitleLabel.FadeToAsync(0, 150, Easing.SinIn),
-            SubmitBtn.FadeToAsync(0, 150, Easing.SinIn)
+            TitleLabel.FadeTo(0, 150),
+            SubmitBtn.FadeTo(0, 150)
         );
 
         TitleLabel.Text = _isLoginMode ? AppResources.LoginTitle : AppResources.RegisterTitle;
@@ -89,18 +98,17 @@ public partial class LoginPage : ContentPage
         if (!_isLoginMode)
         {
             ConfirmBorder.IsVisible = true;
-            await ConfirmBorder.FadeToAsync(1, 250, Easing.CubicOut);
+            await ConfirmBorder.FadeTo(1, 250, Easing.CubicOut);
         }
         else
         {
-            await ConfirmBorder.FadeToAsync(0, 200, Easing.SinIn);
+            await ConfirmBorder.FadeTo(0, 200);
             ConfirmBorder.IsVisible = false;
         }
 
-        // Плавное появление новых текстов
         await Task.WhenAll(
-            TitleLabel.FadeToAsync(1, 150, Easing.SinOut),
-            SubmitBtn.FadeToAsync(1, 150, Easing.SinOut)
+            TitleLabel.FadeTo(1, 150),
+            SubmitBtn.FadeTo(1, 150)
         );
     }
 

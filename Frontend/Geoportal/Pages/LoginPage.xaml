@@ -21,7 +21,8 @@
         <ScrollView VerticalOptions="Fill" HorizontalOptions="Fill">
             <Grid VerticalOptions="Center" HorizontalOptions="Center" Padding="20">
 
-                <Border StrokeShape="RoundRectangle 40" 
+                <Border x:Name="LoginCard" 
+                        StrokeShape="RoundRectangle 40" 
                         WidthRequest="450"
                         BackgroundColor="{AppThemeBinding Light=#CCFFFFFF, Dark=#CC1F1F1F}" 
                         StrokeThickness="0"
