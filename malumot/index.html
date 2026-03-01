@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma’lumot qoldirish - Geoportal</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Базовые стили и фон --- */
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif; /* Шрифт как на макете */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /* Градиентный фон: светло-зеленый -> светло-фиолетовый */
+            background: linear-gradient(135deg, #c7f1d9 0%, #dcd6f7 100%);
+            padding: 20px;
+        }
+
+        /* --- Контейнер основной карточки --- */
+        .main-card {
+            background-color: #f1f8f5; /* Очень светло-мятный фон */
+            border-radius: 30px; /* Сильное закругление */
+            width: 100%;
+            max-width: 1000px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05); /* Легкая тень */
+            overflow: hidden; /* Чтобы вкладки не вылезали */
+            position: relative;
+        }
+
+        /* Кнопка "Назад" (стрелка) */
+        .back-arrow {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            width: 40px;
+            height: 40px;
+            background-color: #fff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #dce8e2;
+            cursor: pointer;
+            text-decoration: none;
+            color: #555;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+        .back-arrow:hover {
+            background-color: #f8fcfb;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* --- Заголовок страницы --- */
+        .page-header {
+            padding: 25px 25px 15px 80px; /* Отступ слева для стрелки */
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 600;
+            margin: 0;
+            color: #1a1a1a;
+        }
+
+        /* --- Стили вкладок (Tabs) --- */
+        .tabs-container {
+            display: flex;
+            gap: 15px;
+            padding: 0 25px 25px 25px;
+        }
+
+        /* Базовая вкладка */
+        .tab-item {
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        /* Активная вкладка (светло-голубая) */
+        .tab-item.active {
+            background-color: #e2f1f8;
+            color: #1a1a1a;
+        }
+
+        /* Вкладка-кнопка (желтоватая) */
+        .tab-item.button-style {
+            background-color: #f6f3e4;
+            color: #555;
+            border: 1px solid #e8e2c8;
+        }
+        .tab-item.button-style:hover {
+            background-color: #f0ede0;
+        }
+
+        /* --- Сетка содержимого формы --- */
+        .form-content {
+            display: grid;
+            grid-template-columns: 350px 1fr; /* Левая колонка фиксирована */
+            gap: 30px;
+            padding: 30px;
+            align-items: start;
+        }
+
+        /* --- Левая колонка: Загрузка фото --- */
+        .photo-upload-zone {
+            /* Фиолетово-желтый градиент */
+            background: linear-gradient(180deg, #b794f4 0%, #edfdca 100%);
+            border-radius: 25px;
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+        
+        /* Пунктирная граница как отдельный элемент */
+        .photo-upload-zone::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 2px dashed #6b46c1; /* Темно-фиолетовый пунктир */
+            border-radius: 15px;
+            pointer-events: none;
+        }
+
+        .photo-upload-zone:hover {
+            transform: scale(1.02);
+        }
+
+        /* Иконка плюса (+) */
+        .upload-icon {
+            font-size: 50px;
+            color: #6b46c1;
+            font-weight: 300;
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+
+        /* Текст в зоне загрузки */
+        .upload-text {
+            font-size: 15px;
+            color: #6b46c1;
+            font-weight: 500;
+            line-height: 1.4;
+            max-width: 220px;
+        }
+
+        /* Скрытый input для файлов */
+        #fileInput {
+            display: none;
+        }
+
+        /* --- Правая колонка: Поля ввода --- */
+        .form-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Сетка для выпадающих списков (2x2) */
+        .select-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Стили выпадающих списков (Select) */
+        .custom-select {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 15px;
+            border: 1px solid #dce8e2;
+            background-color: #fff;
+            color: #777;
+            font-size: 15px;
+            appearance: none; /* Убираем стандартную стрелку */
+            -webkit-appearance: none;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3Y%3Cpath fill='%23777' d='M6 8.825L1.175 4 2.575 2.6 6 6.025 9.425 2.6 10.825 4z'/%3Y%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            background-size: 14px;
+        }
+        .custom-select:focus {
+            outline: none;
+            border-color: #a78bfa;
+            box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.1);
+        }
+        /* Стиль для placeholder-опции */
+        .custom-select option:first-child {
+            color: #bbb;
+        }
+
+        /* Стили текстового поля (Textarea) */
+        .custom-textarea {
+            width: 100%;
+            height: 120px;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #dce8e2;
+            background-color: #fff;
+            color: #333;
+            font-size: 15px;
+            resize: none; /* Запрет изменения размера */
+        }
+        .custom-textarea::placeholder {
+            color: #aaa;
+        }
+        .custom-textarea:focus {
+            outline: none;
+            border-color: #a78bfa;
+            box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.1);
+        }
+
+        /* Контейнер для кнопки (выравнивание вправо) */
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        /* Фиолетовая кнопка "Yuborish" */
+        .submit-btn {
+            background: linear-gradient(90deg, #8b5cf6 0%, #a78bfa 100%);
+            color: #fff;
+            border: none;
+            padding: 15px 60px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(139, 92, 246, 0.2);
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(139, 92, 246, 0.3);
+        }
+        .submit-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* --- Адаптивность (для мобильных устройств) --- */
+        @media (max-width: 850px) {
+            .form-content {
+                grid-template-columns: 1fr; /* Всё в одну колонку */
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .photo-upload-zone {
+                height: 250px;
+            }
+
+            .select-grid {
+                grid-template-columns: 1fr; /* Списки тоже в одну колонку */
+                gap: 15px;
+            }
+            
+            .page-title {
+                font-size: 26px;
+            }
+            
+            .tabs-container {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .submit-btn {
+                width: 100%; /* Кнопка на всю ширину */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-card">
+        <a href="#" class="back-arrow" title="Orqaga">&#8592;</a>
+
+        <div class="page-header">
+            <h1 class="page-title">Ma’lumot qoldirish</h1>
+        </div>
+
+        <div class="tabs-container">
+            <a href="#" class="tab-item active">Ma’lumot qoldirish</a>
+            <a href="#" class="tab-item button-style">Boshqa infratuzilmalar haqida</a>
+        </div>
+
+        <form class="form-content" id="reportForm">
+            
+            <div class="photo-upload-zone" onclick="document.getElementById('fileInput').click();">
+                <div class="upload-icon">+</div>
+                <div class="upload-text" id="uploadStatusText">Hududingizdagi infratuzilmaning fotosuratini qo‘shing</div>
+                <input type="file" id="fileInput" accept="image/*" onchange="updateUploadStatus(this)">
+            </div>
+
+            <div class="form-inputs">
+                
+                <div class="select-grid">
+                    <select class="custom-select" name="viloyat" required>
+                        <option value="" disabled selected>Viloyatni tanlang</option>
+                        <option value="samarqand">Samarqand</option>
+                        </select>
+
+                    <select class="custom-select" name="tuman" required>
+                        <option value="" disabled selected>Tumanni tanlang</option>
+                        </select>
+
+                    <select class="custom-select" name="infratuzilma" required>
+                        <option value="" disabled selected>Infratuzilma nomi</option>
+                    </select>
+
+                    <select class="custom-select" name="sektor" required>
+                        <option value="" disabled selected>Sektorni tanlang</option>
+                        <option value="1">1-sektor</option>
+                        <option value="2">2-sektor</option>
+                        <option value="3">3-sektor</option>
+                        <option value="4">4-sektor</option>
+                    </select>
+                </div>
+
+                <textarea class="custom-textarea" name="izoh" placeholder="Infratuzilmadagi muammolar haqida qo’shimcha izoh qoldiring."></textarea>
+
+                <div class="button-container">
+                    <button type="submit" class="submit-btn">Yuborish</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        // Простой скрипт для отображения имени файла после выбора
+        function updateUploadStatus(input) {
+            const statusText = document.getElementById('uploadStatusText');
+            if (input.files && input.files[0]) {
+                statusText.innerHTML = "Rasm tanlandi:<br><strong>" + input.files[0].name + "</strong>";
+                statusText.style.color = "#4c2c91"; // Немного темнее для контраста
+            } else {
+                statusText.innerText = "Hududingizdagi infratuzilmaning fotosuratini qo‘shing";
+                statusText.style.color = "#6b46c1";
+            }
+        }
+    </script>
+
+</body>
+</html>
