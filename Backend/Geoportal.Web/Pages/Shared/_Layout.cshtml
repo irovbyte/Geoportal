@@ -26,6 +26,7 @@
             <!-- REGION -->
             <div class="dropdown">
                 <button class="btn gp-dd-btn dropdown-toggle"
+                        id="gpRegionBtn"
                         type="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -54,15 +55,16 @@
 
             <!-- LANGUAGE -->
             <div class="dropdown">
-            <button class="btn gp-dd-btn dropdown-toggle"
-                type="button"
-                data-bs-toggle="dorpdown"
-                aria-expanded="false">
-            Язык
-                <ul class="dropdown-content">
-                    <li>Русский</li>
-                    <li>O'zbek</li>
-                    <li>English</li>
+                <button class="btn gp-dd-btn dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    Язык
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><button class="dropdown-item" data-lang="ru">Русский</button></li>
+                    <li><button class="dropdown-item" data-lang="uz">O'zbek</button></li>
+                    <li><button class="dropdown-item" data-lang="en">English</button></li>
                 </ul>
             </div>
 
@@ -75,9 +77,9 @@
                     Тема
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><button class="dropdown-item" data-theme="system">Системная</button></li>
-                    <li><button class="dropdown-item" data-theme="light">Светлая</button></li>
-                    <li><button class="dropdown-item" data-theme="dark">Темная</button></li>
+                    <li><button class="dropdown-item" data-set-theme="system">Системная</button></li>
+                    <li><button class="dropdown-item" data-set-theme="light">Светлая</button></li>
+                    <li><button class="dropdown-item" data-set-theme="dark">Темная</button></li>
                 </ul>
             </div>
 
@@ -110,17 +112,23 @@
     const html = document.documentElement;
 
     // region change
-    document.querySelectorAll("[data-region]").forEach(btn=>{
-        btn.addEventListener("click",()=>{
+    document.querySelectorAll("[data-region]").forEach(btn => {
+        btn.addEventListener("click", () => {
             document.getElementById("gpRegionBtn").textContent =
                 "Регион: " + btn.getAttribute("data-region");
         });
     });
 
-    // theme change
-    document.querySelectorAll("[data-theme]").forEach(btn=>{
-        btn.addEventListener("click",()=>{
-            html.setAttribute("data-theme", btn.getAttribute("data-theme"));
+    // theme change — используем data-set-theme чтобы не конфликтовать с атрибутом html[data-theme]
+    document.querySelectorAll("[data-set-theme]").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const theme = btn.getAttribute("data-set-theme");
+            if (theme === "system") {
+                const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+                html.setAttribute("data-theme", prefersDark ? "dark" : "light");
+            } else {
+                html.setAttribute("data-theme", theme);
+            }
         });
     });
 })();
