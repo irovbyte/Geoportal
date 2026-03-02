@@ -1,0 +1,24 @@
+# Глобальные настройки
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+charset = utf-8
+
+# Настройки для C# (.cs файлов)
+[*.cs]
+# Использовать var, если тип очевиден (как ты любишь)
+dotnet_style_qualification_for_field = false:silent
+dotnet_style_qualification_for_property = false:silent
+dotnet_diagnostic.CS8618.severity = suggestion # Тот самый варнинг про null
+
+# Настройки для XAML (интерфейс)
+[*.xaml]
+indent_size = 2
+
+# Настройки для Razor (.cshtml)
+[*.cshtml]
+indent_size = 4

@@ -1,0 +1,485 @@
+@{
+    ViewData["Title"] = "Asosiy";
+}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<style>
+    /* 1. Глобальный фон */
+    body {
+        background-color: #0A56C4;
+        background-image: linear-gradient(135deg, #0A56C4 0%, #158296 50%, #19A332 100%) !important;
+        background-attachment: fixed !important;
+        font-family: 'Inter', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    /* АНИМИРОВАННЫЕ ФИГУРЫ НА ФОНЕ */
+    .bg-shape-container {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        z-index: -1;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+    .bg-shape {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.6;
+    }
+
+    @@keyframes moveShape1 {
+        0% { transform: translate3d(0, 0, 0) scale(1); }
+        50% { transform: translate3d(150px, 100px, 0) scale(1.2); }
+        100% { transform: translate3d(-50px, -150px, 0) scale(0.9); }
+    }
+    @@keyframes moveShape2 {
+        0% { transform: translate3d(0, 0, 0) scale(1); }
+        50% { transform: translate3d(-200px, 150px, 0) scale(0.8); }
+        100% { transform: translate3d(100px, -100px, 0) scale(1.3); }
+    }
+    @@keyframes moveShape3 {
+        0% { transform: translate3d(0, 0, 0) scale(1); }
+        50% { transform: translate3d(100px, -200px, 0) scale(1.1); }
+        100% { transform: translate3d(-150px, 100px, 0) scale(0.95); }
+    }
+
+    .shape-1 {
+        width: 700px; height: 700px;
+        background: #00FF88;
+        top: -20%; left: -10%;
+        animation: moveShape1 20s infinite alternate ease-in-out;
+    }
+    .shape-2 {
+        width: 900px; height: 900px;
+        background: #9D4EDD;
+        bottom: -30%; right: -15%;
+        animation: moveShape2 25s infinite alternate ease-in-out;
+    }
+    .shape-3 {
+        width: 600px; height: 600px;
+        background: #0A56C4;
+        top: 30%; left: 35%;
+        animation: moveShape3 22s infinite alternate ease-in-out;
+    }
+
+    /* 2. КОНТЕЙНЕР */
+    .gp-container {
+        width: 96%;
+        max-width: 1600px;
+        margin: 0 auto;
+        padding: 60px 10px;
+    }
+
+    /* 3. ШАПКА */
+    .hero-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 5rem;
+    }
+    .hero-title {
+        color: #ffffff;
+        font-weight: 900;
+        font-size: clamp(2.5rem, 5vw, 4.5rem);
+        line-height: 1.15;
+        letter-spacing: -2px;
+        text-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        max-width: 1200px;
+        margin: 0 auto 20px auto;
+    }
+    .hero-subtitle {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.5rem;
+        font-weight: 500;
+        max-width: 800px;
+        margin: 0 auto 40px auto;
+        line-height: 1.6;
+    }
+    .main-toggle-wrapper {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border-radius: 100px;
+        padding: 10px;
+        display: inline-flex;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    }
+    .toggle-btn {
+        border-radius: 100px;
+        padding: 16px 55px;
+        font-weight: 800;
+        border: none;
+        transition: all 0.4s ease;
+        font-size: 1.15rem;
+        cursor: pointer;
+    }
+    .btn-neon-green { background: #00FF88; color: #000; box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4); }
+    .btn-purple { background: transparent; color: white; }
+    .btn-purple:hover { background: rgba(255, 255, 255, 0.15); }
+
+    /* 4. ВЕРХНИЕ КАРТОЧКИ */
+    .mini-cards-wrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 40px;
+        margin-bottom: 6rem;
+    }
+    .stat-card-mini {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(20px);
+        border-radius: 40px;
+        padding: 55px 40px;
+        min-height: 230px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        position: relative;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s ease;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        overflow: hidden;
+    }
+    .stat-card-mini:hover {
+        transform: translateY(-15px) scale(1.04);
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.25);
+        background: rgba(255, 255, 255, 0.95);
+    }
+    .card-label-mini { font-size: 15px; font-weight: 800; color: #6C7A9C; text-transform: uppercase; letter-spacing: 2px; z-index: 2; }
+    .card-value-mini { font-size: 3.6rem; font-weight: 900; color: #1E2A47; margin: 10px 0 0 0; z-index: 2; line-height: 1; }
+    .card-icon-bg { position: absolute; right: 20px; bottom: -20px; font-size: 7rem; opacity: 0.04; z-index: 1; transform: rotate(-15deg); transition: all 0.5s ease; }
+    .stat-card-mini:hover .card-icon-bg { transform: rotate(0deg) scale(1.15); opacity: 0.08; }
+
+    /* 5. ПАНЕЛЬ ФИНАНСОВ */
+    .finance-outer-panel {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(40px);
+        border-radius: 45px;
+        padding: 35px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+        margin-bottom: 6rem;
+    }
+    .finance-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 30px; }
+    .inner-finance-card {
+        background: rgba(255, 255, 255, 0.9); border-radius: 30px; padding: 35px 25px;
+        text-align: center; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08); transition: transform 0.3s ease;
+    }
+    .inner-finance-card:hover { transform: translateY(-8px); }
+    .inner-label { font-size: 14px; font-weight: 800; color: #8E9AAF; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+    .inner-value { font-size: 2.4rem; font-weight: 900; color: #1E2A47; line-height: 1; }
+    .text-mlrd { font-size: 1.2rem; opacity: 0.5; font-weight: 700; }
+
+    /* 6. УЛЬТРА-ИНСТРУМЕНТ (НИЖНИЙ БЛОК С ВКЛАДКАМИ) */
+    .ultra-tool-section {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(30px);
+        border-radius: 45px;
+        padding: 40px;
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        min-height: 600px;
+    }
+
+    /* Навигация вкладок */
+    .tool-tabs-nav {
+        display: flex;
+        gap: 15px;
+        background: #F1F3F5;
+        padding: 10px;
+        border-radius: 25px;
+        margin-bottom: 40px;
+    }
+
+    .tool-tab-btn {
+        flex: 1;
+        text-align: center;
+        padding: 18px 20px;
+        border-radius: 18px;
+        font-weight: 800;
+        font-size: 1.1rem;
+        color: #6C7A9C;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .tool-tab-btn:hover { color: #1E2A47; }
+
+    .tool-tab-btn.active {
+        background: #ffffff;
+        color: #1E2A47;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        transform: translateY(-2px);
+    }
+
+    .tool-tab-btn.active.green-glow {
+        box-shadow: 0 10px 25px rgba(0, 255, 136, 0.3);
+        border: 1px solid #00FF88;
+    }
+
+    /* Контент вкладок и анимация плавного появления */
+    .tool-content {
+        display: none;
+        opacity: 0;
+    }
+
+    .tool-content.active {
+        display: block;
+        animation: fadeInTab 0.5s ease forwards;
+    }
+
+    @@keyframes fadeInTab {
+        0% { opacity: 0; transform: translateY(20px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* КОНТЕНТ 1: Карта (Изменили размер и центрирование) */
+    .map-wrapper {
+        padding: 20px;
+        background: #F8F9FA;
+        border-radius: 35px;
+        border: 2px dashed #CED4DA;
+    }
+
+    .map-container {
+        height: 600px; /* Зафиксировали высоту */
+        width: 100%;
+        border-radius: 25px;
+        border: 2px solid #E9ECEF;
+        z-index: 1;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+
+    /* КОНТЕНТ 2: Доноры (Leaderboard теперь на весь экран по центру) */
+    .donors-wrapper {
+        max-width: 900px; /* Чтобы список не растягивался колбасой на весь монитор */
+        margin: 0 auto;   /* Центрируем блок */
+    }
+
+    .donor-leaderboard {
+        background: #F8F9FA;
+        border-radius: 30px;
+        padding: 40px;
+        border: 1px solid #E9ECEF;
+    }
+
+    .donor-item {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 25px 30px; /* Сделали строчки жирнее */
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        transition: 0.3s ease;
+    }
+    .donor-item:hover { transform: translateX(8px); border-left: 5px solid #00FF88; }
+
+    /* Заглушки для других вкладок */
+    .mockup-box {
+        background: #F8F9FA; border-radius: 30px; padding: 60px; text-align: center;
+        border: 2px dashed #CED4DA; min-height: 400px; display: flex; flex-direction: column;
+        justify-content: center; align-items: center;
+    }
+</style>
+
+<div class="bg-shape-container">
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
+</div>
+
+<div class="gp-container">
+
+    <div class="hero-section animate-fade-up">
+        <h1 class="hero-title">Siz hududingizdagi muammolar haqida ma'lumot qoldiring</h1>
+        <p class="hero-subtitle">Biz uni hal qilishga yordam beramiz. Infratuzilmani birgalikda yaxshilaymiz.</p>
+        <div class="main-toggle-wrapper">
+            <button class="toggle-btn btn-neon-green" onclick="location.href='/Home/Report'">Ma'lumot qoldirish</button>
+            <button class="toggle-btn btn-purple">Natijalar</button>
+        </div>
+    </div>
+
+    <div class="mini-cards-wrapper animate-fade-up" style="animation-delay: 0.1s;">
+        <div class="stat-card-mini">
+            <span class="card-label-mini">Maktablar</span>
+            <p class="card-value-mini">11 139</p>
+            <div class="card-icon-bg">📚</div>
+        </div>
+        <div class="stat-card-mini">
+            <span class="card-label-mini">Bog'chalar</span>
+            <p class="card-value-mini">6 935</p>
+            <div class="card-icon-bg">🏫</div>
+        </div>
+        <div class="stat-card-mini">
+            <span class="card-label-mini">Tibbiyot</span>
+            <p class="card-value-mini">3 034</p>
+            <div class="card-icon-bg">🏥</div>
+        </div>
+        <div class="stat-card-mini">
+            <span class="card-label-mini">Sport</span>
+            <p class="card-value-mini">356</p>
+            <div class="card-icon-bg">⚽</div>
+        </div>
+    </div>
+
+    <div class="finance-outer-panel animate-fade-up" style="animation-delay: 0.2s;">
+        <div class="finance-grid">
+            <div class="inner-finance-card">
+                <span class="inner-label">Sarflangan</span>
+                <div class="inner-value text-primary">169.899 <span class="text-mlrd">mlrd</span></div>
+            </div>
+            <div class="inner-finance-card">
+                <span class="inner-label">Ajratilgan</span>
+                <div class="inner-value text-dark">500.236 <span class="text-mlrd">mlrd</span></div>
+            </div>
+            <div class="inner-finance-card">
+                <span class="inner-label">Loyihalar</span>
+                <div class="inner-value" style="color: #9D4EDD;">30,749</div>
+            </div>
+            <div class="inner-finance-card" style="border: 3px solid #00FF88;">
+                <span class="inner-label">O'zlashtirish</span>
+                <div class="inner-value text-success">34% <span class="text-mlrd">bajarildi</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ultra-tool-section animate-fade-up" style="animation-delay: 0.3s;">
+
+        <div class="tool-tabs-nav">
+            <div class="tool-tab-btn active green-glow" onclick="switchTab('tab-xarita', this)">🗺️ Xarita</div>
+            <div class="tool-tab-btn" onclick="switchTab('tab-donorlar', this)">🏆 Top Donorlar</div>
+            <div class="tool-tab-btn" onclick="switchTab('tab-malumot', this)">📊 Ma'lumotlar</div>
+            <div class="tool-tab-btn" onclick="switchTab('tab-grafik', this)">📈 Grafik vositalari</div>
+            <div class="tool-tab-btn" onclick="switchTab('tab-solishtirish', this)">⚖️ Solishtirish</div>
+        </div>
+
+        <div id="tab-xarita" class="tool-content active">
+            <div class="map-wrapper">
+                <div id="map" class="map-container"></div>
+            </div>
+        </div>
+
+        <div id="tab-donorlar" class="tool-content">
+            <div class="donors-wrapper">
+                <div class="donor-leaderboard">
+                    <h3 class="fw-black mb-5 text-dark text-center">Top investorlar va donorlar reytingi</h3>
+
+                    <div class="donor-item">
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-primary me-3 fs-5 py-2 px-3 rounded-circle">1</span>
+                            <div class="fw-bold fs-4 text-dark">Davlat byudjeti</div>
+                        </div>
+                        <div class="text-end">
+                            <div class="text-primary fw-900 fs-3">225.0</div>
+                            <small class="text-muted fs-6">trln so'm</small>
+                        </div>
+                    </div>
+
+                    <div class="donor-item">
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-success me-3 fs-5 py-2 px-3 rounded-circle">2</span>
+                            <div class="fw-bold fs-4 text-dark">Tiklanish jamg'armasi</div>
+                        </div>
+                        <div class="text-end">
+                            <div class="text-success fw-900 fs-3">45.2</div>
+                            <small class="text-muted fs-6">trln so'm</small>
+                        </div>
+                    </div>
+
+                    <div class="donor-item">
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-info me-3 fs-5 py-2 px-3 rounded-circle">3</span>
+                            <div class="fw-bold fs-4 text-dark">Jahon Banki</div>
+                        </div>
+                        <div class="text-end">
+                            <div class="text-info fw-900 fs-3">12.8</div>
+                            <small class="text-muted fs-6">trln so'm</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-malumot" class="tool-content">
+            <div class="mockup-box">
+                <h2 class="fw-black">📊 Ma'lumotlar bazasi</h2>
+                <p class="text-muted fs-5">Bu yerda barcha infratuzilma ob'ektlarining batafsil ro'yxati va jadvallari bo'ladi.</p>
+            </div>
+        </div>
+
+        <div id="tab-grafik" class="tool-content">
+            <div class="mockup-box">
+                <h2 class="fw-black">📈 Analitika va Grafiklar</h2>
+                <p class="text-muted fs-5">Hududlar kesimida mablag'larning sarflanishi va o'sish dinamikasi.</p>
+            </div>
+        </div>
+
+        <div id="tab-solishtirish" class="tool-content">
+            <div class="mockup-box">
+                <h2 class="fw-black">⚖️ Hududlarni solishtirish</h2>
+                <p class="text-muted fs-5">Ikki yoki undan ortiq hududni iqtisodiy va infratuzilma jihatdan taqqoslash vositasi.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    function switchTab(tabId, clickedBtn) {
+        document.querySelectorAll('.tool-tab-btn').forEach(btn => {
+            btn.classList.remove('active', 'green-glow');
+        });
+        document.querySelectorAll('.tool-content').forEach(content => {
+            content.classList.remove('active');
+        });
+
+        clickedBtn.classList.add('active', 'green-glow');
+        document.getElementById(tabId).classList.add('active');
+
+        if(tabId === 'tab-xarita' && map) {
+            setTimeout(function(){ map.invalidateSize(); }, 100);
+        }
+    }
+
+    var map;
+    document.addEventListener("DOMContentLoaded", function () {
+        map = L.map('map', {
+            zoomControl: true,
+            scrollWheelZoom: false
+        }).setView([41.3775, 64.5853], 6);
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        var points = [
+            { name: "Toshkent", coords: [41.2995, 69.2401], value: "4,231" },
+            { name: "Samarqand", coords: [39.6270, 66.9750], value: "3,110" },
+            { name: "Farg'ona", coords: [40.3842, 71.7843], value: "2,905" },
+            { name: "Xorazm", coords: [41.5500, 60.6333], value: "1,450" }
+        ];
+
+        points.forEach(function (p) {
+            var marker = L.circleMarker(p.coords, {
+                radius: 10,
+                fillColor: "#00FF88",
+                color: "#0A56C4",
+                weight: 2,
+                opacity: 1,
+                fillOpacity: 0.8
+            }).addTo(map);
+
+            marker.bindPopup("<b>" + p.name + "</b><br>Loyihalar: " + p.value);
+        });
+    });
+</script>

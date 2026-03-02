@@ -1,0 +1,112 @@
+@{
+    var title = ViewData["Title"] as string ?? "Geoportal";
+}
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@title - Geoportal</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    
+    <style>
+        /* =========================================
+           УЛЬТРА-СОВРЕМЕННЫЙ СВЕТЛЫЙ ДИЗАЙН ПО PDF
+           ========================================= */
+        :root {
+            --gp-neon-green: #00FF88; /* Яркий зеленый из макета */
+            --gp-purple: #9D4EDD;     /* Фиолетовый из макета */
+            --gp-bg-light: #F4F0FF;   /* Светлая лаванда */
+            --gp-bg-mint: #E0F8EC;    /* Светлая мята */
+            --gp-text-dark: #2B2D42;
+        }
+
+        body {
+            /* Тот самый нежный градиентный фон */
+            background: linear-gradient(135deg, var(--gp-bg-light) 0%, var(--gp-bg-mint) 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: var(--gp-text-dark);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Парящая навигация-таблетка */
+        .gp-nav-pill {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            border-radius: 50px;
+            padding: 8px 15px;
+            display: inline-flex;
+            gap: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        .nav-item-btn {
+            background: transparent;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 25px;
+            font-weight: 600;
+            color: #555;
+            transition: all 0.3s;
+        }
+
+        .nav-item-btn.active {
+            background: white;
+            color: var(--gp-text-dark);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .nav-item-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.4);
+        }
+
+        .top-header-area {
+            padding-top: 30px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* Анимация плавного появления */
+        .animate-fade-up {
+            opacity: 0;
+            animation: fadeUpAnim 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        @@keyframes fadeUpAnim {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .gp-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 50px 20px;
+        }
+        
+    </style>
+</head>
+
+<body>
+
+<div class="top-header-area animate-fade-up" style="animation-delay: 0s;">
+    <div class="gp-nav-pill">
+        <button class="nav-item-btn active">Xarita</button>
+        <button class="nav-item-btn">Ma'lumotlar</button>
+        <button class="nav-item-btn">Grafik vositalar</button>
+        <button class="nav-item-btn">Solishtirish</button>
+    </div>
+</div>
+
+<div class="gp-container">
+    @RenderBody()
+</div>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
