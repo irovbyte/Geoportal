@@ -1,0 +1,301 @@
+@{
+    ViewData["Title"] = "Sport";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    /* 1. Глобальный фон */
+    body {
+        background-color: #0A56C4;
+        background-image: linear-gradient(135deg, #0A56C4 0%, #158296 50%, #19A332 100%) !important;
+        background-attachment: fixed !important;
+        font-family: 'Inter', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    .bg-shape-container { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; pointer-events: none; }
+    .bg-shape { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.6; }
+
+    @@keyframes moveShape1 { 0% { transform: translate3d(0,0,0) scale(1); } 100% { transform: translate3d(-50px, -150px, 0) scale(0.9); } }
+    @@keyframes moveShape2 { 0% { transform: translate3d(0,0,0) scale(1); } 100% { transform: translate3d(100px, -100px, 0) scale(1.3); } }
+
+    .shape-1 { width: 700px; height: 700px; background: #00FF88; top: -10%; left: -10%; animation: moveShape1 20s infinite alternate ease-in-out; }
+    .shape-2 { width: 900px; height: 900px; background: #9D4EDD; bottom: -20%; right: -10%; animation: moveShape2 25s infinite alternate ease-in-out; }
+
+    .gp-container {
+        width: 96%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 40px 10px 80px 10px;
+    }
+
+    /* 2. Шапка категории (с иконкой справа) */
+    .category-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 40px;
+        position: relative;
+    }
+
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .back-btn {
+        width: 55px; height: 55px;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        color: white; text-decoration: none; font-size: 1.5rem;
+        transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .back-btn:hover { background: white; color: #0A56C4; transform: translateX(-5px); }
+
+    .category-title {
+        font-weight: 900; font-size: clamp(3rem, 5vw, 4.5rem);
+        color: white; margin: 0; letter-spacing: -1px;
+        text-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .header-right-icon {
+        font-size: 8rem;
+        opacity: 0.15;
+        position: absolute;
+        right: 50px;
+        top: -20px;
+        transform: rotate(10deg);
+        pointer-events: none;
+    }
+
+    /* 3. ПЛАВАЮЩИЕ ТАБЫ (Сливаются с панелью) */
+    .pills-nav {
+        display: flex;
+        gap: 10px;
+        margin-bottom: -15px;
+        position: relative;
+        z-index: 10;
+        flex-wrap: wrap;
+        padding-left: 40px;
+    }
+
+    .tab-pill {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        padding: 16px 35px 25px 35px;
+        border-radius: 30px 30px 0 0;
+        font-weight: 800;
+        font-size: 1.1rem;
+        color: #1E2A47;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 15px;
+    }
+
+    .tab-pill:hover {
+        background: rgba(255, 255, 255, 0.8);
+    }
+
+    .tab-pill.active {
+        background: #ffffff;
+        color: #000;
+        border-bottom-color: #ffffff;
+        margin-top: 0;
+        padding-bottom: 30px;
+        box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    /* 4. Главная панель для графиков */
+    .glass-content-panel {
+        background: #ffffff;
+        border-radius: 40px;
+        padding: 50px;
+        box-shadow: 0 40px 80px rgba(0,0,0,0.15);
+        border: 2px solid rgba(255,255,255,0.9);
+        position: relative;
+        z-index: 5;
+        min-height: 600px;
+    }
+
+    .cat-content { display: none; opacity: 0; }
+    .cat-content.active { display: block; animation: fadeInTab 0.5s ease forwards; }
+
+    @@keyframes fadeInTab {
+        0% { opacity: 0; transform: translateY(15px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* График контейнер */
+    .chart-wrapper {
+        width: 100%;
+        height: 500px;
+        margin-top: 20px;
+    }
+
+    /* Заглушки */
+    .mockup-box {
+        background: #F8F9FA; border-radius: 30px; padding: 60px; text-align: center;
+        border: 2px dashed #CED4DA; min-height: 400px; display: flex; flex-direction: column;
+        justify-content: center; align-items: center; margin-top: 30px;
+    }
+</style>
+
+<div class="bg-shape-container">
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+</div>
+
+<div class="gp-container">
+
+    <div class="category-header animate-fade-up">
+        <div class="header-left">
+            <a href="/" class="back-btn">←</a>
+            <h1 class="category-title">Sport</h1>
+        </div>
+        <div class="header-right-icon">⚽</div>
+    </div>
+
+    <div class="pills-nav animate-fade-up" style="animation-delay: 0.1s;">
+        <div class="tab-pill active" onclick="switchCategoryTab('tab-inshootlar', this)">Sport inshootlari</div>
+        <div class="tab-pill" onclick="switchCategoryTab('tab-jihozlar', this)">Jihozlanish darajasi</div>
+        <div class="tab-pill" onclick="switchCategoryTab('tab-qamrov', this)">Yoshlar qamrovi</div>
+        <div class="tab-pill" onclick="switchCategoryTab('tab-jadval', this)">Jadval</div>
+        <div class="tab-pill" onclick="switchCategoryTab('tab-xarita', this)">Xarita</div>
+    </div>
+
+    <div class="glass-content-panel animate-fade-up" style="animation-delay: 0.2s;">
+
+        <div id="tab-inshootlar" class="cat-content active">
+            <div class="chart-wrapper">
+                <canvas id="sportChart"></canvas>
+            </div>
+        </div>
+
+        <div id="tab-jihozlar" class="cat-content">
+            <div class="mockup-box">
+                <h2 class="fw-black">🏋️ Sport anjomlari va trenajyorlar</h2>
+                <p class="text-muted fs-5">Zallarning kerakli sport jihozlari va zamonaviy trenajyorlar bilan ta'minlanganlik holati.</p>
+            </div>
+        </div>
+
+        <div id="tab-qamrov" class="cat-content">
+            <div class="mockup-box">
+                <h2 class="fw-black">🏃 Yoshlarni sportga jalb qilish</h2>
+                <p class="text-muted fs-5">Hududlardagi yoshlarning muntazam ravishda sport to'garaklariga qatnashish foizi.</p>
+            </div>
+        </div>
+
+        <div id="tab-jadval" class="cat-content">
+            <div class="mockup-box">
+                <h2 class="fw-black">📋 Batafsil Jadval</h2>
+                <p class="text-muted fs-5">Barcha sport ob'ektlari va maydonchalari bo'yicha yig'ma ma'lumotlar.</p>
+            </div>
+        </div>
+
+        <div id="tab-xarita" class="cat-content">
+            <div class="mockup-box" style="border-style: solid; background: #E9ECEF;">
+                <h2 class="fw-black">🗺️ Interaktiv Xarita</h2>
+                <p class="text-muted fs-5">Sport majmualari va ochiq maydonchalarning joylashuvi xaritada.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // Логика переключения вкладок
+    function switchCategoryTab(tabId, clickedBtn) {
+        document.querySelectorAll('.tab-pill').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelectorAll('.cat-content').forEach(content => {
+            content.classList.remove('active');
+        });
+
+        clickedBtn.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+    }
+
+    // Инициализация графика для Спорта
+    document.addEventListener("DOMContentLoaded", function () {
+        const ctx = document.getElementById('sportChart').getContext('2d');
+
+        // Зеленый градиент для открытых площадок (самый массовый сегмент)
+        const greenGradient = ctx.createLinearGradient(0, 0, 0, 400);
+        greenGradient.addColorStop(0, '#00FF88');
+        greenGradient.addColorStop(1, 'rgba(0, 255, 136, 0.1)');
+
+        const data = {
+            labels: ['Andijon', 'Buxoro', 'Farg\'ona', 'Jizzax', 'Namangan', 'Navoiy', 'Qashqadaryo', 'Qoraqalpog\'iston', 'Samarqand', 'Sirdaryo', 'Surxondaryo', 'Toshkent sh', 'Toshkent v', 'Xorazm'],
+            datasets: [
+                {
+                    label: 'Katta stadionlar',
+                    data: [5, 4, 6, 3, 5, 2, 6, 4, 8, 2, 4, 15, 7, 3],
+                    backgroundColor: '#0A56C4', // Темно-синий
+                    borderRadius: {topLeft: 5, topRight: 5, bottomLeft: 0, bottomRight: 0}
+                },
+                {
+                    label: 'Sport majmualari va zallar',
+                    data: [45, 30, 50, 25, 40, 20, 55, 35, 60, 15, 45, 80, 55, 28],
+                    backgroundColor: '#00D4FF', // Голубой
+                },
+                {
+                    label: 'Ochiq sport maydonchalari (Workout)',
+                    data: [150, 120, 180, 90, 160, 70, 190, 110, 210, 60, 140, 280, 200, 100],
+                    backgroundColor: greenGradient, // Зеленый градиент
+                }
+            ]
+        };
+
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        align: 'start',
+                        labels: {
+                            usePointStyle: true,
+                            boxWidth: 10,
+                            font: { family: 'Inter', size: 14, weight: 'bold' },
+                            color: '#1E2A47'
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(30, 42, 71, 0.9)',
+                        titleFont: { size: 14 },
+                        bodyFont: { size: 14 },
+                        padding: 15,
+                        cornerRadius: 10
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: true,
+                        grid: { display: false, drawBorder: false },
+                        ticks: { font: { family: 'Inter', weight: 'bold', size: 11 }, color: '#1E2A47' }
+                    },
+                    y: {
+                        stacked: true,
+                        grid: { color: 'rgba(0,0,0,0.05)', drawBorder: false },
+                        ticks: { font: { family: 'Inter', weight: 'bold' }, color: '#8E9AAF', stepSize: 50 }
+                    }
+                }
+            }
+        };
+
+        new Chart(ctx, config);
+    });
+</script>

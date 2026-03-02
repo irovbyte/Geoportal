@@ -1,0 +1,306 @@
+@{
+    ViewData["Title"] = "Maktablar";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    /* 1. Глобальный фон и анимация */
+    body {
+        background-color: #0A56C4;
+        background-image: linear-gradient(135deg, #0A56C4 0%, #158296 50%, #19A332 100%) !important;
+        background-attachment: fixed !important;
+        font-family: 'Inter', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    .bg-shape-container { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; pointer-events: none; }
+    .bg-shape { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.6; }
+
+    @@keyframes moveShape1 { 0% { transform: translate3d(0,0,0) scale(1); } 100% { transform: translate3d(-50px, -150px, 0) scale(0.9); } }
+    @@keyframes moveShape2 { 0% { transform: translate3d(0,0,0) scale(1); } 100% { transform: translate3d(100px, -100px, 0) scale(1.3); } }
+
+    .shape-1 { width: 700px; height: 700px; background: #00FF88; top: -10%; left: -10%; animation: moveShape1 20s infinite alternate ease-in-out; }
+    .shape-2 { width: 900px; height: 900px; background: #9D4EDD; bottom: -20%; right: -10%; animation: moveShape2 25s infinite alternate ease-in-out; }
+
+    .gp-container {
+        width: 96%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 40px 10px 80px 10px;
+    }
+
+    /* 2. Шапка категории */
+    .category-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 40px;
+        position: relative;
+    }
+
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .back-btn {
+        width: 55px; height: 55px;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        color: white; text-decoration: none; font-size: 1.5rem;
+        transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .back-btn:hover { background: white; color: #0A56C4; transform: translateX(-5px); }
+
+    .category-title {
+        font-weight: 900; font-size: clamp(3rem, 5vw, 4.5rem);
+        color: white; margin: 0; letter-spacing: -1px;
+        text-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .header-right-icon {
+        font-size: 8rem;
+        opacity: 0.15;
+        position: absolute;
+        right: 50px;
+        top: -20px;
+        transform: rotate(10deg);
+        pointer-events: none;
+    }
+
+    /* =====================================================
+       3. ПЛАВАЮЩИЕ ТАБЫ КАК НА СКРИНШОТЕ (Pills Nav)
+       ===================================================== */
+    .pills-nav {
+        display: flex;
+        gap: 10px;
+        margin-bottom: -15px; /* Заставляем табы наехать на белую панель */
+        position: relative;
+        z-index: 10;
+        flex-wrap: wrap;
+        padding-left: 40px; /* Сдвигаем вправо, как на скрине */
+    }
+
+    .tab-pill {
+        background: rgba(255, 255, 255, 0.6); /* Полупрозрачный фон */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        padding: 16px 35px 25px 35px; /* Длинный низ, чтобы перекрыть бордер панели */
+        border-radius: 30px 30px 0 0; /* Закругляем только верх */
+        font-weight: 800;
+        font-size: 1.1rem;
+        color: #1E2A47;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 15px; /* Чтобы неактивные табы были чуть ниже */
+    }
+
+    .tab-pill:hover {
+        background: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Активный таб */
+    .tab-pill.active {
+        background: #ffffff; /* Полностью белый, сливается с панелью */
+        color: #000;
+        border-bottom-color: #ffffff; /* Убираем нижнюю рамку */
+        margin-top: 0; /* Поднимаем активный таб выше */
+        padding-bottom: 30px; /* Еще сильнее тянем вниз */
+        box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    /* =====================================================
+       4. ГЛАВНАЯ ПАНЕЛЬ ДЛЯ ГРАФИКОВ
+       ===================================================== */
+    .glass-content-panel {
+        background: #ffffff; /* Белый фон, чтобы слиться с активным табом */
+        border-radius: 40px;
+        padding: 50px;
+        box-shadow: 0 40px 80px rgba(0,0,0,0.15);
+        border: 2px solid rgba(255,255,255,0.9);
+        position: relative;
+        z-index: 5;
+        min-height: 600px;
+    }
+
+    .cat-content { display: none; opacity: 0; }
+    .cat-content.active { display: block; animation: fadeInTab 0.5s ease forwards; }
+
+    @@keyframes fadeInTab {
+        0% { opacity: 0; transform: translateY(15px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* График контейнер */
+    .chart-wrapper {
+        width: 100%;
+        height: 500px;
+        margin-top: 20px;
+    }
+
+    /* Заглушки */
+    .mockup-box {
+        background: #F8F9FA; border-radius: 30px; padding: 60px; text-align: center;
+        border: 2px dashed #CED4DA; min-height: 400px; display: flex; flex-direction: column;
+        justify-content: center; align-items: center; margin-top: 30px;
+    }
+</style>
+
+<div class="bg-shape-container">
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+</div>
+
+<div class="gp-container">
+
+    <div class="category-header animate-fade-up">
+        <div class="header-left">
+            <a href="/" class="back-btn">←</a>
+            <h1 class="category-title">Maktablar</h1>
+        </div>
+        <div class="header-right-icon">📚</div>
+    </div>
+
+    <div class="pills-nav animate-fade-up" style="animation-delay: 0.1s;">
+        <div class="tab-pill active" onclick="switchCategoryTab('tab-internet', this)">Internet</div>
+        <div class="tab-pill" onclick="switchCategoryTab('tab-suv', this)">Ichimlik suvi</div>
+        <div class="tab-pill" onclick="switchCategoryTab('tab-sigim', this)">Sig'im va talaba soni</div>
+        <div class="tab-pill" onclick="switchCategoryTab('tab-jadval', this)">Jadval</div>
+        <div class="tab-pill" onclick="switchCategoryTab('tab-xarita', this)">Xarita</div>
+    </div>
+
+    <div class="glass-content-panel animate-fade-up" style="animation-delay: 0.2s;">
+
+        <div id="tab-internet" class="cat-content active">
+            <div class="chart-wrapper">
+                <canvas id="internetChart"></canvas>
+            </div>
+        </div>
+
+        <div id="tab-suv" class="cat-content">
+            <div class="mockup-box">
+                <h2 class="fw-black">💧 Ichimlik suvi ta'minoti</h2>
+                <p class="text-muted fs-5">Bu yerda hududlar kesimida ichimlik suvi bilan ta'minlanganlik darajasi grafigi bo'ladi.</p>
+            </div>
+        </div>
+
+        <div id="tab-sigim" class="cat-content">
+            <div class="mockup-box">
+                <h2 class="fw-black">👥 Sig'im va umumiy talaba soni</h2>
+                <p class="text-muted fs-5">Maktablarning quvvati va o'quvchilar soni nisbati.</p>
+            </div>
+        </div>
+
+        <div id="tab-jadval" class="cat-content">
+            <div class="mockup-box">
+                <h2 class="fw-black">📋 Batafsil Jadval</h2>
+                <p class="text-muted fs-5">Barcha raqamlar aniq ko'rsatilgan ma'lumotlar bazasi.</p>
+            </div>
+        </div>
+
+        <div id="tab-xarita" class="cat-content">
+            <div class="mockup-box" style="border-style: solid; background: #E9ECEF;">
+                <h2 class="fw-black">🗺️ Interaktiv Xarita</h2>
+                <p class="text-muted fs-5">Maktablarning joylashuvi va holati xaritada.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // 1. Логика переключения вкладок
+    function switchCategoryTab(tabId, clickedBtn) {
+        document.querySelectorAll('.tab-pill').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelectorAll('.cat-content').forEach(content => {
+            content.classList.remove('active');
+        });
+
+        clickedBtn.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+    }
+
+    // 2. Инициализация и отрисовка графика Chart.js
+    document.addEventListener("DOMContentLoaded", function () {
+        const ctx = document.getElementById('internetChart').getContext('2d');
+
+        // Создаем градиент для зеленых столбцов (Optik)
+        const greenGradient = ctx.createLinearGradient(0, 0, 0, 400);
+        greenGradient.addColorStop(0, '#00FF88'); // Яркий зеленый сверху
+        greenGradient.addColorStop(1, 'rgba(0, 255, 136, 0.1)'); // Прозрачный снизу
+
+        const data = {
+            labels: ['Andijon', 'Buxoro', 'Farg\'ona', 'Jizzax', 'Namangan', 'Navoiy', 'Qashqadaryo', 'Qoraqalpog\'iston', 'Samarqand', 'Sirdaryo', 'Surxondaryo', 'Toshkent sh', 'Toshkent v', 'Xorazm'],
+            datasets: [
+                {
+                    label: 'Mobil internet',
+                    data: [50, 40, 50, 40, 50, 40, 50, 40, 50, 40, 50, 40, 40, 40],
+                    backgroundColor: '#0A56C4', // Темно-синий
+                    borderRadius: {topLeft: 5, topRight: 5, bottomLeft: 0, bottomRight: 0}
+                },
+                {
+                    label: 'Internet yo\'q',
+                    data: [80, 70, 60, 50, 60, 40, 50, 50, 40, 40, 60, 50, 40, 40],
+                    backgroundColor: '#00D4FF', // Голубой
+                },
+                {
+                    label: 'Optik',
+                    data: [750, 480, 1000, 680, 750, 350, 1250, 850, 1300, 280, 1000, 250, 950, 600],
+                    backgroundColor: greenGradient, // Тот самый градиент!
+                }
+            ]
+        };
+
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        align: 'start',
+                        labels: {
+                            usePointStyle: true,
+                            boxWidth: 10,
+                            font: { family: 'Inter', size: 14, weight: 'bold' },
+                            color: '#1E2A47'
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(30, 42, 71, 0.9)',
+                        titleFont: { size: 14 },
+                        bodyFont: { size: 14 },
+                        padding: 15,
+                        cornerRadius: 10
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: true,
+                        grid: { display: false, drawBorder: false }, // Убрали сетку по X
+                        ticks: { font: { family: 'Inter', weight: 'bold', size: 11 }, color: '#1E2A47' }
+                    },
+                    y: {
+                        stacked: true,
+                        grid: { color: 'rgba(0,0,0,0.05)', drawBorder: false },
+                        ticks: { font: { family: 'Inter', weight: 'bold' }, color: '#8E9AAF', stepSize: 500 }
+                    }
+                }
+            }
+        };
+
+        new Chart(ctx, config);
+    });
+</script>

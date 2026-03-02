@@ -12,8 +12,19 @@ public class HomeController : Controller
     {
         return View();
     }
-        public IActionResult Report()
+    public IActionResult Report()
     {
         return View();
     }
+    public IActionResult Submit()
+    {
+        return View();
+    }
+    public IActionResult Maktablar()
+    {
+        return View();
+    }
+    public IActionResult Bogchalar() => View();
+    public IActionResult Tibbiyot() => View();
+    public IActionResult Sport() => View();
 }
