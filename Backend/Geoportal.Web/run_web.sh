@@ -15,7 +15,6 @@ dotnet build -c Release /p:MaxCpuCount=1 /p:UseSharedCompilation=false
 if [ $? -eq 0 ]; then
     screen -dmS $SESSION dotnet bin/Release/net10.0/Geoportal.Web.dll --urls "http://0.0.0.0:$PORT"
     echo "✅ WEB запущен на порту $PORT (Сессия: $SESSION)"
-    dotnet watch
 else
     echo "❌ Ошибка сборки WEB! Проверь верстку."
 fi

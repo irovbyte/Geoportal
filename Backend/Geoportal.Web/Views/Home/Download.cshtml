@@ -1,0 +1,204 @@
+@{
+    ViewData["Title"] = "Ilovani yuklab olish";
+}
+
+<style>
+    /* АНИМИРОВАННЫЕ ФИГУРЫ НА ФОНЕ */
+    .bg-shape-container {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        z-index: -1;
+        overflow: hidden;
+        pointer-events: none;
+    }
+    .bg-shape {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.6;
+    }
+    @@keyframes moveShape1 { 0% { transform: translate3d(0, 0, 0) scale(1); } 100% { transform: translate3d(150px, 100px, 0) scale(1.2); } }
+    @@keyframes moveShape2 { 0% { transform: translate3d(0, 0, 0) scale(1); } 100% { transform: translate3d(-200px, 150px, 0) scale(0.8); } }
+    .shape-1 { width: 700px; height: 700px; background: #00FF88; top: -20%; left: -10%; animation: moveShape1 20s infinite alternate ease-in-out; }
+    .shape-2 { width: 900px; height: 900px; background: #9D4EDD; bottom: -30%; right: -15%; animation: moveShape2 25s infinite alternate ease-in-out; }
+
+    /* КОНТЕЙНЕР И ШАПКА */
+    .gp-container {
+        width: 96%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 40px 10px 80px 10px;
+    }
+    .page-header { display: flex; align-items: center; gap: 25px; margin-bottom: 50px; }
+    
+    .back-btn {
+        width: 55px; height: 55px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 50%; display: flex;
+        align-items: center; justify-content: center; color: white; text-decoration: none;
+        font-size: 1.5rem; transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .back-btn:hover { background: white; color: #0A56C4; transform: translateX(-5px); }
+    body.dark-mode .back-btn:hover { background: #00FF88; color: #000; }
+
+    .hero-title { font-weight: 900; font-size: clamp(2rem, 4vw, 3rem); margin: 0; text-shadow: 0 10px 30px rgba(0,0,0,0.2); color: white; }
+
+    /* СЕТКА ПЛАТФОРМ */
+    .platforms-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 40px;
+    }
+
+    /* КАРТОЧКА ПЛАТФОРМЫ (Светлая тема) */
+    .platform-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        border-radius: 40px;
+        padding: 50px 30px;
+        text-align: center;
+        box-shadow: 0 25px 60px rgba(0,0,0,0.1);
+        border: 1px solid rgba(255,255,255,0.6);
+        transition: all 0.4s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .platform-card:hover { transform: translateY(-10px); box-shadow: 0 35px 70px rgba(0,0,0,0.15); }
+
+    /* КАРТОЧКА ПЛАТФОРМЫ (Темная тема) */
+    body.dark-mode .platform-card {
+        background: rgba(15, 23, 42, 0.6);
+        border-color: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    }
+    body.dark-mode .platform-card:hover { background: rgba(30, 41, 59, 0.8); }
+
+    /* Иконки платформ */
+    .platform-icon {
+        font-size: 5rem;
+        margin-bottom: 20px;
+        line-height: 1;
+        transition: transform 0.3s ease;
+    }
+    .platform-card:hover .platform-icon { transform: scale(1.1); }
+    
+    .icon-apple { color: #555555; }
+    .icon-android { color: #3DDC84; }
+    .icon-windows { color: #00A4EF; }
+
+    body.dark-mode .icon-apple { color: #E2E8F0; } /* Белое яблоко в темной теме */
+
+    /* Названия */
+    .platform-name { font-weight: 900; font-size: 1.8rem; margin-bottom: 10px; color: #1E2A47; }
+    body.dark-mode .platform-name { color: #f8fafc; }
+
+    .platform-desc { color: #6C7A9C; font-size: 1rem; margin-bottom: 30px; }
+    body.dark-mode .platform-desc { color: #94a3b8; }
+
+    /* Бейдж "В разработке" */
+    .badge-soon {
+        background: linear-gradient(90deg, #FF8C00 0%, #FFA500 100%);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 100px;
+        font-weight: 800;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 20px rgba(255, 140, 0, 0.3);
+    }
+
+    /* Неактивная кнопка */
+    .btn-disabled {
+        background: rgba(0, 0, 0, 0.05);
+        color: rgba(0, 0, 0, 0.3);
+        border: 2px dashed rgba(0, 0, 0, 0.1);
+        border-radius: 100px;
+        padding: 15px 40px;
+        font-weight: 800;
+        font-size: 1.1rem;
+        width: 100%;
+        cursor: not-allowed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    body.dark-mode .btn-disabled {
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* ИСПРАВЛЕННАЯ Анимация появления */
+    .animate-fade-up { 
+        opacity: 0; /* Изначально невидимы */
+        animation: fadeUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; /* forwards заставляет их остаться на экране */
+    }
+    
+    @@keyframes fadeUp { 
+        0% { opacity: 0; transform: translateY(40px); } 
+        100% { opacity: 1; transform: translateY(0); } 
+    }
+</style>
+
+<div class="bg-shape-container">
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+</div>
+
+<div class="gp-container">
+    
+    <div class="page-header animate-fade-up">
+        <a href="/" class="back-btn"><i class="bi bi-arrow-left"></i></a>
+        <h1 class="hero-title">Ilovani yuklab olish</h1>
+    </div>
+
+    <div class="platforms-grid">
+        
+        <div class="platform-card animate-fade-up" style="animation-delay: 0.1s;">
+            <div class="badge-soon">Tez kunda</div>
+            <i class="bi bi-apple platform-icon icon-apple"></i>
+            <h3 class="platform-name">App Store</h3>
+            <p class="platform-desc">iPhone va iPad qurilmalari uchun rasmiy ilova</p>
+            <div class="btn-disabled">
+                <i class="bi bi-cloud-arrow-down-fill"></i> Yuklab olish
+            </div>
+        </div>
+
+        <div class="platform-card animate-fade-up" style="animation-delay: 0.2s;">
+            <div class="badge-soon">Tez kunda</div>
+            <i class="bi bi-google-play platform-icon icon-android"></i>
+            <h3 class="platform-name">Google Play</h3>
+            <p class="platform-desc">Android smartfon va planshetlar uchun</p>
+            <div class="btn-disabled">
+                <i class="bi bi-cloud-arrow-down-fill"></i> Yuklab olish
+            </div>
+        </div>
+
+        <div class="platform-card animate-fade-up" style="animation-delay: 0.3s;">
+            <div class="badge-soon">Tez kunda</div>
+            <i class="bi bi-windows platform-icon icon-windows"></i>
+            <h3 class="platform-name">Windows</h3>
+            <p class="platform-desc">Windows 10/11 operatsion tizimlari uchun dastur</p>
+            <div class="btn-disabled">
+                <i class="bi bi-cloud-arrow-down-fill"></i> Yuklab olish
+            </div>
+        </div>
+
+        <div class="platform-card animate-fade-up" style="animation-delay: 0.4s;">
+            <div class="badge-soon">Tez kunda</div>
+            <i class="bi bi-laptop platform-icon icon-apple"></i>
+            <h3 class="platform-name">macOS</h3>
+            <p class="platform-desc">Apple kompyuterlari uchun maxsus versiya</p>
+            <div class="btn-disabled">
+                <i class="bi bi-cloud-arrow-down-fill"></i> Yuklab olish
+            </div>
+        </div>
+
+    </div>
+</div>

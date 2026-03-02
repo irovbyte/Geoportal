@@ -3,19 +3,6 @@
 }
 
 <style>
-    /* 1. Глобальный фон (такой же, как на всем сайте) */
-    body {
-        background-color: #0A56C4;
-        background-image: linear-gradient(135deg, #0A56C4 0%, #158296 50%, #19A332 100%) !important;
-        background-attachment: fixed !important;
-        font-family: 'Inter', sans-serif;
-        overflow: hidden;
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
     /* Анимированные сферы на фоне */
     .bg-shape-container {
         position: fixed;
@@ -32,6 +19,15 @@
     .shape-1 { width: 600px; height: 600px; background: #00FF88; top: -10%; left: -10%; animation: moveShape 15s infinite alternate ease-in-out; }
     .shape-2 { width: 700px; height: 700px; background: #9D4EDD; bottom: -10%; right: -10%; animation: moveShape 20s infinite alternate-reverse ease-in-out; }
 
+    /* Обертка для центрирования на странице без поломки Layout */
+    .success-page-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: calc(100vh - 180px); /* Высота экрана минус шапка и футер */
+        padding: 40px 20px;
+    }
+
     /* 2. Карточка подтверждения */
     .success-card {
         background: rgba(255, 255, 255, 0.85);
@@ -43,8 +39,9 @@
         border: 1px solid rgba(255,255,255,0.6);
         text-align: center;
         max-width: 600px;
-        width: 90%;
+        width: 100%;
         animation: cardAppear 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: background 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease;
     }
 
     @@keyframes cardAppear {
@@ -92,6 +89,7 @@
         letter-spacing: 1px;
         margin-bottom: 20px;
         display: inline-block;
+        transition: background 0.6s ease, color 0.6s ease;
     }
 
     .success-title {
@@ -129,6 +127,20 @@
         box-shadow: 0 20px 40px rgba(37, 117, 252, 0.4);
         color: white;
     }
+
+    /* =========================================
+       ТЕМНАЯ ТЕМА ДЛЯ ЭТОЙ СТРАНИЦЫ
+       ========================================= */
+    body.dark-mode .success-card {
+        background: rgba(15, 23, 42, 0.6);
+        border-color: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 40px 100px rgba(0,0,0,0.4);
+    }
+
+    body.dark-mode .status-badge {
+        background: rgba(0, 255, 136, 0.15);
+        color: #00FF88;
+    }
 </style>
 
 <div class="bg-shape-container">
@@ -136,21 +148,21 @@
     <div class="bg-shape shape-2"></div>
 </div>
 
-<div class="success-card">
-    <div class="success-icon-wrapper">
-        <div class="checkmark"></div>
+<div class="success-page-wrapper">
+    <div class="success-card">
+        <div class="success-icon-wrapper">
+            <div class="checkmark"></div>
+        </div>
+
+        <div class="status-badge">Ishlov berilmoqda</div>
+
+        <h1 class="success-title">Ma’lumotlaringiz qabul qilindi!</h1>
+
+        <p class="success-desc">
+            Yuborgan ma'lumotingiz tizim mutaxassislari tomonidan ko'rib chiqilmoqda.
+            Tez orada natijalarni "Natijalar" bo'limida ko'rishingiz mumkin.
+        </p>
+
+        <a href="/" class="btn-home">Bosh sahifaga qaytish</a>
     </div>
-
-    <div class="status-badge">Ishlov berilmoqda</div>
-
-    <h1 class="success-title">Ma’lumotlaringiz qabul qilindi!</h1>
-
-    <p class="success-desc">
-        Yuborgan ma'lumotingiz tizim mutaxassislari tomonidan ko'rib chiqilmoqda.
-        Tez orada natijalarni "Natijalar" bo'limida ko'rishingiz mumkin.
-    </p>
-
-    <a href="/" class="btn-home">Bosh sahifaga qaytish</a>
 </div>
-
-<script src="/_framework/aspnetcore-browser-refresh.js"></script>

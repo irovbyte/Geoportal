@@ -240,7 +240,7 @@
         100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* КОНТЕНТ 1: Карта (Изменили размер и центрирование) */
+    /* КОНТЕНТ 1: Карта */
     .map-wrapper {
         padding: 20px;
         background: #F8F9FA;
@@ -249,7 +249,7 @@
     }
 
     .map-container {
-        height: 600px; /* Зафиксировали высоту */
+        height: 600px;
         width: 100%;
         border-radius: 25px;
         border: 2px solid #E9ECEF;
@@ -257,10 +257,10 @@
         box-shadow: 0 10px 30px rgba(0,0,0,0.05);
     }
 
-    /* КОНТЕНТ 2: Доноры (Leaderboard теперь на весь экран по центру) */
+    /* КОНТЕНТ 2: Доноры */
     .donors-wrapper {
-        max-width: 900px; /* Чтобы список не растягивался колбасой на весь монитор */
-        margin: 0 auto;   /* Центрируем блок */
+        max-width: 900px;
+        margin: 0 auto;
     }
 
     .donor-leaderboard {
@@ -273,7 +273,7 @@
     .donor-item {
         background: #ffffff;
         border-radius: 20px;
-        padding: 25px 30px; /* Сделали строчки жирнее */
+        padding: 25px 30px;
         margin-bottom: 20px;
         display: flex;
         justify-content: space-between;
@@ -283,12 +283,22 @@
     }
     .donor-item:hover { transform: translateX(8px); border-left: 5px solid #00FF88; }
 
-    /* Заглушки для других вкладок */
+    /* Заглушки */
     .mockup-box {
         background: #F8F9FA; border-radius: 30px; padding: 60px; text-align: center;
         border: 2px dashed #CED4DA; min-height: 400px; display: flex; flex-direction: column;
         justify-content: center; align-items: center;
     }
+
+    /* ТЕМНАЯ ТЕМА: переопределение для карты (если нужно) */
+    body.dark-mode .map-wrapper {
+        background: rgba(15, 23, 42, 0.4);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+    body.dark-mode .map-container {
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
 </style>
 
 <div class="bg-shape-container">
@@ -309,38 +319,38 @@
     </div>
 
     <div class="mini-cards-wrapper animate-fade-up" style="animation-delay: 0.1s;">
-    <a href="/Home/Maktablar" style="text-decoration: none; color: inherit; display: block;">
-        <div class="stat-card-mini">
-            <span class="card-label-mini">Maktablar</span>
-            <p class="card-value-mini">11 139</p>
-            <div class="card-icon-bg">📚</div>
-        </div>
-    </a>
+        <a href="/Home/Maktablar" style="text-decoration: none; color: inherit; display: block;">
+            <div class="stat-card-mini">
+                <span class="card-label-mini">Maktablar</span>
+                <p class="card-value-mini">11 139</p>
+                <div class="card-icon-bg">📚</div>
+            </div>
+        </a>
 
-    <a href="/Home/Bogchalar" style="text-decoration: none; color: inherit; display: block;">
-        <div class="stat-card-mini">
-            <span class="card-label-mini">Bog'chalar</span>
-            <p class="card-value-mini">6 935</p>
-            <div class="card-icon-bg">🏫</div>
-        </div>
-    </a>
+        <a href="/Home/Bogchalar" style="text-decoration: none; color: inherit; display: block;">
+            <div class="stat-card-mini">
+                <span class="card-label-mini">Bog'chalar</span>
+                <p class="card-value-mini">6 935</p>
+                <div class="card-icon-bg">🏫</div>
+            </div>
+        </a>
 
-    <a href="/Home/Tibbiyot" style="text-decoration: none; color: inherit; display: block;">
-        <div class="stat-card-mini">
-            <span class="card-label-mini">Tibbiyot</span>
-            <p class="card-value-mini">3 034</p>
-            <div class="card-icon-bg">🏥</div>
-        </div>
-    </a>
+        <a href="/Home/Tibbiyot" style="text-decoration: none; color: inherit; display: block;">
+            <div class="stat-card-mini">
+                <span class="card-label-mini">Tibbiyot</span>
+                <p class="card-value-mini">3 034</p>
+                <div class="card-icon-bg">🏥</div>
+            </div>
+        </a>
 
-    <a href="/Home/Sport" style="text-decoration: none; color: inherit; display: block;">
-        <div class="stat-card-mini">
-            <span class="card-label-mini">Sport</span>
-            <p class="card-value-mini">356</p>
-            <div class="card-icon-bg">⚽</div>
-        </div>
-    </a>
-</div>
+        <a href="/Home/Sport" style="text-decoration: none; color: inherit; display: block;">
+            <div class="stat-card-mini">
+                <span class="card-label-mini">Sport</span>
+                <p class="card-value-mini">356</p>
+                <div class="card-icon-bg">⚽</div>
+            </div>
+        </a>
+    </div>
 
     <div class="finance-outer-panel animate-fade-up" style="animation-delay: 0.2s;">
         <div class="finance-grid">
@@ -462,17 +472,30 @@
         }
     }
 
+    // URL для светлой и темной карты (используем красивые слои CartoDB)
+    const lightMapUrl = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+    const darkMapUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+
     var map;
+    var currentTileLayer;
+
     document.addEventListener("DOMContentLoaded", function () {
+        // Инициализация карты
         map = L.map('map', {
             zoomControl: true,
             scrollWheelZoom: false
         }).setView([41.3775, 64.5853], 6);
 
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            attribution: '© OpenStreetMap'
+        // Проверяем текущую тему (сохраненную в браузере или установленную классом body)
+        let isDarkMode = document.body.classList.contains('dark-mode') || localStorage.getItem('geoportal_theme') === 'dark';
+        
+        // Загружаем правильный слой с самого начала
+        currentTileLayer = L.tileLayer(isDarkMode ? darkMapUrl : lightMapUrl, {
+            attribution: '© OpenStreetMap, © CartoDB',
+            maxZoom: 19
         }).addTo(map);
 
+        // Данные маркеров
         var points = [
             { name: "Toshkent", coords: [41.2995, 69.2401], value: "4,231" },
             { name: "Samarqand", coords: [39.6270, 66.9750], value: "3,110" },
@@ -480,6 +503,7 @@
             { name: "Xorazm", coords: [41.5500, 60.6333], value: "1,450" }
         ];
 
+        // Добавляем маркеры
         points.forEach(function (p) {
             var marker = L.circleMarker(p.coords, {
                 radius: 10,
@@ -492,5 +516,26 @@
 
             marker.bindPopup("<b>" + p.name + "</b><br>Loyihalar: " + p.value);
         });
+
+        // СЛУШАТЕЛЬ ПЕРЕКЛЮЧЕНИЯ ТЕМЫ
+        // Находим кнопку в шапке (в Layout.cshtml) и привязываем к ней смену слоя карты
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', function() {
+                // Подождем миллисекунду, чтобы класс dark-mode точно успел примениться к body
+                setTimeout(() => {
+                    let isNowDark = document.body.classList.contains('dark-mode');
+                    
+                    // Удаляем старый слой
+                    map.removeLayer(currentTileLayer);
+                    
+                    // Добавляем новый слой (светлый или темный)
+                    currentTileLayer = L.tileLayer(isNowDark ? darkMapUrl : lightMapUrl, {
+                        attribution: '© OpenStreetMap, © CartoDB',
+                        maxZoom: 19
+                    }).addTo(map);
+                }, 50);
+            });
+        }
     });
 </script>
