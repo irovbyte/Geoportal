@@ -1,6 +1,7 @@
 using Geoportal.Data;
-using Geoportal.Data.Interfaces; 
+using Geoportal.Data.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Geoportal.Data.Models;
 
 namespace Geoportal.Api.Controllers;
 
@@ -20,23 +21,31 @@ public class ReportsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetReports() => Ok(await _repository.GetAllAsync());
 
-    // 2. Загрузка файла и создание отчета (через Form-Data)
-    [HttpPost("upload-file")]
-    [Consumes("multipart/form-data")] 
+[HttpPost("upload-file")]
+    [Consumes("multipart/form-data")]
     public async Task<IActionResult> CreateReportWithFile([FromForm] FileUploadDto dto)
     {
         if (dto.Image == null || dto.Image.Length == 0)
             return BadRequest("Файл изображения не выбран");
 
+        // Сохраняем фото через сервис
         var imageUrl = await _fileService.SaveFileAsync(dto.Image);
 
-        var report = new Report 
-        { 
-            Description = dto.Description ?? string.Empty, 
-            ImageHash = imageUrl, 
+        // СОЗДАЕМ ОБЪЕКТ С НОВЫМИ ПОЛЯМИ
+        var report = new Report
+        {
+            // Мы заменили Description на Comment
+            Comment = dto.Comment ?? string.Empty,
+            Region = dto.Region ?? string.Empty,
+            District = dto.District ?? string.Empty,
+            Sector = dto.Sector ?? string.Empty,
+            InfraName = dto.InfraName ?? string.Empty,
+
+            ImageHash = imageUrl,
             DeviceId = dto.DeviceId ?? "unknown",
             IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = DateTime.UtcNow,
+            Status = "Yangi"
         };
 
         await _repository.AddAsync(report);
@@ -50,24 +59,28 @@ public class ReportsController : ControllerBase
     public async Task<IActionResult> CheckFraud([FromBody] Report report)
     {
         await Task.Yield();
-        
-        bool isUzbekistan = true; 
-        bool isNear = true;      
+
+        bool isUzbekistan = true;
+        bool isNear = true;
 
         if (!isUzbekistan) return BadRequest("Сервис доступен только в Узбекистане");
         if (!isNear) return BadRequest("Ошибка: Ваши координаты слишком далеко от объекта");
 
-        return Ok(new { 
-            message = "Проверка пройдена успешно", 
+        return Ok(new {
+            message = "Проверка пройдена успешно",
             status = "success",
-            receivedId = report.Id 
+            receivedId = report.Id
         });
     }
 }
 
 public class FileUploadDto
 {
-    public string? Description { get; set; }
+    public string? Comment { get; set; }
+    public string? Region { get; set; }
+    public string? District { get; set; }
+    public string? Sector { get; set; }
+    public string? InfraName { get; set; }
     public IFormFile? Image { get; set; }
     public string? DeviceId { get; set; }
 }
