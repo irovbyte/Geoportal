@@ -1,5 +1,3 @@
-using Geoportal.Data;
-
 namespace Geoportal.Data.Interfaces;
 
 public interface IReportRepository

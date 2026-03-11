@@ -1,7 +1,3 @@
-using Geoportal.Data;
-using Geoportal.Data.Interfaces;
-using Microsoft.EntityFrameworkCore;
-
 namespace Geoportal.Data.Repositories;
 
 public class SqlReportRepository : IReportRepository

@@ -1,7 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Geoportal.Data;
-
 namespace Geoportal.Web.Controllers;
 
 public class HomeController : Controller
@@ -17,7 +13,6 @@ public class HomeController : Controller
 {
     try
     {
-        // 1. Проверяем наличие данных, чтобы избежать ошибок деления на 0
         bool hasData = await _context.InfraObjects.AnyAsync();
 
         var totalAllocated = hasData ? await _context.InfraObjects.SumAsync(x => x.AllocatedBudget) : 0;
@@ -32,7 +27,6 @@ public class HomeController : Controller
         ViewBag.TibbiyotCount = await _context.InfraObjects.CountAsync(x => x.Sector == "Tibbiyot");
         ViewBag.SportCount = await _context.InfraObjects.CountAsync(x => x.Sector == "Sport");
 
-        // Используем класс вместо анонимного типа
         var topDonors = await _context.InfraObjects
             .GroupBy(x => x.DonorName)
             .Select(g => new TopDonorDto {
@@ -53,7 +47,6 @@ public class HomeController : Controller
     }
     catch (Exception ex)
     {
-        // Если ошибка останется, это выведет её в консоль сервера
         Console.WriteLine("Ошибка в Dashboard: " + ex.Message);
         return Content("Ошибка базы данных. Проверьте логи.");
     }

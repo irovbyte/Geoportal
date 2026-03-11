@@ -1,5 +1,3 @@
-using Geoportal.Service.Helpers;
-
 namespace Geoportal.Pages;
 
 public partial class GraphicsPage : ContentPage
@@ -12,24 +10,14 @@ public partial class GraphicsPage : ContentPage
 
     protected override async void OnAppearing()
     {
-        // 1. Прячем всё через Prepare
         AnimationHelper.Prepare(MainContainer, HeaderRow, FilterRow, ChartContainer, ChartLegend, Bar1, Bar2, Bar3);
-
         base.OnAppearing();
         await Task.Yield();
-
-        // 2. Вход страницы
         await AnimationHelper.EntranceAsync(MainContainer);
-
-        // 3. Каскад заголовка и фильтров
         await AnimationHelper.EntranceAsync(HeaderRow, 50);
         await AnimationHelper.EntranceAsync(FilterRow, 50);
-
-        // 4. Вход самого контейнера графика
         await AnimationHelper.EntranceAsync(ChartContainer, 50);
         await AnimationHelper.EntranceAsync(ChartLegend, 50);
-
-        // 5. ЭФФЕКТ ДОМИНО: Столбцы графика вылетают по очереди
         await AnimationHelper.EntranceAsync(Bar1, 100);
         await AnimationHelper.EntranceAsync(Bar2, 100);
         await AnimationHelper.EntranceAsync(Bar3, 100);

@@ -1,9 +1,3 @@
-using Geoportal.Data;
-using Microsoft.EntityFrameworkCore;
-using Geoportal.Data.Interfaces;
-using Geoportal.Data.Repositories;
-using Microsoft.OpenApi;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // 1. Настройка CORS

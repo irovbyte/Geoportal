@@ -1,8 +1,4 @@
-﻿using Geoportal.Pages;
-using Geoportal.Resources.Languages;
-using System.Globalization;
-
-namespace Geoportal;
+﻿namespace Geoportal;
 
 public partial class App : Application
 {
@@ -10,7 +6,6 @@ public partial class App : Application
     {
         InitializeComponent();
 
-        // 1. Установка языка остается в конструкторе
         string deviceLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
         string savedLang = Preferences.Default.Get("app_lang", deviceLanguage);
 

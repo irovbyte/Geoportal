@@ -1,7 +1,3 @@
-using Geoportal.Data;
-using Geoportal.Data.Models;
-using Microsoft.AspNetCore.Mvc;
-
 namespace Geoportal.Api.Controllers;
 
 [ApiController]

@@ -1,0 +1,9 @@
+﻿global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Http;
+global using Geoportal.Data;
+global using Geoportal.Data.Models;
+global using Geoportal.Data.Interfaces;
+global using Geoportal.Api.Interfaces;
+global using Geoportal.Data.Repositories;
+global using Microsoft.OpenApi;
+global using Microsoft.EntityFrameworkCore;

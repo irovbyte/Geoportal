@@ -1,8 +1,3 @@
-using Geoportal.Data;
-using Geoportal.Data.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-using Geoportal.Data.Models;
-
 namespace Geoportal.Api.Controllers;
 
 [ApiController]
@@ -28,13 +23,10 @@ public class ReportsController : ControllerBase
         if (dto.Image == null || dto.Image.Length == 0)
             return BadRequest("Файл изображения не выбран");
 
-        // Сохраняем фото через сервис
         var imageUrl = await _fileService.SaveFileAsync(dto.Image);
 
-        // СОЗДАЕМ ОБЪЕКТ С НОВЫМИ ПОЛЯМИ
         var report = new Report
         {
-            // Мы заменили Description на Comment
             Comment = dto.Comment ?? string.Empty,
             Region = dto.Region ?? string.Empty,
             District = dto.District ?? string.Empty,
@@ -54,7 +46,6 @@ public class ReportsController : ControllerBase
         return Ok(report);
     }
 
-    // 3. Проверка на фрод
     [HttpPost("check-fraud")]
     public async Task<IActionResult> CheckFraud([FromBody] Report report)
     {

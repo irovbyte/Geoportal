@@ -1,17 +1,12 @@
-﻿using System.Net.Http.Json;
-using Geoportal.Models;
-
-namespace Geoportal.Services;
+﻿namespace Geoportal.Service;
 
 public class AuthService
 {
     private readonly HttpClient _httpClient = new() { Timeout = TimeSpan.FromSeconds(10) };
-    private const string BaseUrl = "http://136.113.150.143:5001/api/Auth";
 
     private string GetOrCreateDeviceId()
     {
         string id = Preferences.Default.Get("device_unique_id", string.Empty);
-
         if (string.IsNullOrEmpty(id))
         {
             id = Guid.NewGuid().ToString();
@@ -31,7 +26,7 @@ public class AuthService
 
         try
         {
-            var response = await _httpClient.PostAsJsonAsync($"{BaseUrl}/login", request);
+            var response = await _httpClient.PostAsJsonAsync($"{AppConfig.BaseApiUrl}/Auth/login", request);
             if (response.IsSuccessStatusCode)
             {
                 Preferences.Default.Set("is_logged_in", true);
@@ -40,23 +35,24 @@ public class AuthService
             }
             return (false, await response.Content.ReadAsStringAsync());
         }
-        catch { return (false, "Server error"); }
+        catch { return (false, "Server bilan ulanishda xato (Login)"); }
     }
 
     public async Task<(bool Success, string Message)> RegisterAsync(string phone, string password)
     {
-        var request = new LoginRequest
+        var request = new RegisterRequest
         {
             PhoneNumber = phone,
             Password = password,
-            DeviceId = GetOrCreateDeviceId()
+            DeviceId = GetOrCreateDeviceId(),
+            FullName = "Foydalanuvchi"
         };
 
         try
         {
-            var response = await _httpClient.PostAsJsonAsync($"{BaseUrl}/register", request);
+            var response = await _httpClient.PostAsJsonAsync($"{AppConfig.BaseApiUrl}/Auth/register", request);
             return response.IsSuccessStatusCode ? (true, "OK") : (false, await response.Content.ReadAsStringAsync());
         }
-        catch { return (false, "Server error"); }
+        catch { return (false, "Server bilan ulanishda xato (Register)"); }
     }
 }

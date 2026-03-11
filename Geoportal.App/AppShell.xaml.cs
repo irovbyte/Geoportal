@@ -1,5 +1,4 @@
 namespace Geoportal;
-using Geoportal.Pages;
 
 public partial class AppShell : Shell
 {

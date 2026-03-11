@@ -1,6 +1,3 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json;
-
 namespace Geoportal.Data.Models;
 
 public class InfraObject

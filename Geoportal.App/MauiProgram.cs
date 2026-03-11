@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using ZXing.Net.Maui.Controls;
-
-namespace Geoportal
+﻿namespace Geoportal
 {
     public static class MauiProgram
     {

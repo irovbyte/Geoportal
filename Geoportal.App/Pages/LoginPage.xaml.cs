@@ -1,7 +1,3 @@
-using Geoportal.Resources.Languages;
-using Geoportal.Services;
-using Geoportal.Service.Helpers;
-
 namespace Geoportal.Pages;
 
 public partial class LoginPage : ContentPage
@@ -17,17 +13,10 @@ public partial class LoginPage : ContentPage
 
     protected override async void OnAppearing()
     {
-        // 1. Мгновенная подготовка (скрываем карточку)
         AnimationHelper.Prepare(LoginCard);
-
         base.OnAppearing();
-
-        // 2. Ждем один цикл отрисовки
         await Task.Yield();
-
-        // 3. Запускаем входную анимацию карточки (Зум + Fade + Подъем)
         await AnimationHelper.EntranceAsync(LoginCard);
-
         CheckAutoLogin();
     }
 
@@ -54,14 +43,13 @@ public partial class LoginPage : ContentPage
 
     private async void OnSubmitClicked(object sender, EventArgs e)
     {
-        // Клик-анимация через хелпер
         await AnimationHelper.ExecuteClickScaleAsync(SubmitBtn);
 
         string rawPhone = "+998" + PhoneEntry.Text;
 
         if (string.IsNullOrEmpty(PhoneEntry.Text) || PhoneEntry.Text.Length < 9 || (PasswordEntry.Text?.Length ?? 0) < 6)
         {
-            await DisplayAlert(AppResources.ErrorTitle, AppResources.ErrorMessage, "OK");
+            await DisplayAlertAsync(AppResources.ErrorTitle, AppResources.ErrorMessage, "OK");
             return;
         }
 
@@ -85,10 +73,9 @@ public partial class LoginPage : ContentPage
 
         _isLoginMode = !_isLoginMode;
 
-        // Плавная смена режимов
         await Task.WhenAll(
-            TitleLabel.FadeTo(0, 150),
-            SubmitBtn.FadeTo(0, 150)
+            TitleLabel.FadeToAsync(0, 150),
+            SubmitBtn.FadeToAsync(0, 150)
         );
 
         TitleLabel.Text = _isLoginMode ? AppResources.LoginTitle : AppResources.RegisterTitle;
@@ -98,17 +85,17 @@ public partial class LoginPage : ContentPage
         if (!_isLoginMode)
         {
             ConfirmBorder.IsVisible = true;
-            await ConfirmBorder.FadeTo(1, 250, Easing.CubicOut);
+            await ConfirmBorder.FadeToAsync(1, 250, Easing.CubicOut);
         }
         else
         {
-            await ConfirmBorder.FadeTo(0, 200);
+            await ConfirmBorder.FadeToAsync(0, 200);
             ConfirmBorder.IsVisible = false;
         }
 
         await Task.WhenAll(
-            TitleLabel.FadeTo(1, 150),
-            SubmitBtn.FadeTo(1, 150)
+            TitleLabel.FadeToAsync(1, 150),
+            SubmitBtn.FadeToAsync(1, 150)
         );
     }
 

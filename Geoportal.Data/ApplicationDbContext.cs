@@ -1,6 +1,3 @@
-using Geoportal.Data.Models;
-using Microsoft.EntityFrameworkCore;
-
 namespace Geoportal.Data;
 
 public class ApplicationDbContext : DbContext

@@ -1,7 +1,3 @@
-using System.Globalization;
-using Geoportal.Resources.Languages;
-using Geoportal.Service.Helpers;
-
 namespace Geoportal.Pages;
 
 public partial class SettingsPage : ContentPage
@@ -15,16 +11,10 @@ public partial class SettingsPage : ContentPage
 
     protected override async void OnAppearing()
     {
-        // 1. Мгновенная подготовка
         AnimationHelper.Prepare(MainContainer, SettingsTitle, ProfileCard, ReportsCard, LangGroup, LogoutBtn);
-
         base.OnAppearing();
         await Task.Yield();
-
-        // 2. Вход страницы
         await AnimationHelper.EntranceAsync(MainContainer);
-
-        // 3. Каскад элементов
         await AnimationHelper.EntranceAsync(SettingsTitle, 50);
         await AnimationHelper.EntranceAsync(ProfileCard, 100);
         await AnimationHelper.EntranceAsync(ReportsCard, 100);
@@ -40,14 +30,12 @@ public partial class SettingsPage : ContentPage
     {
         try
         {
-            // 1. Показываем загрузку через анимацию
             LoadingOverlay.IsVisible = true;
             await Task.WhenAll(
                 MainContent.FadeToAsync(0, 200),
                 LoadingOverlay.FadeToAsync(1, 200)
             );
 
-            // 2. Логика смены языка
             Preferences.Default.Set("app_lang", langCode);
             var culture = new CultureInfo(langCode);
             AppResources.Culture = culture;
@@ -61,7 +49,6 @@ public partial class SettingsPage : ContentPage
                 var newShell = new AppShell();
                 Application.Current.Windows[0].Page = newShell;
 
-                // Переключаемся на вкладку настроек в новом Shell
                 var settingsTab = newShell.Items
                     .SelectMany(x => x.Items)
                     .FirstOrDefault(x => x.Route == "SettingsPage");

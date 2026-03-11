@@ -1,34 +1,44 @@
-using Geoportal.Service.Helpers;
-
 namespace Geoportal.Pages;
 
 public partial class DashboardPage : ContentPage
 {
+    private readonly ApiService _apiService;
     public DashboardPage()
     {
         InitializeComponent();
         this.SizeChanged += OnPageSizeChanged;
+        _apiService = new ApiService();
     }
 
     protected override async void OnAppearing()
     {
-        // 1. Мгновенно готовим элементы (прячем)
         AnimationHelper.Prepare(MainContainer, HeaderGroup, ActionButtons, StatsCards, SummaryInfo, BottomFilters);
 
         base.OnAppearing();
 
-        // 2. Даем отрисоваться
         await Task.Yield();
 
-        // 3. Запускаем анимацию входа (Зум + Fade + Подъем)
         await AnimationHelper.EntranceAsync(MainContainer);
 
-        // 4. Каскадное появление остальных частей
         await AnimationHelper.EntranceAsync(HeaderGroup, 100);
         await AnimationHelper.EntranceAsync(ActionButtons, 100);
         await AnimationHelper.EntranceAsync(StatsCards, 100);
         await AnimationHelper.EntranceAsync(SummaryInfo, 100);
         await AnimationHelper.EntranceAsync(BottomFilters, 100);
+    }
+    private async Task LoadDashboardDataAsync()
+    {
+        var data = await _apiService.GetDashboardSummaryAsync();
+
+        if (data != null && data.Totals != null)
+        {
+            MainThread.BeginInvokeOnMainThread(() => {
+                LblAllocated.Text = (data.Totals.Allocated / 1_000_000_000m).ToString("N2");
+                LblSpent.Text = (data.Totals.Spent / 1_000_000_000m).ToString("N2");
+                LblProjects.Text = data.Totals.ProjectsCount.ToString("N0");
+                LblMastery.Text = $"{data.Totals.Completion}%";
+            });
+        }
     }
 
     private void OnPageSizeChanged(object? sender, EventArgs e)

@@ -1,5 +1,3 @@
-using Geoportal.Service.Helpers;
-
 namespace Geoportal.Pages;
 
 public partial class CreateReportPage : ContentPage
@@ -12,18 +10,11 @@ public partial class CreateReportPage : ContentPage
 
     protected override async void OnAppearing()
     {
-        // 1. Мгновенная подготовка (скрываем всё)
         AnimationHelper.Prepare(MainContainer, HeaderRow, PhotoZone, FormGroup, SubmitBtn);
 
         base.OnAppearing();
-
-        // 2. Ждем один цикл отрисовки
         await Task.Yield();
-
-        // 3. Плавный вход основной страницы
         await AnimationHelper.EntranceAsync(MainContainer);
-
-        // 4. Последовательный вылет элементов формы
         await AnimationHelper.EntranceAsync(HeaderRow, 50);
         await AnimationHelper.EntranceAsync(PhotoZone, 100);
         await AnimationHelper.EntranceAsync(FormGroup, 100);
@@ -43,10 +34,9 @@ public partial class CreateReportPage : ContentPage
     {
         if (MainContainer != null)
         {
-            // Плавный зум для больших экранов
             double targetScale = Width > 1200 ? 1.05 : 1.0;
             if (MainContainer.Scale != targetScale)
-                MainContainer.ScaleTo(targetScale, 250, Easing.CubicOut);
+                MainContainer.ScaleToAsync(targetScale, 250, Easing.CubicOut);
         }
     }
 
@@ -65,7 +55,6 @@ public partial class CreateReportPage : ContentPage
 
         if (result != null)
         {
-            // Логика обработки фото
         }
     }
 }

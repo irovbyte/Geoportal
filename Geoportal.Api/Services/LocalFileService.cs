@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Http;
-using Geoportal.Data.Interfaces;
-
 namespace Geoportal.Data.Repositories;
 
 public class LocalFileService : IFileService
